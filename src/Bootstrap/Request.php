@@ -8,13 +8,13 @@ class Request
 {
     public static function init()
     {
-        $http_origin = $_SERVER['HTTP_ORIGIN'];
 
-        if ($http_origin == "http://localhost:3000" || $http_origin == "http://192.168.0.140:3000" || $http_origin == "http://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb.recap.com:3000") {
-            header("Access-Control-Allow-Origin: $http_origin");
-        }
-        header("Access-Control-Allow-Origin: $http_origin");
+        // $http_origin = $_SERVER['HTTP_ORIGIN'];
 
+        // if ($http_origin == "http://localhost:3000" || $http_origin == "http://192.168.0.140:3000" || $http_origin == "http://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb.recap.com:3000") {
+        //     header("Access-Control-Allow-Origin: $http_origin");
+        // }
+        // header("Access-Control-Allow-Origin: $http_origin");
 
         header("Content-Type: application/json");
 
