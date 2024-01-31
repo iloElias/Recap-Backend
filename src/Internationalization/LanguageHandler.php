@@ -31,7 +31,7 @@ class LanguageHandler
             "about_us_button_title" => "About us",
             "account_logout_button_title" => "Exit the system",
         ],
-        "pt-BR" => [
+        "pt-br" => [
             "format_test" => "Isso :str é :str um :str teste",
             "language_test" => "Este é um teste de linguagem",
 
@@ -61,6 +61,8 @@ class LanguageHandler
 
     public static function getAll(string $lang): array
     {
+        $lang = strtolower($lang);
+
         if (!isset(self::MESSAGES[$lang])) {
             throw new \InvalidArgumentException("Language handler do not offer support to the provided language: " . $lang);
         }
@@ -69,6 +71,8 @@ class LanguageHandler
 
     public static function getMessage(string $lang, string $message, ?bool $returnOnSupported = false): ?string
     {
+        $lang = strtolower($lang);
+
         if (!isset(self::MESSAGES[$lang])) {
             if ($returnOnSupported) {
                 return self::getMessage('en', $message, false);
