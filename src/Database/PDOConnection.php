@@ -6,12 +6,12 @@ use PDO;
 
 class PDOConnection
 {
-    private static string $sqlDatabase = 'pgsql';
-    private static string $host = 'localhost';
-    private static string $port = '5432';
-    private static string $databaseName = 'ipe_sheets';
-    private static string $username = 'root';
-    private static string $password = 'abc123';
+    private static string $sqlDatabase = $_ENV["DB_SQL"];
+    private static string $host = $_ENV["DB_HOST"];
+    private static string $port = $_ENV["DB_PORT"];
+    private static string $databaseName = $_ENV["DB_NAME"];
+    private static string $username = $_ENV["DB_USER"];
+    private static string $password = $_ENV["DB_PASS"];
     private static string $dns = "";
 
     private static ?PDO $PDOInstance = null;
