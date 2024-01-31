@@ -1,0 +1,28 @@
+{
+    "name": "ipeweb/ipesheets",
+    "autoload": {
+        "psr-4": {
+            "Ipeweb\\IpeSheets\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IpeSheets\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "phpunit": "vendor/bin/phpunit tests --colors --display-deprecations --display-notices --display-warnings"
+    },
+    "authors": [
+        {
+            "name": "Murilo"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10",
+        "phpunit/php-code-coverage": "^10.1.11"
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
