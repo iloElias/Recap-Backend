@@ -9,12 +9,12 @@ class Request
     public static function init()
     {
 
-        // $http_origin = $_SERVER['HTTP_ORIGIN'];
+        $http_origin = $_SERVER['HTTP_ORIGIN'];
 
         // if ($http_origin == "http://localhost:3000" || $http_origin == "http://192.168.0.140:3000" || $http_origin == "http://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb.recap.com:3000") {
         //     header("Access-Control-Allow-Origin: $http_origin");
         // }
-        // header("Access-Control-Allow-Origin: $http_origin");
+        header("Access-Control-Allow-Origin: $http_origin");
 
         header("Content-Type: application/json");
 
@@ -27,7 +27,7 @@ class Request
             $body = Request::getRequestBody();
 
             $return = match ($_SERVER['REQUEST_METHOD']) {
-                'GET' => function (string $about, $body, string $lang) {
+                'GET' => function (?string $about, $body, string $lang) {
                     if (isset($_GET["message"])) {
                         if ($_GET["message"] == 'all') {
                             echo json_encode(
