@@ -9,6 +9,8 @@ class LanguageHandler
             "format_test" => "This :str is :str a :str test",
             "language_test" => "This is a language test",
 
+            "any_service_informed" => "Any service was selected. To fix, add '?about=' and the name of required service in the url query",
+
             "hello_user" => "Hello, :str!",
             "welcome" => "Welcome to our application.",
             "we_were_waiting" => "We were waiting for you",
@@ -32,6 +34,8 @@ class LanguageHandler
         "pt-BR" => [
             "format_test" => "Isso :str é :str um :str teste",
             "language_test" => "Este é um teste de linguagem",
+
+            "any_service_informed" => "Nenhum serviço foi selecionado. Adicione '?about=' e o nome do serviço desejado na url para prosseguir",
 
             "hello_user" => "Olá, :str!",
             "welcome" => "Seja bem-vindo ao nosso aplicativo.",
