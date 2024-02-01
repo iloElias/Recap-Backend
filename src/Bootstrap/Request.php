@@ -25,6 +25,7 @@ class Request
 
         $body = Request::getRequestBody();
 
+        Environments::getEnvironments();
 
         $return = match ($_SERVER['REQUEST_METHOD']) {
             'GET' => function (?string $about, $body, string $lang) {
