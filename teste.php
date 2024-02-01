@@ -6,5 +6,3 @@ use Ipeweb\IpeSheets\Database\PDOConnection;
 use Ipeweb\IpeSheets\Internationalization\Translator;
 
 require_once('./vendor/autoload.php');
-
-$pdoInstance = PDOConnection::getPdoInstance();

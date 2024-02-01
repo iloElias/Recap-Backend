@@ -83,7 +83,7 @@ class ModelHandler
         }
     }
 
-    public function getSearch(int $offset = 1, int $limit = 25, array $data, array $order = null): array
+    public function getSearch(array $data, int $offset = 1, int $limit = 25, array $order = null): array
     {
         $strict = false;
         foreach ($data as $key => $value) {

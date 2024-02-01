@@ -25,9 +25,9 @@ class ProjectData
         return $this->dataHandler->get($data);
     }
 
-    public function getSearch(int $offset = 1, int $limit = 25, array $data, array $order = null): array
+    public function getSearch(array $data, int $offset = 1, int $limit = 25, array $order = null): array
     {
-        return $this->dataHandler->getSearch($offset, $limit, $data, $order);
+        return $this->dataHandler->getSearch($data, $offset, $limit, $order);
     }
 
     public function getAll(int $offset = 1, int $limit = 25, array $order = null): array
