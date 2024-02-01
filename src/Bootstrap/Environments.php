@@ -8,7 +8,10 @@ class Environments
     {
         $envFile = __DIR__ . '/../../.env';
 
-        $envContent = file_get_contents($envFile);
+        try {
+            $envContent = file_get_contents($envFile);
+        } catch (\Throwable $e) {
+        }
 
         $envLines = explode("\n", $envContent);
 
