@@ -6,7 +6,7 @@ class Environments
 {
     public static function getEnvironments()
     {
-        $envFile = __DIR__ . '/../../.env';
+        $envFile = '/.env';
 
         try {
             $envContent = file_get_contents($envFile);
