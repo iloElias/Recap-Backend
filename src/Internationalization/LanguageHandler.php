@@ -30,6 +30,9 @@ class LanguageHandler
             "languages_button_title" => "Languages",
             "about_us_button_title" => "About us",
             "account_logout_button_title" => "Exit the system",
+
+            "cards_page_title" => "Cards",
+            "card_item_new_card" => "new card",
         ],
         "pt-br" => [
             "format_test" => "Isso :str é :str um :str teste",
@@ -56,6 +59,9 @@ class LanguageHandler
             "languages_button_title" => "Linguas",
             "about_us_button_title" => "Sobre nós",
             "account_logout_button_title" => "Sair do Sistema",
+
+            "cards_page_title" => "Cartões",
+            "card_item_new_card" => "criar cartão",
         ],
     ];
 
