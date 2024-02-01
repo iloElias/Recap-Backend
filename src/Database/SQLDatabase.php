@@ -2,6 +2,7 @@
 
 namespace Ipeweb\IpeSheets\Database;
 
+use Ipeweb\IpeSheets\Bootstrap\Helper;
 use Ipeweb\IpeSheets\Exceptions\InvalidSqlWhereConditions;
 use Ipeweb\IpeSheets\Exceptions\SqlSyntaxException;
 use PDO;
