@@ -8,15 +8,14 @@ class Request
 {
     public static function init()
     {
-        $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "any";
+        // $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "any";
 
         // if ($http_origin == "http://localhost:3000" || $http_origin == "http://192.168.0.140:3000" || $http_origin == "http://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb.recap.com:3000") {
         //     header("Access-Control-Allow-Origin: $http_origin");
         // }
 
-        header("Access-Control-Allow-Origin: $http_origin");
-
-        header("Content-Type: application/json");
+        // header("Access-Control-Allow-Origin: $http_origin");
+        // header("Content-Type: application/json");
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
