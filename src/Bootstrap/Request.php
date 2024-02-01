@@ -55,10 +55,20 @@ class Request
                 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
                 $perPage = isset($_GET['per_page']) ? intval($_GET['per_page']) : 25;
                 $filter = isset($_GET['filter']) ? $_GET['filter'] : [];
+                $field = isset($_GET['field']) ? $_GET['field'] : [];
                 $sort = isset($_GET['sort']) ? $_GET['sort'] : [];
 
                 try {
                     $databaseClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+
+                    if (!empty($field)) {
+                        $fieldName = explode(':', $field)[0];
+                        $fieldValue = explode(':', $field)[1];
+
+                        $result = $databaseClass->get($fieldName, $fieldValue);
+                        echo json_encode($result);
+                        return;
+                    }
 
                     if (!empty($filter)) {
                         if (!empty($sort)) {
@@ -71,6 +81,7 @@ class Request
                             $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]]);
                         }
                         echo json_encode($result);
+                        return;
                     } else {
                         if (!empty($sort)) {
                             $sortArray = [
@@ -82,6 +93,7 @@ class Request
                             $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage);
                         }
                         echo json_encode($result);
+                        return;
                     }
                 } catch (\Throwable $e) {
                     echo json_encode(
