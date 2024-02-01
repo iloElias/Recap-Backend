@@ -19,7 +19,7 @@ class Request
         header("Content-Type: application/json");
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
-        $about = isset($_GET["about"]) ? $_GET["about"] : null;
+        $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
 
         Request::validateRequest($lang);
 
