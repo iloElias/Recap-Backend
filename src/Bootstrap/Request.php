@@ -16,6 +16,7 @@ class Request
 
         // header("Access-Control-Allow-Origin: $http_origin");
         // header("Content-Type: application/json");
+        error_reporting(0);
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
