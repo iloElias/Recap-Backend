@@ -94,7 +94,8 @@ class Request
                 } catch (\Throwable $e) {
                     echo json_encode(
                         [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true)
+                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
+                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
                 }
@@ -132,7 +133,8 @@ class Request
                 } catch (\Throwable $e) {
                     echo json_encode(
                         [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true)
+                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
+                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
                 }
@@ -158,7 +160,8 @@ class Request
                 } catch (\Throwable $e) {
                     echo json_encode(
                         [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true)
+                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
+                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
                 }
@@ -184,7 +187,8 @@ class Request
                 } catch (\Throwable $e) {
                     echo json_encode(
                         [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true)
+                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
+                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
                 }
