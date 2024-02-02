@@ -188,6 +188,9 @@ class Request
                         ]
                     );
                 }
+            },
+            'OPTIONS' => function () {
+                echo json_encode(["message" => "Porque?"]);
             }
         };
 
