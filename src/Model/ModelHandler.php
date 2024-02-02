@@ -83,9 +83,8 @@ class ModelHandler
         }
     }
 
-    public function getSearch(array $data, int $offset = 1, int $limit = 25, array $order = null): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
     {
-        $strict = false;
         foreach ($data as $key => $value) {
             if ($key === null || $key === "" || $value === null || $value === "") {
                 throw new InvalidArgumentException("Some of the received data are invalid or blank");
@@ -96,7 +95,7 @@ class ModelHandler
         }
 
         $database = new SQLDatabase();
-        $database->select("*", $this->table)
+        $database->select($this->table, "*")
             ->where($data, strict: $strict);
 
         if (array_search('visible', $this->fields) !== false) {
@@ -125,7 +124,7 @@ class ModelHandler
         }
     }
 
-    public function getAll(int $offset = 1, int $limit = 25, array $order = null): array
+    public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
     {
         $database = new SQLDatabase();
         $database->select($this->table);

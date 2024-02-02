@@ -110,6 +110,16 @@ class Request
 
                     if ($mapClass->validate()) {
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+
+                        $response = $dataClass->getSearch($body, strict: true);
+                        if ($response) {
+                            echo json_encode([
+                                "message" => "There is already a {$about} registered with the given data",
+                                "id" => $response[0]['id'],
+                            ]);
+                            return;
+                        }
+
                         $dataClass->insert($body);
 
                         echo json_encode([

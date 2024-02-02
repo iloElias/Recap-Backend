@@ -26,12 +26,12 @@ class CardData implements CrudInterface
         return $this->dataHandler->get([$key => $value]);
     }
 
-    public function getSearch(array $data, int $offset = 1, int $limit = 25, array $order = null): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
     {
-        return $this->dataHandler->getSearch($data, $offset, $limit, $order);
+        return $this->dataHandler->getSearch($data, $offset, $limit, $order, $strict);
     }
 
-    public function getAll(int $offset = 1, int $limit = 25, array $order = null): array
+    public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
     {
         return $this->dataHandler->getAll($offset, $limit, $order);
     }
