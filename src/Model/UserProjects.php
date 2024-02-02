@@ -10,7 +10,7 @@ class UserProjects extends DataModel
     public function __construct(
         private int $user_id = -1,
         private int $project_id = -1,
-        private string $user_permission = "",
+        private string $user_permissions = "",
     ) {
     }
 
@@ -31,8 +31,8 @@ class UserProjects extends DataModel
     {
         return parent::validate(
             function () {
-                if ($this->user_permission == null) {
-                    $this->user_permission == "Own";
+                if ($this->user_permissions == null) {
+                    $this->user_permissions == "Own";
                 }
 
                 return true;
