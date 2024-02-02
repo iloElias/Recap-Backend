@@ -34,6 +34,11 @@ class LanguageHandler
 
             "cards_page_title" => "Cards",
             "card_item_new_card" => "new card",
+
+            "form_title_new_card" => "New card",
+            "label_card_name" => "Card name",
+            "form_button_new_card" => "Create new card",
+            "required_input_message" => "Required",
         ],
         "pt-br" => [
             "loaded" => true,
@@ -64,6 +69,11 @@ class LanguageHandler
 
             "cards_page_title" => "Cartões",
             "card_item_new_card" => "criar cartão",
+
+            "form_title_new_card" => "Novo cartão",
+            "label_card_name" => "Nome do cartão",
+            "form_button_new_card" => "Criar novo cartão",
+            "required_input_message" => "Obrigatório",
         ],
     ];
 
