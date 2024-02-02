@@ -63,7 +63,7 @@ class LanguageHandler
             "login_static_message" => "Faça login com sua conta Google para entrar",
             "login_button_message" => "Entrar com o Google",
 
-            "languages_button_title" => "Linguas",
+            "languages_button_title" => "Idiomas",
             "about_us_button_title" => "Sobre nós",
             "account_logout_button_title" => "Sair do Sistema",
 
