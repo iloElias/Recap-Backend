@@ -6,6 +6,7 @@ class LanguageHandler
 {
     public const MESSAGES = [
         "en" => [
+            "loaded" => true,
             "format_test" => "This :str is :str a :str test",
             "language_test" => "This is a language test",
 
@@ -35,6 +36,7 @@ class LanguageHandler
             "card_item_new_card" => "new card",
         ],
         "pt-br" => [
+            "loaded" => true,
             "format_test" => "Isso :str é :str um :str teste",
             "language_test" => "Este é um teste de linguagem",
 
