@@ -8,11 +8,11 @@ class Request
 {
     public static function init()
     {
-        // $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "any";
+        $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "any";
 
-        // if ($http_origin == "https://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb-recap.vercel.app") {
-        //     header("Access-Control-Allow-Origin: $http_origin");
-        // }
+        if ($http_origin == "https://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb-recap.vercel.app") {
+            header("Access-Control-Allow-Origin: $http_origin");
+        }
 
         header("Content-Type: application/json");
 
