@@ -5,7 +5,7 @@ namespace Ipeweb\IpeSheets\Model;
 use Ipeweb\IpeSheets\Model\ModelHandler;
 use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 
-class UserData implements CrudInterface
+class UserProjectsData implements CrudInterface
 {
     protected string $table = 'user_projects';
     protected array $fields = ['user_id', 'project_id', 'user_permission'];
