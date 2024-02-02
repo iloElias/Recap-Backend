@@ -7,8 +7,8 @@ use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 
 class UserData implements CrudInterface
 {
-    protected string $table = 'users';
-    protected array $fields = ['id', 'name', 'username', 'email', "picture_path", "preferred_lang"];
+    protected string $table = 'user_projects';
+    protected array $fields = ['user_id', 'project_id', 'user_permission'];
     private ModelHandler $dataHandler;
 
     public function __construct()
