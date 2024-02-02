@@ -1,6 +1,7 @@
 <?php
 
-use Ipeweb\IpeSheets\Exceptions\InvalidEmailException;
+namespace Ipeweb\IpeSheets\Model;
+
 use Ipeweb\IpeSheets\Model\Extendable\DataModel;
 use Ipeweb\IpeSheets\Services\Validations;
 
