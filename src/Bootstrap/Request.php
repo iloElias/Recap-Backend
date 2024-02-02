@@ -102,7 +102,11 @@ class Request
             },
             'POST' => function (string $about, $body, string $lang) {
                 try {
-                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about))($body);
+                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about));
+
+                    foreach ($body as $key => $value) {
+                        $mapClass->$key = $value;
+                    }
 
                     if ($mapClass->validate()) {
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
@@ -137,7 +141,11 @@ class Request
             },
             'PUT' => function (string $about, $body, string $lang) {
                 try {
-                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about))($body);
+                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about));
+
+                    foreach ($body as $key => $value) {
+                        $mapClass->$key = $value;
+                    }
 
                     if ($mapClass->validate()) {
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");

@@ -20,14 +20,6 @@ class Card extends DataModel
     {
         Validations::validateSetProperty($this, $attribute, $value);
 
-        switch ($attribute) {
-            case ("id"):
-                throw new \InvalidArgumentException("This is a id value that cannot be changed");
-
-            default:
-                break;
-        }
-
         $this->$attribute = $value;
     }
 

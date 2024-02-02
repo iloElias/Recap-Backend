@@ -18,18 +18,6 @@ class UserProjects extends DataModel
     {
         Validations::validateSetProperty($this, $attribute, $value);
 
-        switch ($attribute) {
-            case ("user_id"):
-                throw new \InvalidArgumentException("Property 'id' cannot be changed");
-
-            case ("project_id"):
-                throw new \InvalidArgumentException("Property 'id' cannot be changed");
-
-
-            default:
-                break;
-        }
-
         $this->$attribute = $value;
     }
 

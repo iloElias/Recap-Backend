@@ -25,9 +25,6 @@ class User extends DataModel
         Validations::validateSetProperty($this, $attribute, $value);
 
         switch ($attribute) {
-            case ("id"):
-                throw new \InvalidArgumentException("Property 'id' cannot be changed");
-
             case ("email"):
                 if (!Email::validate($value)) {
                     throw new InvalidEmailException("Can't use '{$value}' as a email");
