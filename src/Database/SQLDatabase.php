@@ -316,7 +316,7 @@ class SQLDatabase
 
         $pdo = PDOConnection::getPdoInstance();
 
-        if (str_contains($this->query, "INSERT INTO") || str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes")) {
+        if (str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes")) {
             $this->query .= " RETURNING id ";
             $this->trimQuery();
             $fetchMode = 'fetch';
