@@ -112,7 +112,7 @@ class Request
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
                         $response = $dataClass->getSearch($body, strict: true);
-                        echo "Inicio";
+
                         if ($response) {
                             echo json_encode([
                                 "message" => "There is already a {$about} registered with the given data",
@@ -120,8 +120,6 @@ class Request
                             ]);
                             return;
                         }
-
-                        echo "Fim";
 
                         $dataClass->insert($body);
 
