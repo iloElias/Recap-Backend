@@ -8,15 +8,10 @@ class Request
 {
     public static function init()
     {
-        if (isset($_SERVER['HTTP_ORIGIN'])) {
-            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-            header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Max-Age: 86400');
-        }
-
-        header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+        self::cors();
 
         header("Content-Type: application/json");
+        header("Access-Control-Allow-Origin: *");
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
@@ -252,6 +247,28 @@ class Request
     {
         return true;
     }
+
+    public static function cors()
+    {
+        if (isset($_SERVER['HTTP_ORIGIN'])) {
+            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Max-Age: 86400');
+        }
+
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+                header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+            }
+
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+                header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+            }
+
+            exit(0);
+        }
+    }
+
     public static function validateRequest(string $lang = 'en')
     {
         // if (!key_exists("url", $_REQUEST)) {
