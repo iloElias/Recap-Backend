@@ -15,7 +15,7 @@ class Request
 
     public static function init()
     {
-        self::cors();
+        // self::cors();
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
