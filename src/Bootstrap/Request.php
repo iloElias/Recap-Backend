@@ -18,7 +18,7 @@ class Request
 
     public static function init()
     {
-        self::cors();
+        // self::cors();
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
@@ -196,13 +196,12 @@ class Request
                 }
             },
             'OPTION' => function () {
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
-                    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-                }
-
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-                    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-                }
+                header('Access-Control-Allow-Origin: *');
+                header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+                header('Access-Control-Allow-Headers: token, Content-Type');
+                header('Access-Control-Max-Age: 1728000');
+                header('Content-Length: 0');
+                header('Content-Type: text/plain');
 
                 return;
             }
