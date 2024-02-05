@@ -39,6 +39,8 @@ class LanguageHandler
             "label_card_name" => "Card name",
             "label_card_synopsis" => "Synopsis",
             "form_button_new_card" => "Create new card",
+
+            "invalid_synopsis_length" => "Minimum size is :str",
             "required_input_message" => "Required",
         ],
         "pt-br" => [
@@ -75,6 +77,8 @@ class LanguageHandler
             "label_card_name" => "Nome do cartão",
             "label_card_synopsis" => "Sinopse",
             "form_button_new_card" => "Criar novo cartão",
+
+            "invalid_synopsis_length" => "O tamanho mínimo é :str",
             "required_input_message" => "Obrigatório",
         ],
     ];
