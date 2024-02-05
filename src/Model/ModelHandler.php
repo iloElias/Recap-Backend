@@ -89,9 +89,6 @@ class ModelHandler
             if ($key === null || $key === "" || $value === null || $value === "") {
                 throw new InvalidArgumentException("Some of the received data are invalid or blank");
             }
-            if (str_starts_with($key, "id") || str_ends_with($key, "_id")) {
-                $strict = true;
-            }
         }
 
         $database = new SQLDatabase();

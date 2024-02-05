@@ -120,7 +120,7 @@ class SQLDatabase
         array $conditions,
         string $operator = '=',
         string $conditional = 'AND',
-        bool $strict = true
+        bool $strict = false
     ): SQLDatabase {
         if (str_contains($this->query, 'INSERT INTO')) {
             throw new SqlSyntaxException("Is not possible to use a where clause in e 'INSERT INTO' SQL query");
@@ -141,7 +141,13 @@ class SQLDatabase
                 if ($column == null or $column == "" or $value == null or $value == "") {
                     throw new InvalidSqlWhereConditions("Invalid condition argument detected on \$conditions['{$column}' => '{$value}']");
                 }
-                $conditionsArray[] = "{$column} " . ($strict ? $operator : " ILIKE ") . " :whr_{$column}";
+
+                if ($column !== "id" or !str_contains($column, "_id")) {
+                    $conditionsArray[] = "{$column} " . ($strict ? $operator : " ILIKE ") . " :whr_{$column}";
+                } else {
+                    $conditionsArray[] = "{$column} " . "=" . " :whr_{$column}";
+                }
+
                 $this->params[":whr_{$column}"] = "{$value}";
             }
 
