@@ -14,6 +14,8 @@ class Request
             header('Access-Control-Max-Age: 86400');
         }
 
+        header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+
         header("Content-Type: application/json");
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
