@@ -79,7 +79,7 @@ class ModelHandler
             return $result;
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            die;
+            return [];
         }
     }
 
@@ -117,7 +117,7 @@ class ModelHandler
             return $result ?? [];
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            die;
+            return [];
         }
     }
 
@@ -148,7 +148,7 @@ class ModelHandler
             return $result;
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            die;
+            return [];
         }
     }
 
@@ -165,7 +165,7 @@ class ModelHandler
             return true;
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            die;
+            return [];
         }
     }
     public function inactive(int $id)
@@ -185,7 +185,7 @@ class ModelHandler
             return true;
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            die;
+            return [];
         }
     }
 }
