@@ -3,18 +3,19 @@
 namespace Ipeweb\IpeSheets\Bootstrap;
 
 use Ipeweb\IpeSheets\Internationalization\Translator;
+use Ipeweb\IpeSheets\Services\Utils;
 
 class Request
 {
+    private const PERMITTED_ACCESS_ORIGINS = [
+        'http://localhost:3000',
+        'https://ipeweb.recap.com:3000',
+        'https://ipeweb-recap.vercel.app/'
+    ];
+
     public static function init()
     {
-        // self::cors();
-
-        header("Access-Control-Allow-Origin: https://ipeweb.recap.com:3000");
-        header("Content-Type: application/json; charset=UTF-8");
-        header("Access-Control-Allow-Methods: POST, DELETE, OPTIONS");
-        header("Access-Control-Max-Age: 3600");
-        header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+        self::cors();
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
@@ -190,17 +191,6 @@ class Request
                         ]
                     );
                 }
-            },
-            'OPTIONS' => function () {
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
-                    header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
-                }
-
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
-                    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-                }
-
-                exit(0);
             }
         };
 
@@ -254,9 +244,12 @@ class Request
     public static function cors()
     {
         if (isset($_SERVER['HTTP_ORIGIN'])) {
-            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-            header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Max-Age: 86400');
+            if (Utils::arrayFind(self::PERMITTED_ACCESS_ORIGINS, $_SERVER['HTTP_ORIGIN'])) {
+                header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+                header('Access-Control-Allow-Credentials: true');
+                header('Access-Control-Max-Age: 86400');
+                header('Content-Type: application/json');
+            }
         }
 
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
