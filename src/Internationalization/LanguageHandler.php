@@ -37,6 +37,7 @@ class LanguageHandler
 
             "form_title_new_card" => "New card",
             "label_card_name" => "Card name",
+            "label_card_synopsis" => "Synopsis",
             "form_button_new_card" => "Create new card",
             "required_input_message" => "Required",
         ],
@@ -72,6 +73,7 @@ class LanguageHandler
 
             "form_title_new_card" => "Novo cartão",
             "label_card_name" => "Nome do cartão",
+            "label_card_synopsis" => "Sinopse",
             "form_button_new_card" => "Criar novo cartão",
             "required_input_message" => "Obrigatório",
         ],

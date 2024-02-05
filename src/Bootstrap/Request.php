@@ -18,9 +18,7 @@ class Request
 
     public static function init()
     {
-        // self::cors();
-        header('Access-Control-Allow-Origin: *');
-        header('Content-Type: application/json');
+        self::cors();
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
@@ -267,8 +265,8 @@ class Request
             header('Content-Type: application/json');
         }
 
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        }
+        // if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        // }
     }
 
     public static function validateRequest(string $lang = 'en')
