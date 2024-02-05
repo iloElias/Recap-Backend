@@ -19,6 +19,8 @@ class Request
     public static function init()
     {
         // self::cors();
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
