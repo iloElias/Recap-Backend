@@ -8,10 +8,10 @@ class Request
 {
     public static function init()
     {
-        $http_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "any";
-
-        if ($http_origin == "https://ipeweb.recap.com:3000" || $http_origin == "https://ipeweb-recap.vercel.app") {
-            header("Access-Control-Allow-Origin: $http_origin");
+        if (isset($_SERVER['HTTP_ORIGIN'])) {
+            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Max-Age: 86400');
         }
 
         header("Content-Type: application/json");
