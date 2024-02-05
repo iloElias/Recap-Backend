@@ -10,7 +10,7 @@ class Request
     private const PERMITTED_ACCESS_ORIGINS = [
         'http://localhost:3000',
         'https://ipeweb.recap.com:3000',
-        'https://ipeweb-recap.vercel.app/'
+        'https://ipeweb-recap.vercel.app'
     ];
 
     public static function init()
