@@ -196,14 +196,13 @@ class Request
                 }
             },
             'OPTION' => function () {
-                header('Access-Control-Allow-Origin: *');
-                header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-                header('Access-Control-Allow-Headers: token, Content-Type');
-                header('Access-Control-Max-Age: 1728000');
-                header('Content-Length: 0');
-                header('Content-Type: text/plain');
+                http_response_code(200);
 
-                return;
+                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+                    header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
+                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+                    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+                exit(0);
             }
         };
 
