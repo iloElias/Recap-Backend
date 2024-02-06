@@ -246,6 +246,7 @@ class Request
 
     public static function cors()
     {
+        header("Access-Control-Allow-Origin: https://ipeweb.recap.com:3000");
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET, POST, PUT,DELETE, OPTIONS");
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
