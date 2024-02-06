@@ -1,5 +1,7 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+
 require_once('../vendor/autoload.php');
 
 use Ipeweb\IpeSheets\Bootstrap\Environments;
