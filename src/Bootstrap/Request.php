@@ -87,12 +87,14 @@ class Request
                         return;
                     }
                 } catch (\Throwable $e) {
+                    http_response_code(500);
                     echo json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
+                    exit();
                 }
             },
             'POST' => function (string $about, $body, string $lang) {
@@ -106,32 +108,33 @@ class Request
                     if ($mapClass->validate()) {
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                        $response = $dataClass->getSearch($body, strict: true);
+                        $response = $dataClass->getSearch($body, strict: false);
                         if ($response) {
-                            echo json_encode([
-                                "message" => "There is already a {$about} registered with the given data",
-                                "id" => $response[0]['id'],
-                            ]);
-                            return;
+                            http_response_code(200);
+                            echo json_encode($response);
+                            exit();
                         }
 
                         $dataClass->insert($body);
 
+                        http_response_code(200);
                         echo json_encode([
                             "message" => Translator::translate($lang, 'item_bd_new_inserted', $about, true)
                         ]);
-                        return;
+                        exit();
                     }
                     echo json_encode([
                         "message" => Translator::translate($lang, 'invalid_post_body', $about, true)
                     ]);
                 } catch (\Throwable $e) {
+                    http_response_code(500);
                     echo json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
                     );
+                    exit();
                 }
             },
             'PUT' => function (string $about, $body, string $lang) {
@@ -178,6 +181,7 @@ class Request
                         "message" => ucfirst($about) . " has been inactivated"
                     ]);
                 } catch (\Throwable $e) {
+                    http_response_code();
                     echo json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
@@ -190,14 +194,16 @@ class Request
 
         try {
             $return($about, $body, $lang);
-            return;
+            exit;
         } catch (\Throwable $e) {
+            http_response_code(500);
             echo json_encode(
                 [
                     "message" => Translator::translate($lang, 'not_detected_problem', returnOnSupported: true),
                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                 ]
             );
+            exit();
         }
     }
 
@@ -241,13 +247,11 @@ class Request
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
         header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
         header('Content-Type: application/json');
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-                header('Access-Control-Allow-Origin: *');
-                header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-                header("HTTP/1.1 200 OK");
-                die();
-            }
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            header('Access-Control-Allow-Origin: *');
+            header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+            http_response_code(200);
+            exit();
         }
     }
 

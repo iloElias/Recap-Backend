@@ -8,7 +8,7 @@ use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 class UserData implements CrudInterface
 {
     protected string $table = 'users';
-    protected array $fields = ['id', 'name', 'username', 'email', "picture_path", "preferred_lang"];
+    protected array $fields = ['id', 'google_id', 'name', 'username', 'email', "picture_path", "preferred_lang"];
     private ModelHandler $dataHandler;
 
     public function __construct()
@@ -28,6 +28,9 @@ class UserData implements CrudInterface
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
     {
+        if (isset($data['picture_path'])) {
+            unset($data['picture_path']);
+        }
         return $this->dataHandler->getSearch($data, $offset, $limit, $order, $strict);
     }
 

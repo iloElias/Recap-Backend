@@ -11,6 +11,7 @@ class User extends DataModel
 {
     public function __construct(
         private int $id = -1,
+        private string $google_id = '',
         private string $name = '',
         private string $username = '',
         private string $email = '',

@@ -142,13 +142,15 @@ class SQLDatabase
                     throw new InvalidSqlWhereConditions("Invalid condition argument detected on \$conditions['{$column}' => '{$value}']");
                 }
 
-                if ($column !== "id" or !str_contains($column, "_id")) {
-                    $conditionsArray[] = "{$column} " . ($strict ? $operator : " ILIKE ") . " :whr_{$column}";
+                if ($column !== "id" or $column === "google_id" or !str_contains($column, "_id")) {
+                    $conditionsArray[] = "{$column} " . ($strict ? "{$operator} :whr_{$column}" : " ILIKE :whr_like_{$column}");
                 } else {
                     $conditionsArray[] = "{$column} " . "=" . " :whr_{$column}";
                 }
 
-                $this->params[":whr_{$column}"] = "{$value}";
+                $column === "google_id" ?
+                    $this->params[($strict ? ":whr_{$column}" : ":whr_like_{$column}")] = "{$value}GOOGLE_TEMPLATE" :
+                    $this->params[($strict ? ":whr_{$column}" : ":whr_like_{$column}")] = "{$value}";
             }
 
             $whereClause .= implode(" {$conditional} ", $conditionsArray);
@@ -200,10 +202,16 @@ class SQLDatabase
     {
         foreach ($this->params as $key => $value) {
             if (!is_numeric($value)) {
-                $value = "'{$value}'";
+                if (str_contains($key, '_like_')) {
+                    $value = "'%{$value}%'";
+                } else {
+                    $value = "'{$value}'";
+                }
             }
             $this->query = str_replace($key, is_bool($value) ? ($value ? "true" : "false") : "{$value}", $this->query);
         }
+
+        $this->query = str_replace('GOOGLE_TEMPLATE', '', $this->query);
 
         $this->trimQuery();
         return $this;
@@ -329,6 +337,9 @@ class SQLDatabase
         }
 
         $stmt = $pdo->prepare($this->query);
+
+        // echo json_encode(["SQLStatement" => $this->query]);
+
         try {
             $stmt->execute();
 
@@ -336,7 +347,8 @@ class SQLDatabase
 
             return $result;
         } catch (\Throwable $th) {
-            throw new \InvalidArgumentException("Invalid generated query" . $th->getMessage() . " " . $th->getFile() . " " . $th->getLine());
+            http_response_code(500);
+            exit(json_encode(["error" => "Invalid generated query" . $th->getMessage() . " " . $th->getFile() . " " . $th->getLine()]));
         }
     }
 }
