@@ -262,6 +262,7 @@ class Request
                 header('Access-Control-Max-Age: 86400');
             }
         }
+        header("Access-Control-Allow-Origin: *");
     }
 
     public static function validateRequest(string $lang = 'en')
