@@ -196,6 +196,10 @@ class Request
                 }
             },
             'OPTIONS' => function (string $about, $body, string $lang) {
+            },
+            'PATCH' => function (string $about, $body, string $lang) {
+            },
+            'HEAD' => function (string $about, $body, string $lang) {
             }
         };
 
@@ -250,16 +254,16 @@ class Request
     {
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET, POST, PUT,DELETE, OPTIONS");
-        // if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        //     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        //         http_response_code(200);
-        //         echo json_encode(array("message" => "OK!"));
-        //         exit(0);
-        //     }
-        // }
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+                http_response_code(200);
+                echo json_encode(array("message" => "OK!"));
+                exit(0);
+            }
+        }
         if (isset($_SERVER['HTTP_ORIGIN'])) {
             if (Utils::arrayFind(self::PERMITTED_ACCESS_ORIGINS, $_SERVER['HTTP_ORIGIN'])) {
-                // header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+                header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
                 header('Access-Control-Allow-Credentials: true');
                 header('Access-Control-Max-Age: 86400');
             }
