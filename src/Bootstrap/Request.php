@@ -246,6 +246,8 @@ class Request
 
     public static function cors()
     {
+        header("Content-Type: multipart/form-data; application/json; charset=UTF-8");
+        header("Access-Control-Allow-Methods: GET, POST, PUT,DELETE, OPTIONS");
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
             if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
                 http_response_code(200);
@@ -258,7 +260,6 @@ class Request
                 header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
                 header('Access-Control-Allow-Credentials: true');
                 header('Access-Control-Max-Age: 86400');
-                header('Content-Type: application/json');
             }
         }
     }
