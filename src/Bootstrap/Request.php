@@ -194,12 +194,6 @@ class Request
                         ]
                     );
                 }
-            },
-            'OPTIONS' => function (string $about, $body, string $lang) {
-            },
-            'PATCH' => function (string $about, $body, string $lang) {
-            },
-            'HEAD' => function (string $about, $body, string $lang) {
             }
         };
 
