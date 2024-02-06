@@ -194,15 +194,6 @@ class Request
                         ]
                     );
                 }
-            },
-            'OPTION' => function () {
-                http_response_code(200);
-
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-                    header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-                    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-                exit(0);
             }
         };
 
@@ -255,17 +246,21 @@ class Request
 
     public static function cors()
     {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+                http_response_code(200);
+                echo json_encode(array("message" => "OK!"));
+                exit(0);
+            }
+        }
         if (isset($_SERVER['HTTP_ORIGIN'])) {
             if (Utils::arrayFind(self::PERMITTED_ACCESS_ORIGINS, $_SERVER['HTTP_ORIGIN'])) {
+                header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+                header('Access-Control-Allow-Credentials: true');
+                header('Access-Control-Max-Age: 86400');
+                header('Content-Type: application/json');
             }
-            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-            header('Access-Control-Allow-Credentials: true');
-            header('Access-Control-Max-Age: 86400');
-            header('Content-Type: application/json');
         }
-
-        // if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        // }
     }
 
     public static function validateRequest(string $lang = 'en')
