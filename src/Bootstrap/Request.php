@@ -7,15 +7,6 @@ use Ipeweb\IpeSheets\Services\Utils;
 
 class Request
 {
-    private const PERMITTED_ACCESS_ORIGINS = [
-        'http://localhost:3000',
-        'http://localhost:3000/',
-        'https://ipeweb.recap.com:3000',
-        'https://ipeweb.recap.com:3000/',
-        'https://ipeweb-recap.vercel.app',
-        'https://ipeweb-recap.vercel.app/',
-    ];
-
     public static function init()
     {
         self::cors();
@@ -246,6 +237,7 @@ class Request
 
     public static function cors()
     {
+        header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET, POST, PUT,DELETE, OPTIONS");
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -255,14 +247,6 @@ class Request
                 exit(0);
             }
         }
-        if (isset($_SERVER['HTTP_ORIGIN'])) {
-            if (Utils::arrayFind(self::PERMITTED_ACCESS_ORIGINS, $_SERVER['HTTP_ORIGIN'])) {
-                header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-                header('Access-Control-Allow-Credentials: true');
-                header('Access-Control-Max-Age: 86400');
-            }
-        }
-        header("Access-Control-Allow-Origin: *");
     }
 
     public static function validateRequest(string $lang = 'en')
