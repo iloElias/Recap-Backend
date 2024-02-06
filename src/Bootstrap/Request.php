@@ -115,12 +115,10 @@ class Request
                             exit();
                         }
 
-                        $dataClass->insert($body);
+                        $result = $dataClass->insert($body);
 
                         http_response_code(200);
-                        echo json_encode([
-                            "message" => Translator::translate($lang, 'item_bd_new_inserted', $about, true)
-                        ]);
+                        echo json_encode([$result]);
                         exit();
                     }
                     echo json_encode([
