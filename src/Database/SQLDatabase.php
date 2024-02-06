@@ -120,7 +120,7 @@ class SQLDatabase
         array $conditions,
         string $operator = '=',
         string $conditional = 'AND',
-        bool $strict = false
+        bool $strict = true
     ): SQLDatabase {
         if (str_contains($this->query, 'INSERT INTO')) {
             throw new SqlSyntaxException("Is not possible to use a where clause in e 'INSERT INTO' SQL query");
