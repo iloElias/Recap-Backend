@@ -18,7 +18,7 @@ class Request
 
     public static function init()
     {
-        self::cors();
+        // self::cors();
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
@@ -194,6 +194,8 @@ class Request
                         ]
                     );
                 }
+            },
+            'OPTIONS' => function (string $about, $body, string $lang) {
             }
         };
 
@@ -246,19 +248,18 @@ class Request
 
     public static function cors()
     {
-        header("Access-Control-Allow-Origin: https://ipeweb.recap.com:3000");
         header("Access-Control-Allow-Headers: Content-Type");
         header("Access-Control-Allow-Methods: GET, POST, PUT,DELETE, OPTIONS");
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-                http_response_code(200);
-                echo json_encode(array("message" => "OK!"));
-                exit(0);
-            }
-        }
+        // if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        //     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        //         http_response_code(200);
+        //         echo json_encode(array("message" => "OK!"));
+        //         exit(0);
+        //     }
+        // }
         if (isset($_SERVER['HTTP_ORIGIN'])) {
             if (Utils::arrayFind(self::PERMITTED_ACCESS_ORIGINS, $_SERVER['HTTP_ORIGIN'])) {
-                header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+                // header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
                 header('Access-Control-Allow-Credentials: true');
                 header('Access-Control-Max-Age: 86400');
             }
