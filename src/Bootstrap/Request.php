@@ -108,7 +108,12 @@ class Request
                     if ($mapClass->validate()) {
                         $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                        $response = $dataClass->getSearch($body, strict: false);
+                        $response = null;
+
+                        if (strtolower($about) === "user") {
+                            $response = $dataClass->getSearch($body, strict: false);
+                        }
+
                         if ($response) {
                             http_response_code(200);
                             echo json_encode($response);
@@ -121,18 +126,17 @@ class Request
                         echo json_encode([$result]);
                         exit();
                     }
-                    echo json_encode([
+                    exit(json_encode([
                         "message" => Translator::translate($lang, 'invalid_post_body', $about, true)
-                    ]);
+                    ]));
                 } catch (\Throwable $e) {
                     http_response_code(500);
-                    echo json_encode(
+                    echo (json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
-                    );
-                    exit();
+                    ));
                 }
             },
             'PUT' => function (string $about, $body, string $lang) {
@@ -241,15 +245,24 @@ class Request
 
     public static function cors()
     {
-        header('Access-Control-Allow-Origin: *');
-        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-        header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
-        header('Content-Type: application/json');
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            header('Access-Control-Allow-Origin: *');
-            header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
-            http_response_code(200);
-            exit();
+        try {
+            header("Access-Control-Allow-Origin: *");
+            header("Access-Control-Allow-Headers: *");
+            header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+            header('Content-Type: application/json');
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+                header('Access-Control-Allow-Origin: *');
+                header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+                http_response_code(200);
+                exit();
+            }
+        } catch (\Throwable $e) {
+            exit(json_encode(
+                [
+                    "message" => "Something went wrong on CORS setup",
+                    "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+                ]
+            ));
         }
     }
 

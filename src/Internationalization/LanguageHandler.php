@@ -22,6 +22,7 @@ class LanguageHandler
             "not_detected_problem" => "Something in the request went wrong",
 
             "item_bd_new_inserted" => "New :str has been created",
+
             "item_bd_updated" => "A register from :str was updated",
             "item_bd_inactivated" => "A register from :str was inactivated",
 
@@ -39,6 +40,11 @@ class LanguageHandler
             "label_card_name" => "Card name",
             "label_card_synopsis" => "Synopsis",
             "form_button_new_card" => "Create new card",
+
+            "item_new_created" => "New :str has been created",
+            "item_creation_error" => "An error ocurred creating a :str",
+            "card" => "card",
+            "project" => "project",
 
             "invalid_synopsis_length" => "Minimum size is :str",
             "required_input_message" => "Required",
@@ -77,6 +83,11 @@ class LanguageHandler
             "label_card_name" => "Nome do cartão",
             "label_card_synopsis" => "Sinopse",
             "form_button_new_card" => "Criar novo cartão",
+
+            "item_new_created" => "Um novo :str foi criado",
+            "item_creation_error" => "Um erro ocorreu durante a criação de um :str",
+            "card" => "cartão",
+            "project" => "projeto",
 
             "invalid_synopsis_length" => "O tamanho mínimo é :str",
             "required_input_message" => "Obrigatório",

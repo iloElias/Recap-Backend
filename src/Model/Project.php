@@ -29,7 +29,7 @@ class Project extends DataModel
         return $this->$attribute;
     }
 
-    public function validate(?callable $callable): mixed
+    public function validate(?callable $callable = null): mixed
     {
         return parent::validate(
             function () {
@@ -41,7 +41,7 @@ class Project extends DataModel
         );
     }
 
-    public function toArray($class = $this): array
+    public function toArray($class): array
     {
         return parent::toArray($this);
     }
@@ -52,6 +52,6 @@ class Project extends DataModel
     }
     public function toJson($class = null): string
     {
-        return json_encode($this->toArray());
+        return json_encode($this->toArray($this));
     }
 }
