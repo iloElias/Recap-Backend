@@ -28,7 +28,7 @@ class ModelHandler
     {
     }
 
-    public function insert(array $data): int
+    public function insert(array $data): array
     {
         foreach ($data as $key => $value) {
             if (!Utils::arrayFind($this->fields, $key)) {
@@ -43,7 +43,7 @@ class ModelHandler
         try {
             $result = $database->execute();
 
-            return $result["id"];
+            return $result;
         } catch (\Throwable $e) {
             echo json_encode(
                 [
@@ -51,7 +51,7 @@ class ModelHandler
                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine()
                 ]
             );
-            return 0;
+            return [];
         }
     }
 

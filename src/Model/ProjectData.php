@@ -15,7 +15,7 @@ class ProjectData
         $this->dataHandler = ModelHandler::getModelHandlerInstance($this->table, $this->fields);
     }
 
-    public function insert(array $data): int
+    public function insert(array $data): array
     {
         return $this->dataHandler->insert($data);
     }
