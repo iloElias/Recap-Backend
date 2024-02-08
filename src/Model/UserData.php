@@ -21,9 +21,9 @@ class UserData implements CrudInterface
         return $this->dataHandler->insert($data);
     }
 
-    public function get(string $key, $value): array
+    public function get(array $data): array
     {
-        return $this->dataHandler->get([$key => $value]);
+        return $this->dataHandler->get($data);
     }
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array

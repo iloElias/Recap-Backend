@@ -46,6 +46,8 @@ class LanguageHandler
             "card" => "card",
             "project" => "project",
 
+            "loading_your_cards" => "We are loading your cards, wait a few seconds",
+
             "invalid_synopsis_length" => "Minimum size is :str",
             "required_input_message" => "Required",
         ],
@@ -88,6 +90,8 @@ class LanguageHandler
             "item_creation_error" => "Um erro ocorreu durante a criação de um :str",
             "card" => "cartão",
             "project" => "projeto",
+
+            "loading_your_cards" => "Estamos carregando seus cartões, aguarde alguns segundos",
 
             "invalid_synopsis_length" => "O tamanho mínimo é :str",
             "required_input_message" => "Obrigatório",

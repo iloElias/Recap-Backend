@@ -2,6 +2,7 @@
 
 namespace Ipeweb\IpeSheets\Model;
 
+use Ipeweb\IpeSheets\Database\SQLDatabase;
 use Ipeweb\IpeSheets\Model\ModelHandler;
 use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 
@@ -21,9 +22,33 @@ class UserProjectsData implements CrudInterface
         return $this->dataHandler->insert($data);
     }
 
-    public function get(string $key, $value): array
+    public function get(array $data): array
     {
-        return $this->dataHandler->get([$key => $value]);
+        $key = null;
+        $value = null;
+        foreach ($data as $arrKey => $arrValue) {
+            $key = $arrKey;
+            $value = $arrValue;
+        }
+
+
+        if ($key == "user_id" && is_numeric($value)) {
+            $sqlDatabase = new SQLDatabase();
+            $sqlDatabase->setQuery("
+                SELECT p.id, p.name FROM projects p
+                JOIN project_users up ON p.id = up.project_id
+                WHERE up.user_id = {$value}
+                AND p.is_active = true
+                AND p.type = 'card'
+                AND up.user_permissions = 'own';
+            ");
+
+            $result = $sqlDatabase->execute();
+
+            return $result;
+        }
+
+        return $this->dataHandler->get($data);
     }
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array

@@ -99,36 +99,24 @@ class Request
             },
             'POST' => function (string $about, $body, string $lang) {
                 try {
-                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about));
+                    $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                    foreach ($body as $key => $value) {
-                        $mapClass->$key = $value;
+                    $response = null;
+
+                    if (strtolower($about) === "user") {
+                        $response = $dataClass->getSearch($body, strict: false);
                     }
 
-                    if ($mapClass->validate()) {
-                        $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
-
-                        $response = null;
-
-                        if (strtolower($about) === "user") {
-                            $response = $dataClass->getSearch($body, strict: false);
-                        }
-
-                        if ($response) {
-                            http_response_code(200);
-                            echo json_encode($response);
-                            exit();
-                        }
-
-                        $result = $dataClass->insert($body);
-
+                    if ($response) {
                         http_response_code(200);
-                        echo json_encode([$result]);
+                        echo json_encode($response);
                         exit();
                     }
-                    exit(json_encode([
-                        "message" => Translator::translate($lang, 'invalid_post_body', $about, true)
-                    ]));
+
+                    $result = $dataClass->insert($body);
+
+                    http_response_code(200);
+                    echo json_encode([$result]);
                 } catch (\Throwable $e) {
                     http_response_code(500);
                     echo (json_encode(

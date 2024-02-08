@@ -4,9 +4,10 @@ namespace Ipeweb\IpeSheets\Model;
 
 use InvalidArgumentException;
 use Ipeweb\IpeSheets\Database\SQLDatabase;
+use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 use Ipeweb\IpeSheets\Services\Utils;
 
-class ModelHandler
+class ModelHandler implements CrudInterface
 {
     private static ?ModelHandler $modelHandlerInstance = null;
     protected string $table = '';
