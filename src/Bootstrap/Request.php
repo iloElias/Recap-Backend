@@ -128,17 +128,13 @@ class Request
                 }
             },
             'PUT' => function (string $about, $body, string $lang) {
+                $field = isset($_GET['field']) ? $_GET['field'] : null;
                 try {
-                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about));
-
-                    foreach ($body as $key => $value) {
-                        $mapClass->$key = $value;
+                    if (!$field) {
+                        throw new \InvalidArgumentException('Missing query \'field\' param');
                     }
-
-                    if ($mapClass->validate()) {
-                        $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
-                        $dataClass->update($mapClass->id, $body);
-                    }
+                    $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+                    $dataClass->update(explode(':', $field)[1], $body);
 
                     echo json_encode([
                         "message" => ucfirst($about) . " has been updated"
