@@ -47,6 +47,7 @@ class LanguageHandler
             "project" => "project",
 
             "loading_your_cards" => "We are loading your cards, wait a few seconds",
+            "problem_when_loading" => "There was a problem while loading some data",
 
             "invalid_synopsis_length" => "Minimum size is :str",
             "required_input_message" => "Required",
@@ -92,6 +93,7 @@ class LanguageHandler
             "project" => "projeto",
 
             "loading_your_cards" => "Estamos carregando seus cartões, aguarde alguns segundos",
+            "problem_when_loading" => "Ocorreu um problema enquanto carregávamos alguns dados",
 
             "invalid_synopsis_length" => "O tamanho mínimo é :str",
             "required_input_message" => "Obrigatório",

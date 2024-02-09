@@ -56,7 +56,7 @@ class Request
                         $fieldName = explode(':', $field)[0];
                         $fieldValue = explode(':', $field)[1];
 
-                        $result = $databaseClass->get($fieldName, $fieldValue);
+                        $result = $databaseClass->get([$fieldName => $fieldValue]);
                         echo json_encode($result);
                         return;
                     }
