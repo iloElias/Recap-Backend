@@ -1,0 +1,206 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "API Recap",
+    "description" : "Documentação de uma api construida para o projeto Recap",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/MURILO7456_1/RecapAPI/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "paths" : {
+    "/public/" : {
+      "get" : {
+        "tags" : [ "Padrão" ],
+        "description" : "Lista de parametros que podem ser passados in query",
+        "operationId" : "getDevices",
+        "parameters" : [ {
+          "name" : "about",
+          "in" : "query",
+          "description" : "Seleciona o serviço que deseja utilizar",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Informa, se caso nescessario, a pagina da lista",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "per_page",
+          "in" : "query",
+          "description" : "Informa a quantidade maxima de itens que serão buscados",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "Filtra os resultados com base no valor(es) passado",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "field",
+          "in" : "query",
+          "description" : "Filtra os resultados com base no valor passado. É uma forma mais rapida de pesquisar dados no caso de apenas um valor",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Ordena os valores da pesquisa com base na chave passada",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Exemplo de resposta em consulta nos usuarios",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetResponseExampleUsers"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Resposta exemplo da rota: /public/?about=project",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetResponseExampleProjects"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Padrão" ],
+        "operationId" : "alter",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostBodyExampleUsers"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Exemplo de resposta de requisição do tipo PUT",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetResponseExampleUsers"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Padrão" ],
+        "operationId" : "register",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PostBodyExampleUsers"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "GetResponseExampleProjects" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Project name"
+          },
+          "synopsis" : {
+            "type" : "string",
+            "example" : "Project synopsis"
+          },
+          "id" : {
+            "type" : "integer",
+            "example" : 55
+          }
+        }
+      },
+      "GetResponseExampleUsers" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "John Doe"
+          },
+          "id" : {
+            "type" : "integer",
+            "example" : 55
+          },
+          "google_id" : {
+            "type" : "string",
+            "example" : "1959438203409053"
+          }
+        }
+      },
+      "PostBodyExampleUsers" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "John Doe"
+          },
+          "google_id" : {
+            "type" : "string",
+            "example" : "1959438203409053"
+          }
+        }
+      },
+      "PostBodyExampleProjects" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Project name"
+          },
+          "synopsis" : {
+            "type" : "string",
+            "example" : "Project synopsis"
+          }
+        }
+      }
+    }
+  }
+}
