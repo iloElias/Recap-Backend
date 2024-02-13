@@ -105,6 +105,9 @@ class Request
 
                     if (strtolower($about) === "user") {
                         $response = $dataClass->getSearch($body, strict: false);
+                        if ($response) {
+                            $dataClass->update($response[0]['id'], ['logged_in' => 'CURRENT_TIMESTAMP']);
+                        }
                     }
 
                     if ($response) {
