@@ -205,7 +205,11 @@ class SQLDatabase
                 if (str_contains($key, '_like_')) {
                     $value = "'%{$value}%'";
                 } else {
-                    $value = "'{$value}'";
+                    if ($value === "CURRENT_TIMESTAMP") {
+                        $value = "{$value}";
+                    } else {
+                        $value = "'{$value}'";
+                    }
                 }
             }
             $this->query = str_replace($key, is_bool($value) ? ($value ? "true" : "false") : "{$value}", $this->query);
