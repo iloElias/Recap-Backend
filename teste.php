@@ -1,11 +1,11 @@
 <?php
 
-use Ipeweb\IpeSheets\Bootstrap\Environments;
-use Ipeweb\IpeSheets\Bootstrap\Helper;
-use Ipeweb\IpeSheets\Database\PDOConnection;
-use Ipeweb\IpeSheets\Internationalization\Translator;
-use Ipeweb\IpeSheets\Model\Card;
+use Ipeweb\IpeSheets\Services\JWT;
 
 require_once('./vendor/autoload.php');
 
-$test = new Card();
+$test = JWT::encode([
+    "name" => "Murilo Elias"
+], "das9fsad8afa9sdas");
+
+var_dump(JWT::decode($test, "das9fsad8afa9sdas"));

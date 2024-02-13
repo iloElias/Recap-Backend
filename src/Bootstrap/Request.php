@@ -3,6 +3,7 @@
 namespace Ipeweb\IpeSheets\Bootstrap;
 
 use Ipeweb\IpeSheets\Internationalization\Translator;
+use Ipeweb\IpeSheets\Services\JWT;
 use Ipeweb\IpeSheets\Services\Utils;
 
 class Request
@@ -13,8 +14,6 @@ class Request
 
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
         $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
-
-        Request::validateRequest($lang);
 
         $body = Request::getRequestBody();
 
@@ -83,7 +82,7 @@ class Request
                         } else {
                             $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage);
                         }
-                        echo json_encode($result);
+                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
                         return;
                     }
                 } catch (\Throwable $e) {
@@ -227,13 +226,17 @@ class Request
 
     public static function authenticateToken(string $token): bool
     {
-        return true;
+        try {
+            $token = JWT::decode($token, '');
+            return true;
+        } catch (\Throwable $e) {
+        }
     }
 
     public static function cors()
     {
         try {
-            header("Access-Control-Allow-Methods: HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS");
+            header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH");
             header('Access-Control-Allow-Credentials: true');
             header("Access-Control-Allow-Origin: *");
             header("Access-Control-Allow-Headers: *");
@@ -252,36 +255,5 @@ class Request
                 ]
             ));
         }
-    }
-
-    public static function validateRequest(string $lang = 'en')
-    {
-        // if (!key_exists("url", $_REQUEST)) {
-        //     echo json_encode(
-        //         [
-        //             "message" => Translator::translate($lang, 'invalid_request', returnOnSupported: true)
-        //         ]
-        //     );
-        //     exit;
-        // }
-
-
-
-        // if (!key_exists("Token", Request::getRequestHeader())) {
-        // echo json_encode(
-        // [
-        // "message" => Responses::REQUEST_RESPONSES["noProvidedToken"],
-        // ]
-        // );
-        // exit;
-        // }
-        // if (!Request::authenticateToken(Request::getRequestHeader()["Token"])) {
-        // echo json_encode(
-        // [
-        // "message" => Responses::REQUEST_RESPONSES["notValidToken"],
-        // ]
-        // );
-        // exit;
-        // }
     }
 }
