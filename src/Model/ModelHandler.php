@@ -161,9 +161,7 @@ class ModelHandler implements CrudInterface
             ->bindParams();
 
         try {
-            $database->execute();
-
-            return true;
+            return [$database->execute()];
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
             return [];

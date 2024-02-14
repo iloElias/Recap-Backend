@@ -16,8 +16,11 @@ class JWT
         return base64_decode(str_replace(['-', '_'], ['+', '/'], $string));
     }
 
-    public static function encode(array $payload, string $secret = Helper::env('API_JWT_SECRET')): string
+    public static function encode(array $payload, string $secret = null): string
     {
+        if (!$secret) {
+            $secret = Helper::env('API_JWT_SECRET');
+        }
 
         $header = json_encode([
             "alg" => "HS256",

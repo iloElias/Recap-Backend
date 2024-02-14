@@ -136,11 +136,9 @@ class Request
                         throw new \InvalidArgumentException('Missing query \'field\' param');
                     }
                     $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
-                    $dataClass->update(explode(':', $field)[1], $body);
+                    $result = $dataClass->update(explode(':', $field)[1], $body);
 
-                    echo json_encode([
-                        "message" => ucfirst($about) . " has been updated"
-                    ]);
+                    echo json_encode($result);
                 } catch (\Throwable $e) {
                     echo json_encode(
                         [

@@ -334,7 +334,7 @@ class SQLDatabase
 
         $pdo = PDOConnection::getPdoInstance();
 
-        if (str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes")) {
+        if (str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes") || str_contains($this->query, "UPDATE")) {
             $this->query .= " RETURNING * ";
             $this->trimQuery();
             $fetchMode = 'fetch';
