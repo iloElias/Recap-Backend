@@ -241,11 +241,13 @@ class Request
     public static function cors()
     {
         try {
+            header('Content-Type: application/json');
             header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH");
+            header("Content-Type: application/json; charset=UTF-8");
             header('Access-Control-Allow-Credentials: true');
             header("Access-Control-Allow-Origin: *");
             header("Access-Control-Allow-Headers: *");
-            header('Content-Type: application/json');
+
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 header('Access-Control-Allow-Origin: *');
                 header("Access-Control-Allow-Headers: *");
