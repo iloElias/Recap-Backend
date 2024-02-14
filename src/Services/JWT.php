@@ -40,8 +40,12 @@ class JWT
             static::base64url_encode($signature);
     }
 
-    public static function decode(string $token, string $secret): array
+    public static function decode(string $token, string $secret = null): array
     {
+        if (!$secret) {
+            $secret = Helper::env('API_JWT_SECRET');
+        }
+
         $token = explode('.', $token);
         $header = static::base64_decode_url($token[0]);
         $payload = static::base64_decode_url($token[1]);

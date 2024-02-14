@@ -2,6 +2,7 @@
 
 namespace Ipeweb\IpeSheets\Bootstrap;
 
+use Ipeweb\IpeSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\IpeSheets\Internationalization\Translator;
 use Ipeweb\IpeSheets\Services\JWT;
 use Ipeweb\IpeSheets\Services\Utils;
@@ -12,8 +13,10 @@ class Request
     {
         self::cors();
 
+        // exit(json_encode(var_dump($_SERVER)));
+
         $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
-        $about = isset($_GET["about"]) ? $_GET["about"] : "noSelected";
+        $about = isset($_SERVER["REDIRECT_URL"]) ? explode('/', $_SERVER["REDIRECT_URL"])[1] : "noSelected";
 
         $body = Request::getRequestBody();
 
@@ -49,6 +52,23 @@ class Request
                 $sort = isset($_GET['sort']) ? $_GET['sort'] : [];
 
                 try {
+                    $header = self::getRequestHeader();
+
+                    try {
+                        if (!isset($header['Authorization'])) {
+                            throw new MissingRequiredParameterException(["Header Authorization bearer"]);
+                        }
+                        JWT::decode($header['Authorization']);
+                    } catch (\Throwable $e) {
+                        http_response_code(400);
+                        exit(json_encode(
+                            [
+                                "message" => "Invalid token sent",
+                                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+                            ]
+                        ));
+                    }
+
                     $databaseClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
                     if (!empty($field)) {
@@ -56,7 +76,7 @@ class Request
                         $fieldValue = explode(':', $field)[1];
 
                         $result = $databaseClass->get([$fieldName => $fieldValue]);
-                        echo json_encode($result);
+                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
                         return;
                     }
 
@@ -70,7 +90,7 @@ class Request
                         } else {
                             $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]]);
                         }
-                        echo json_encode($result);
+                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
                         return;
                     } else {
                         if (!empty($sort)) {
@@ -111,17 +131,16 @@ class Request
 
                     if ($response) {
                         http_response_code(200);
-                        echo json_encode($response);
-                        exit();
+                        exit(JWT::encode($response));
                     }
 
                     $result = $dataClass->insert($body);
 
                     http_response_code(200);
-                    echo json_encode([$result]);
+                    exit(json_encode([$result]));
                 } catch (\Throwable $e) {
-                    http_response_code(500);
-                    echo (json_encode(
+                    http_response_code(400);
+                    exit(json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
@@ -138,14 +157,15 @@ class Request
                     $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
                     $result = $dataClass->update(explode(':', $field)[1], $body);
 
-                    echo json_encode($result);
+                    exit(json_encode($result));
                 } catch (\Throwable $e) {
-                    echo json_encode(
+                    http_response_code(400);
+                    exit(json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
-                    );
+                    ));
                 }
             },
             'DELETE' => function (string $about, $body, string $lang) {
@@ -168,12 +188,12 @@ class Request
                     ]);
                 } catch (\Throwable $e) {
                     http_response_code();
-                    echo json_encode(
+                    exit(json_encode(
                         [
                             "message" => Translator::translate($lang, 'not_available_service', $about, true),
                             "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                         ]
-                    );
+                    ));
                 }
             }
         };
@@ -183,13 +203,12 @@ class Request
             exit;
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(
+            exit(json_encode(
                 [
                     "message" => Translator::translate($lang, 'not_detected_problem', returnOnSupported: true),
                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                 ]
-            );
-            exit();
+            ));
         }
     }
 
