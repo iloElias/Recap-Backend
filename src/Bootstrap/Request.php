@@ -120,20 +120,6 @@ class Request
                 try {
                     $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                    $response = null;
-
-                    if (strtolower($about) === "user") {
-                        $response = $dataClass->getSearch($body, strict: false);
-                        if ($response) {
-                            $dataClass->update($response[0]['id'], ['logged_in' => 'CURRENT_TIMESTAMP']);
-                        }
-                    }
-
-                    if ($response) {
-                        http_response_code(200);
-                        exit(JWT::encode($response));
-                    }
-
                     $result = $dataClass->insert($body);
 
                     http_response_code(200);
