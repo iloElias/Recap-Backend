@@ -228,9 +228,16 @@ class Request
     {
         try {
             $token = JWT::decode($token, '');
-            return true;
         } catch (\Throwable $e) {
+            http_response_code(500);
+            exit(json_encode(
+                [
+                    "message" => "Invalid token sent",
+                    "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+                ]
+            ));
         }
+        return true;
     }
 
     public static function cors()
