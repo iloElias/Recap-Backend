@@ -11,6 +11,9 @@ RUN apt-get update && \
 # Ative os módulos do Apache necessários para reescrever URLs
 RUN a2enmod rewrite
 
+# Defina o ServerName globalmente para suprimir o aviso do Apache
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
 # Copie os arquivos do seu aplicativo para o contêiner
 COPY . /var/www/html
 
