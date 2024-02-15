@@ -5,6 +5,8 @@
 # Exclude locally vendored dependencies.
 vendor/
 
+node-output/
+
 # Exclude "build-time" ignore files.
 .dockerignore
 .gcloudignore
