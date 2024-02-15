@@ -59,7 +59,7 @@ class UserController
             }
 
             http_response_code(200);
-            return json_encode($result);
+            return $result;
         } catch (NotNecessaryDataException $ex) {
             http_response_code(400);
             return json_encode([

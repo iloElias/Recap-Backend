@@ -12,9 +12,7 @@ class LanguageController
 
         if ($_GET["message"] == 'all') {
             http_response_code(200);
-            exit(json_encode(
-                Translator::getAllFrom($lang)
-            ));
+            return (Translator::getAllFrom($lang));
         }
 
         $params = null;
@@ -24,8 +22,6 @@ class LanguageController
         }
 
         http_response_code(200);
-        exit(json_encode(
-            Translator::translate($lang, $_GET["message"], $params)
-        ));
+        return (Translator::translate($lang, $_GET["message"], $params));
     }
 }

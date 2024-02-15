@@ -6,11 +6,8 @@ use Ipeweb\IpeSheets\Controller\LanguageController;
 use Ipeweb\IpeSheets\Controller\ProjectController;
 use Ipeweb\IpeSheets\Controller\UserController;
 use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
-use Ipeweb\IpeSheets\Exceptions\MissingRequiredParameterException;
-use Ipeweb\IpeSheets\Internationalization\Translator;
 use Ipeweb\IpeSheets\Routes\Route;
 use Ipeweb\IpeSheets\Services\JWT;
-use Ipeweb\IpeSheets\Services\Utils;
 
 class Request
 {
@@ -22,11 +19,14 @@ class Request
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $_SERVER["REDIRECT_URL"]);
 
-            if (http_response_code() == 200) {
-                $requestReturn = JWT::encode(json_decode($requestReturn));
+            if (http_response_code() == 200 and !is_string($requestReturn)) {
+                $requestReturn = JWT::encode($requestReturn);
             }
         } catch (\Throwable $e) {
-            echo json_encode(["error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()]);
+            echo json_encode([
+                "message" => "An unexpected error ocurred",
+                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
+            ]);
         }
 
         exit($requestReturn);
