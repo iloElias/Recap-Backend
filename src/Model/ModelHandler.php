@@ -4,6 +4,7 @@ namespace Ipeweb\IpeSheets\Model;
 
 use InvalidArgumentException;
 use Ipeweb\IpeSheets\Database\SQLDatabase;
+use Ipeweb\IpeSheets\Exceptions\NotNecessaryDataException;
 use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
 use Ipeweb\IpeSheets\Services\Utils;
 
@@ -60,7 +61,7 @@ class ModelHandler implements CrudInterface
     {
         foreach ($data as $key => $value) {
             if (!Utils::arrayFind($this->fields, $key)) {
-                throw new InvalidArgumentException("The key '{$key}' was not found in valid fields array");
+                throw new NotNecessaryDataException("The key '{$key}' was not found in valid fields array");
             }
         }
 

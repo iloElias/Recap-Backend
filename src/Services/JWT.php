@@ -3,6 +3,7 @@
 namespace Ipeweb\IpeSheets\Services;
 
 use Ipeweb\IpeSheets\Bootstrap\Helper;
+use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 
 class JWT
 {
@@ -55,7 +56,7 @@ class JWT
         $header_payload = $token[0] . '.' . $token[1];
 
         if (hash_hmac('sha256', $header_payload, $secret, true) !== $signature) {
-            throw new \Exception('Invalid token signature');
+            throw new InvalidTokenSignature('Invalid token signature');
         }
         return json_decode($payload, true);
     }

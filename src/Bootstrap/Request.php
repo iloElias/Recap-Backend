@@ -2,8 +2,13 @@
 
 namespace Ipeweb\IpeSheets\Bootstrap;
 
+use Ipeweb\IpeSheets\Controller\LanguageController;
+use Ipeweb\IpeSheets\Controller\ProjectController;
+use Ipeweb\IpeSheets\Controller\UserController;
+use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\IpeSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\IpeSheets\Internationalization\Translator;
+use Ipeweb\IpeSheets\Routes\Route;
 use Ipeweb\IpeSheets\Services\JWT;
 use Ipeweb\IpeSheets\Services\Utils;
 
@@ -12,193 +17,189 @@ class Request
     public static function init()
     {
         self::cors();
+        self::setRoutes();
+
+        try {
+            $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $_SERVER["REDIRECT_URL"]);
+
+            if (http_response_code() == 200) {
+                $requestReturn = JWT::encode(json_decode($requestReturn));
+            }
+        } catch (\Throwable $e) {
+            echo json_encode(["error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()]);
+        }
+
+        exit($requestReturn);
 
         // exit(json_encode(var_dump($_SERVER)));
 
-        $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
-        $about = isset($_SERVER["REDIRECT_URL"]) ? explode('/', $_SERVER["REDIRECT_URL"])[1] : "noSelected";
+        // $return = match ($_SERVER['REQUEST_METHOD']) {
+        //     'GET' => function (?string $about, $body, string $lang) {
+        //         if (isset($_GET["message"])) {
+        //             if ($_GET["message"] == 'all') {
+        //                 echo json_encode(
+        //                     Translator::getAllFrom($lang)
+        //                 );
+        //                 return;
+        //             }
 
-        $body = Request::getRequestBody();
+        //             $message = "";
+        //             $params = null;
 
-        $return = match ($_SERVER['REQUEST_METHOD']) {
-            'GET' => function (?string $about, $body, string $lang) {
-                if (isset($_GET["message"])) {
-                    if ($_GET["message"] == 'all') {
-                        echo json_encode(
-                            Translator::getAllFrom($lang)
-                        );
-                        return;
-                    }
+        //             if (isset($_GET["params"])) {
+        //                 $params = explode('%', $_GET["params"]);
+        //             }
 
-                    $message = "";
-                    $params = null;
+        //             $message = Translator::translate($lang, $_GET["message"], $params);
 
-                    if (isset($_GET["params"])) {
-                        $params = explode('%', $_GET["params"]);
-                    }
+        //             echo json_encode(
+        //                 $message
+        //             );
+        //             return;
+        //         }
 
-                    $message = Translator::translate($lang, $_GET["message"], $params);
+        //         $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        //         $perPage = isset($_GET['per_page']) ? intval($_GET['per_page']) : 25;
+        //         $filter = isset($_GET['filter']) ? $_GET['filter'] : [];
+        //         $field = isset($_GET['field']) ? $_GET['field'] : [];
+        //         $sort = isset($_GET['sort']) ? $_GET['sort'] : [];
 
-                    echo json_encode(
-                        $message
-                    );
-                    return;
-                }
+        //         try {
+        //             $header = self::getHeader();
 
-                $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-                $perPage = isset($_GET['per_page']) ? intval($_GET['per_page']) : 25;
-                $filter = isset($_GET['filter']) ? $_GET['filter'] : [];
-                $field = isset($_GET['field']) ? $_GET['field'] : [];
-                $sort = isset($_GET['sort']) ? $_GET['sort'] : [];
+        //             try {
+        //                 if (!isset($header['Authorization'])) {
+        //                     throw new MissingRequiredParameterException(["Header Authorization bearer"]);
+        //                 }
+        //                 JWT::decode($header['Authorization']);
+        //             } catch (\Throwable $e) {
+        //                 http_response_code(400);
+        //                 exit(json_encode(
+        //                     [
+        //                         "message" => "Invalid token sent",
+        //                         "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+        //                     ]
+        //                 ));
+        //             }
 
-                try {
-                    $header = self::getRequestHeader();
+        //             $databaseClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                    try {
-                        if (!isset($header['Authorization'])) {
-                            throw new MissingRequiredParameterException(["Header Authorization bearer"]);
-                        }
-                        JWT::decode($header['Authorization']);
-                    } catch (\Throwable $e) {
-                        http_response_code(400);
-                        exit(json_encode(
-                            [
-                                "message" => "Invalid token sent",
-                                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                            ]
-                        ));
-                    }
+        //             if (!empty($field)) {
+        //                 $fieldName = explode(':', $field)[0];
+        //                 $fieldValue = explode(':', $field)[1];
 
-                    $databaseClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+        //                 $result = $databaseClass->get([$fieldName => $fieldValue]);
+        //                 echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
+        //                 return;
+        //             }
 
-                    if (!empty($field)) {
-                        $fieldName = explode(':', $field)[0];
-                        $fieldValue = explode(':', $field)[1];
+        //             if (!empty($filter)) {
+        //                 if (!empty($sort)) {
+        //                     $sortArray = [
+        //                         'field' => explode(":", $sort)[0],
+        //                         'direction' => explode(":", $sort)[1]
+        //                     ];
+        //                     $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]], $sortArray);
+        //                 } else {
+        //                     $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]]);
+        //                 }
+        //                 echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
+        //                 return;
+        //             } else {
+        //                 if (!empty($sort)) {
+        //                     $sortArray = [
+        //                         'field' => explode(":", $sort)[0],
+        //                         'direction' => explode(":", $sort)[1]
+        //                     ];
+        //                     $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage, $sortArray);
+        //                 } else {
+        //                     $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage);
+        //                 }
+        //                 echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
+        //                 return;
+        //             }
+        //         } catch (\Throwable $e) {
+        //             http_response_code(500);
+        //             echo json_encode(
+        //                 [
+        //                     "message" => Translator::translate($lang, 'not_available_service', $about, true),
+        //                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+        //                 ]
+        //             );
+        //             exit();
+        //         }
+        //     },
+        //     'POST' => function (string $about, $body, string $lang) {
+        //         try {
+        //             $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
 
-                        $result = $databaseClass->get([$fieldName => $fieldValue]);
-                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
-                        return;
-                    }
+        //             $result = $dataClass->insert($body);
 
-                    if (!empty($filter)) {
-                        if (!empty($sort)) {
-                            $sortArray = [
-                                'field' => explode(":", $sort)[0],
-                                'direction' => explode(":", $sort)[1]
-                            ];
-                            $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]], $sortArray);
-                        } else {
-                            $result = $databaseClass->getSearch(($page - 1) * $perPage, $perPage, [explode(":", $filter)[0] => explode(":", $filter)[1]]);
-                        }
-                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
-                        return;
-                    } else {
-                        if (!empty($sort)) {
-                            $sortArray = [
-                                'field' => explode(":", $sort)[0],
-                                'direction' => explode(":", $sort)[1]
-                            ];
-                            $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage, $sortArray);
-                        } else {
-                            $result = $databaseClass->getAll(($page - 1) * $perPage, $perPage);
-                        }
-                        echo json_encode(JWT::encode($result, Helper::env('API_JWT_SECRET')));
-                        return;
-                    }
-                } catch (\Throwable $e) {
-                    http_response_code(500);
-                    echo json_encode(
-                        [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
-                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                        ]
-                    );
-                    exit();
-                }
-            },
-            'POST' => function (string $about, $body, string $lang) {
-                try {
-                    $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+        //             http_response_code(200);
+        //             exit(json_encode([$result]));
+        //         } catch (\Throwable $e) {
+        //             http_response_code(400);
+        //             exit(json_encode(
+        //                 [
+        //                     "message" => Translator::translate($lang, 'not_available_service', $about, true),
+        //                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+        //                 ]
+        //             ));
+        //         }
+        //     },
+        //     'PUT' => function (string $about, $body, string $lang) {
+        //         $field = isset($_GET['field']) ? $_GET['field'] : null;
+        //         try {
+        //             if (!$field) {
+        //                 throw new \InvalidArgumentException('Missing query \'field\' param');
+        //             }
+        //             $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+        //             $result = $dataClass->update(explode(':', $field)[1], $body);
 
-                    $result = $dataClass->insert($body);
+        //             exit(json_encode($result));
+        //         } catch (\Throwable $e) {
+        //             http_response_code(400);
+        //             exit(json_encode(
+        //                 [
+        //                     "message" => Translator::translate($lang, 'not_available_service', $about, true),
+        //                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+        //                 ]
+        //             ));
+        //         }
+        //     },
+        //     'DELETE' => function (string $about, $body, string $lang) {
+        //         try {
+        //             $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about))(id: $body["id"]);
 
-                    http_response_code(200);
-                    exit(json_encode([$result]));
-                } catch (\Throwable $e) {
-                    http_response_code(400);
-                    exit(json_encode(
-                        [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
-                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                        ]
-                    ));
-                }
-            },
-            'PUT' => function (string $about, $body, string $lang) {
-                $field = isset($_GET['field']) ? $_GET['field'] : null;
-                try {
-                    if (!$field) {
-                        throw new \InvalidArgumentException('Missing query \'field\' param');
-                    }
-                    $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
-                    $result = $dataClass->update(explode(':', $field)[1], $body);
+        //             foreach ($body as $key => $value) {
+        //                 if ($key != "id") {
+        //                     $mapClass->$key = $value;
+        //                 }
+        //             }
 
-                    exit(json_encode($result));
-                } catch (\Throwable $e) {
-                    http_response_code(400);
-                    exit(json_encode(
-                        [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
-                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                        ]
-                    ));
-                }
-            },
-            'DELETE' => function (string $about, $body, string $lang) {
-                try {
-                    $mapClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about))(id: $body["id"]);
+        //             if ($mapClass->validate()) {
+        //                 $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
+        //                 $dataClass->inactive($mapClass->id, $body);
+        //             }
 
-                    foreach ($body as $key => $value) {
-                        if ($key != "id") {
-                            $mapClass->$key = $value;
-                        }
-                    }
+        //             echo json_encode([
+        //                 "message" => ucfirst($about) . " has been inactivated"
+        //             ]);
+        //         } catch (\Throwable $e) {
+        //             http_response_code();
+        //             exit(json_encode(
+        //                 [
+        //                     "message" => Translator::translate($lang, 'not_available_service', $about, true),
+        //                     "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+        //                 ]
+        //             ));
+        //         }
+        //     }
+        // };
 
-                    if ($mapClass->validate()) {
-                        $dataClass = new ('Ipeweb\IpeSheets\Model\\' . ucfirst($about) . "Data");
-                        $dataClass->inactive($mapClass->id, $body);
-                    }
-
-                    echo json_encode([
-                        "message" => ucfirst($about) . " has been inactivated"
-                    ]);
-                } catch (\Throwable $e) {
-                    http_response_code();
-                    exit(json_encode(
-                        [
-                            "message" => Translator::translate($lang, 'not_available_service', $about, true),
-                            "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                        ]
-                    ));
-                }
-            }
-        };
-
-        try {
-            $return($about, $body, $lang);
-            exit;
-        } catch (\Throwable $e) {
-            http_response_code(500);
-            exit(json_encode(
-                [
-                    "message" => Translator::translate($lang, 'not_detected_problem', returnOnSupported: true),
-                    "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                ]
-            ));
-        }
     }
 
-    public static function getRequestBody()
+    public static function getBody()
     {
         $file = json_decode(file_get_contents('php://input'), true);
         if (empty($file) || !is_array($file)) {
@@ -214,7 +215,7 @@ class Request
         return $data;
     }
 
-    public static function getRequestHeader()
+    public static function getHeader()
     {
         $headers = [];
         foreach ($_SERVER as $key => $value) {
@@ -227,20 +228,39 @@ class Request
         return $headers;
     }
 
-    public static function authenticateToken(string $token): bool
+    public static function setRoutes()
     {
-        try {
-            $token = JWT::decode($token, '');
-        } catch (\Throwable $e) {
-            http_response_code(500);
-            exit(json_encode(
-                [
-                    "message" => "Invalid token sent",
-                    "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
-                ]
-            ));
+        // Language routes
+        Route::get('/language/', [LanguageController::class, 'getMessages', 'none']);
+
+        // User routes
+        Route::get('/user/', [UserController::class, 'getUserByField']);
+        Route::post('/user/login/', [UserController::class, 'userLogin', 'none']);
+        Route::post('/user/', [UserController::class, 'postNewUser']);
+        Route::put('/user/', [UserController::class, 'updateUser']);
+
+        // Project routes
+        Route::get('/project/', [ProjectController::class, 'getUserProjects']);
+        Route::post('/project/', [ProjectController::class, 'postNewProject']);
+    }
+
+    public static function authenticate()
+    {
+        $requestHeader = Request::getHeader();
+        if (!isset($requestHeader['Authorization'])) {
+            http_response_code(400);
+            return json_encode(["message" => "No 'Authorization' key found on request header, which is required"]);
         }
-        return true;
+
+        try {
+            $authenticatedHeader = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']));
+        } catch (InvalidTokenSignature) {
+            http_response_code(400);
+            exit(json_encode([
+                "message" => "Invalid authorization key sent on request header",
+                "token" => $requestHeader['Authorization']
+            ]));
+        }
     }
 
     public static function cors()
@@ -263,7 +283,7 @@ class Request
             exit(json_encode(
                 [
                     "message" => "Something went wrong on CORS setup",
-                    "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+                    // "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
                 ]
             ));
         }
