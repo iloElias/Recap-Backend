@@ -46,6 +46,9 @@ class LanguageHandler
             "card" => "card",
             "project" => "project",
 
+            "reauthenticate_logout_message" => "Authentication time has expired, please log in again",
+            "reauthenticate_token_message" => "There was a change on your access token, please log in again",
+
             "loading_your_cards" => "We are loading your cards, wait a few seconds",
             "problem_when_loading" => "There was a problem while loading some data",
 
@@ -91,6 +94,9 @@ class LanguageHandler
             "item_creation_error" => "Um erro ocorreu durante a criação de um :str",
             "card" => "cartão",
             "project" => "projeto",
+
+            "reauthenticate_logout_message" => "O tempo de autenticação expirou, faça login novamente",
+            "reauthenticate_token_message" => "Houve uma alteração no token de acesso, faça login novamente",
 
             "loading_your_cards" => "Estamos carregando seus cartões, aguarde alguns segundos",
             "problem_when_loading" => "Ocorreu um problema enquanto carregávamos alguns dados",

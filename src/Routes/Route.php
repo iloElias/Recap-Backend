@@ -2,9 +2,7 @@
 
 namespace Ipeweb\IpeSheets\Routes;
 
-use Ipeweb\IpeSheets\Bootstrap\Helper;
 use Ipeweb\IpeSheets\Bootstrap\Request;
-use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\IpeSheets\Services\JWT;
 
 class Route
@@ -62,13 +60,24 @@ class Route
             return json_encode(["message" => "API route not found: {$method} on {$route}"]);
         }
 
-        if ($methodProtection !== 'none') {
+        if ($methodProtection === 'authenticate') {
             Request::authenticate();
+        }
+
+        $middleware = self::$routes[strtolower($method)][$route][3] ?? null;
+        if ($middleware) {
+            if (!$middleware()) {
+                http_response_code(401);
+                return json_encode(["message" => "Unauthorized"]);
+            }
         }
 
         try {
             $class = new $className;
-            return $class->$classMethod();
+            $classMethodResult = $class->$classMethod();
+
+            http_response_code(200);
+            return ((($methodProtection !== 'none' or $methodProtection === 'encode_response') and http_response_code() == 200) ? JWT::encode($classMethodResult) : $classMethodResult);
         } catch (\Throwable $e) {
             http_response_code(500);
             return json_encode([
