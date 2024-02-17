@@ -7,6 +7,7 @@ use Ipeweb\IpeSheets\Controller\ProjectController;
 use Ipeweb\IpeSheets\Controller\UserController;
 use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\IpeSheets\Routes\Route;
+use Ipeweb\IpeSheets\Routes\Router;
 use Ipeweb\IpeSheets\Services\JWT;
 use Ipeweb\IpeSheets\Services\Mail;
 
@@ -17,7 +18,7 @@ class Request
         Environments::getEnvironments();
 
         self::cors();
-        self::setRoutes();
+        Router::setRoutes();
 
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $_SERVER["REDIRECT_URL"]);
@@ -60,22 +61,6 @@ class Request
         return $headers;
     }
 
-    public static function setRoutes()
-    {
-        // Language routes
-        Route::get('/language/', [LanguageController::class, 'getMessages', 'none']);
-
-        // User routes
-        Route::get('/user/', [UserController::class, 'getUserByField', 'authenticate']);
-        Route::post('/user/login/', [UserController::class, 'userLogin', 'encode_response']);
-        Route::post('/user/', [UserController::class, 'postNewUser', 'authenticate']);
-        Route::put('/user/', [UserController::class, 'updateUser', 'authenticate']);
-
-        // Project routes
-        Route::get('/project/', [ProjectController::class, 'getUserProjects', 'authenticate']);
-        Route::post('/project/', [ProjectController::class, 'postNewProject', 'authenticate']);
-    }
-
     public static function authenticate()
     {
         $requestHeader = Request::getHeader();
@@ -89,8 +74,7 @@ class Request
         } catch (InvalidTokenSignature) {
             http_response_code(401);
             exit(json_encode([
-                "message" => "Invalid authorization key sent on request header",
-                // "token" => $requestHeader['Authorization']
+                "message" => "Invalid authorization key sent on request header"
             ]));
         }
     }
@@ -105,16 +89,13 @@ class Request
             header('Access-Control-Allow-Credentials: true');
 
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-                header('Access-Control-Allow-Origin: *');
-                header("Access-Control-Allow-Headers: *");
                 http_response_code(200);
                 exit();
             }
         } catch (\Throwable $e) {
             exit(json_encode(
                 [
-                    "message" => "Something went wrong on CORS setup",
-                    // "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine(),
+                    "message" => "Something went wrong on CORS setup"
                 ]
             ));
         }
