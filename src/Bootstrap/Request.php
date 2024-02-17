@@ -2,14 +2,10 @@
 
 namespace Ipeweb\IpeSheets\Bootstrap;
 
-use Ipeweb\IpeSheets\Controller\LanguageController;
-use Ipeweb\IpeSheets\Controller\ProjectController;
-use Ipeweb\IpeSheets\Controller\UserController;
 use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\IpeSheets\Routes\Route;
 use Ipeweb\IpeSheets\Routes\Router;
 use Ipeweb\IpeSheets\Services\JWT;
-use Ipeweb\IpeSheets\Services\Mail;
 
 class Request
 {
