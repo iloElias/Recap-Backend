@@ -8,11 +8,14 @@ use Ipeweb\IpeSheets\Controller\UserController;
 use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\IpeSheets\Routes\Route;
 use Ipeweb\IpeSheets\Services\JWT;
+use Ipeweb\IpeSheets\Services\Mail;
 
 class Request
 {
     public static function init()
     {
+        Environments::getEnvironments();
+
         self::cors();
         self::setRoutes();
 

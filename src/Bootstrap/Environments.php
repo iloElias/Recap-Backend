@@ -42,7 +42,6 @@ class Environments
             $value = trim($value);
 
             putenv("{$name}={$value}");
-            // define($name, $value); n deu certo colocar como variavel global :(
         }
     }
 }
