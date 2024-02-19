@@ -1,9 +1,9 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Database;
+namespace Ipeweb\RecapSheets\Database;
 
-use Ipeweb\IpeSheets\Exceptions\InvalidSqlWhereConditions;
-use Ipeweb\IpeSheets\Exceptions\SqlSyntaxException;
+use Ipeweb\RecapSheets\Exceptions\InvalidSqlWhereConditions;
+use Ipeweb\RecapSheets\Exceptions\SqlSyntaxException;
 use PDO;
 use PDOStatement;
 
@@ -169,8 +169,8 @@ class SQLDatabase
      * @param string $start The starter value.
      * @param string $end The last value.
      * @param string $conditional The conditional that will be added in case the query already has a `WHERE`.
-     * @throws \Ipeweb\IpeSheets\Exceptions\SqlSyntaxException
-     * @return \Ipeweb\IpeSheets\Database\SQLDatabase
+     * @throws \Ipeweb\RecapSheets\Exceptions\SqlSyntaxException
+     * @return \Ipeweb\RecapSheets\Database\SQLDatabase
      */
     public function whereBetween(string $target, string $start, string $end, string $conditional = "AND"): SQLDatabase
     {
@@ -273,7 +273,7 @@ class SQLDatabase
      * 
      * @param string $field The name of the column that will be used to ordinate.
      * @param string $direction Defines the direction of the ordination.
-     * @return \Ipeweb\IpeSheets\Database\SQLDatabase
+     * @return \Ipeweb\RecapSheets\Database\SQLDatabase
      */
     public function orderBy(
         string $field = "id",
@@ -306,7 +306,7 @@ class SQLDatabase
      * Overrides the current query with a pre-made one.
      * 
      * @param string $query The new statement string.
-     * @return \Ipeweb\IpeSheets\Database\SQLDatabase
+     * @return \Ipeweb\RecapSheets\Database\SQLDatabase
      */
     public function setQuery(string $query): SQLDatabase
     {

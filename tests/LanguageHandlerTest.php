@@ -1,6 +1,6 @@
 <?php
 
-use Ipeweb\IpeSheets\Internationalization\LanguageHandler;
+use Ipeweb\RecapSheets\Internationalization\LanguageHandler;
 use PHPUnit\Framework\TestCase;
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model;
+namespace Ipeweb\RecapSheets\Model;
 
 class EmailTemplate
 {

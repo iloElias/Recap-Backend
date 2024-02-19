@@ -1,10 +1,10 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Routes;
+namespace Ipeweb\RecapSheets\Routes;
 
-use Ipeweb\IpeSheets\Bootstrap\Request;
-use Ipeweb\IpeSheets\Middleware\Middleware;
-use Ipeweb\IpeSheets\Services\JWT;
+use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Middleware\Middleware;
+use Ipeweb\RecapSheets\Services\JWT;
 
 class Route
 {
@@ -42,9 +42,11 @@ class Route
 
     public static function executeMiddlewares(array $middlewareList)
     {
+        $request = ['Headers' => Request::getHeader(), 'Body' => Request::getBody()];
+
         return array_map(
-            function (Middleware $middleware) {
-                $middleware->handle();
+            function (Middleware $middleware, $request) {
+                $middleware->handle($request);
             },
             $middlewareList
         );
@@ -53,25 +55,30 @@ class Route
     public static function executeRouteProcedure(string $method, string $route)
     {
         [[$className, $classMethod, $returnMethod], $middleware] = self::$routes[strtolower($method)][$route];
+        $middlewareResponse = null;
 
         if (!$className or !$classMethod) {
             http_response_code(404);
             return json_encode(["message" => "API route not found: {$method} on {$route}"]);
         }
 
-        $middlewareResponse = self::executeMiddlewares($middleware);
+        if (!empty($middleware)) {
+            $middlewareResponse = self::executeMiddlewares($middleware);
+            if ($middlewareResponse) {
+                http_response_code(401);
+                return json_encode(["message" => "This request does not pass by middleware terms: " . (!is_array($middlewareResponse) ? $middlewareResponse : implode(', ', $middlewareResponse))]);
+            }
+        }
 
         try {
-            $class = new $className;
-            $classMethodResult = $class->$classMethod();
-
+            $classMethodResult = $className::$classMethod();
             http_response_code(200);
             return ((($returnMethod !== 'none' or $returnMethod === 'encode_response') and http_response_code() == 200) ? JWT::encode($classMethodResult) : $classMethodResult);
         } catch (\Throwable $e) {
             http_response_code(500);
             return json_encode([
                 "message" => "Not expected exception",
-                // "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
+                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
             ]);
         }
     }

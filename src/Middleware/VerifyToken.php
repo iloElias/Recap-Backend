@@ -1,15 +1,15 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Middleware;
+namespace Ipeweb\RecapSheets\Middleware;
 
-use Ipeweb\IpeSheets\Services\JWT;
-use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
+use Ipeweb\RecapSheets\Services\JWT;
+use Ipeweb\RecapSheets\Exceptions\InvalidTokenSignature;
 
 class VerifyToken implements Middleware
 {
-    public static function handle($request, $next)
+    public static function handle($request)
     {
-        $token = $request->header('Authorization');
+        $token = $request['headers']['Authorization'];
 
         if (!$token) {
             http_response_code(401);
@@ -17,8 +17,8 @@ class VerifyToken implements Middleware
         }
 
         try {
-            $decodedToken = JWT::decode($token);
-            return $next($request);
+            $decodedToken = JWT::decode(str_replace("Bearer ", '', $token));
+            return true;
         } catch (InvalidTokenSignature $e) {
             http_response_code(401);
             return json_encode(['error' => 'Invalid token']);

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Middleware;
+namespace Ipeweb\RecapSheets\Middleware;
 
 interface Middleware
 {
-    public static function handle($request, $next);
+    public static function handle($request);
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Internationalization;
+namespace Ipeweb\RecapSheets\Internationalization;
 
-use Ipeweb\IpeSheets\Internationalization\LanguageHandler;
+use Ipeweb\RecapSheets\Internationalization\LanguageHandler;
 
 class Translator
 {

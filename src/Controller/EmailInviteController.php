@@ -1,6 +1,6 @@
 <?php
 
-use Ipeweb\IpeSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Bootstrap\Request;
 
 class EmailInviteController
 {

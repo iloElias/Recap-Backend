@@ -1,9 +1,9 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model;
+namespace Ipeweb\RecapSheets\Model;
 
 use InvalidArgumentException;
-use Ipeweb\IpeSheets\Model\ModelHandler;
+use Ipeweb\RecapSheets\Model\ModelHandler;
 
 class NewProjectData
 {

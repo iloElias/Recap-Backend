@@ -1,13 +1,14 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Bootstrap;
+namespace Ipeweb\RecapSheets\Bootstrap;
 
-use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
-use Ipeweb\IpeSheets\Model\EmailTemplate;
-use Ipeweb\IpeSheets\Routes\Route;
-use Ipeweb\IpeSheets\Routes\Router;
-use Ipeweb\IpeSheets\Services\JWT;
-use Ipeweb\IpeSheets\Services\Mail;
+use Ipeweb\RecapSheets\Exceptions\InvalidTokenSignature;
+use Ipeweb\RecapSheets\Model\EmailTemplate;
+use Ipeweb\RecapSheets\Routes\Route;
+use Ipeweb\RecapSheets\Routes\Router;
+use Ipeweb\RecapSheets\Services\JWT;
+use Ipeweb\RecapSheets\Services\Mail;
+use Ipeweb\RecapSheets\Services\Utils;
 
 class Request
 {
@@ -29,7 +30,7 @@ class Request
         $requestReturn = null;
 
         try {
-            $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $_SERVER["REDIRECT_URL"]);
+            $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]));
         } catch (\Throwable $e) {
             echo json_encode([
                 "message" => "An unexpected error ocurred",

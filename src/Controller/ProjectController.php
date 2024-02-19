@@ -1,10 +1,10 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Controller;
+namespace Ipeweb\RecapSheets\Controller;
 
-use Ipeweb\IpeSheets\Bootstrap\Request;
-use Ipeweb\IpeSheets\Model\NewProjectData;
-use Ipeweb\IpeSheets\Model\UserProjectsData;
+use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Model\NewProjectData;
+use Ipeweb\RecapSheets\Model\UserProjectsData;
 
 class ProjectController
 {

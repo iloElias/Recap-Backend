@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Bootstrap;
+namespace Ipeweb\RecapSheets\Bootstrap;
 
 class Environments
 {

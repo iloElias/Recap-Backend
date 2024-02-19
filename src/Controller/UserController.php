@@ -1,11 +1,11 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Controller;
+namespace Ipeweb\RecapSheets\Controller;
 
-use Ipeweb\IpeSheets\Bootstrap\Request;
-use Ipeweb\IpeSheets\Exceptions\NotNecessaryDataException;
-use Ipeweb\IpeSheets\Model\UserData;
-use Ipeweb\IpeSheets\Services\JWT;
+use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Exceptions\NotNecessaryDataException;
+use Ipeweb\RecapSheets\Model\UserData;
+use Ipeweb\RecapSheets\Services\JWT;
 
 use function PHPUnit\Framework\isEmpty;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Database;
+namespace Ipeweb\RecapSheets\Database;
 
-use Ipeweb\IpeSheets\Bootstrap\Helper;
+use Ipeweb\RecapSheets\Bootstrap\Helper;
 
 class PDOConnection
 {

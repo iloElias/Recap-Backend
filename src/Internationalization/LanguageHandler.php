@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Internationalization;
+namespace Ipeweb\RecapSheets\Internationalization;
 
 class LanguageHandler
 {
@@ -32,6 +32,12 @@ class LanguageHandler
             "languages_button_title" => "Languages",
             "about_us_button_title" => "About us",
             "account_logout_button_title" => "Exit the system",
+            "styles_button_title" => "Styles",
+            "export_project_button_title" => "Export",
+            "share_project_button_title" => "Share",
+
+            "export_file_as_png" => "Export as .png",
+            "export_file_as_pdf" => "Export as .pdf",
 
             "cards_page_title" => "Cards",
             "card_item_new_card" => "new card",
@@ -81,6 +87,12 @@ class LanguageHandler
             "languages_button_title" => "Idiomas",
             "about_us_button_title" => "Sobre nós",
             "account_logout_button_title" => "Sair do Sistema",
+            "styles_button_title" => "Estilos",
+            "export_project_button_title" => "Exportar",
+            "share_project_button_title" => "Compartilhar",
+
+            "export_file_as_png" => "Exportar como .png",
+            "export_file_as_pdf" => "Exportar como .pdf",
 
             "cards_page_title" => "Cartões",
             "card_item_new_card" => "criar cartão",

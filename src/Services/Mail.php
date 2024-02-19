@@ -1,9 +1,9 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Services;
+namespace Ipeweb\RecapSheets\Services;
 
 use Exception;
-use Ipeweb\IpeSheets\Bootstrap\Helper;
+use Ipeweb\RecapSheets\Bootstrap\Helper;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail

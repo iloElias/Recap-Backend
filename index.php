@@ -2,6 +2,6 @@
 
 require_once('./vendor/autoload.php');
 
-use Ipeweb\IpeSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Bootstrap\Request;
 
 Request::init();

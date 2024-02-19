@@ -1,9 +1,9 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model;
+namespace Ipeweb\RecapSheets\Model;
 
-use Ipeweb\IpeSheets\Model\ModelHandler;
-use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
+use Ipeweb\RecapSheets\Model\ModelHandler;
+use Ipeweb\RecapSheets\Model\Interfaces\CrudInterface;
 
 class CardData implements CrudInterface
 {

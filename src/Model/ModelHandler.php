@@ -1,12 +1,12 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model;
+namespace Ipeweb\RecapSheets\Model;
 
 use InvalidArgumentException;
-use Ipeweb\IpeSheets\Database\SQLDatabase;
-use Ipeweb\IpeSheets\Exceptions\NotNecessaryDataException;
-use Ipeweb\IpeSheets\Model\Interfaces\CrudInterface;
-use Ipeweb\IpeSheets\Services\Utils;
+use Ipeweb\RecapSheets\Database\SQLDatabase;
+use Ipeweb\RecapSheets\Exceptions\NotNecessaryDataException;
+use Ipeweb\RecapSheets\Model\Interfaces\CrudInterface;
+use Ipeweb\RecapSheets\Services\Utils;
 
 class ModelHandler implements CrudInterface
 {

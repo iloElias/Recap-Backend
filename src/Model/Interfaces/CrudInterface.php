@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model\Interfaces;
+namespace Ipeweb\RecapSheets\Model\Interfaces;
 
 interface CrudInterface
 {

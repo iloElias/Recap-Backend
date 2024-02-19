@@ -1,6 +1,6 @@
 <?php
 
-use Ipeweb\IpeSheets\Internationalization\Translator;
+use Ipeweb\RecapSheets\Internationalization\Translator;
 use PHPUnit\Framework\TestCase;
 
 class TranslatorTest extends TestCase

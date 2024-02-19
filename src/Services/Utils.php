@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Services;
+namespace Ipeweb\RecapSheets\Services;
 
 class Utils
 {
@@ -20,7 +20,7 @@ class Utils
         return false;
     }
 
-    public static function getAssociative(array $array) : array
+    public static function getAssociative(array $array): array
     {
         $result = [];
         foreach ($array as $key => $value) {
@@ -34,5 +34,10 @@ class Utils
         if (array_key_exists($key, $array) && count($array) == 1)
             return true;
         return false;
+    }
+
+    public static function strRemoveLast(string $string)
+    {
+        return substr($string, 0, -1);
     }
 }

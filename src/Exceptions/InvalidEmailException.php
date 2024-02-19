@@ -1,6 +1,6 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Exceptions;
+namespace Ipeweb\RecapSheets\Exceptions;
 
 use Exception;
 

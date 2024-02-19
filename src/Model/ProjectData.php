@@ -1,8 +1,8 @@
 <?php
 
-namespace Ipeweb\IpeSheets\Model;
+namespace Ipeweb\RecapSheets\Model;
 
-use Ipeweb\IpeSheets\Model\ModelHandler;
+use Ipeweb\RecapSheets\Model\ModelHandler;
 
 class ProjectData
 {
