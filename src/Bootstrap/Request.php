@@ -3,9 +3,11 @@
 namespace Ipeweb\IpeSheets\Bootstrap;
 
 use Ipeweb\IpeSheets\Exceptions\InvalidTokenSignature;
+use Ipeweb\IpeSheets\Model\EmailTemplate;
 use Ipeweb\IpeSheets\Routes\Route;
 use Ipeweb\IpeSheets\Routes\Router;
 use Ipeweb\IpeSheets\Services\JWT;
+use Ipeweb\IpeSheets\Services\Mail;
 
 class Request
 {
@@ -13,8 +15,18 @@ class Request
     {
         Environments::getEnvironments();
 
+        $email = new Mail('murilo7456@gmail.com');
+        $result = $email->sendEmail('murilo7456@gmail.com', 'Project invite', EmailTemplate::$template);
+
+        if ($result) {
+            echo "Email enviado";
+        }
+
+
         self::cors();
         Router::setRoutes();
+
+        $requestReturn = null;
 
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $_SERVER["REDIRECT_URL"]);
