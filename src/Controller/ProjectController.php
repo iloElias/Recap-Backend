@@ -6,6 +6,7 @@ use Ipeweb\RecapSheets\Bootstrap\Request;
 use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\RecapSheets\Model\CardData;
 use Ipeweb\RecapSheets\Model\NewProjectData;
+use Ipeweb\RecapSheets\Model\ProjectData;
 use Ipeweb\RecapSheets\Model\ProjectUpdate;
 use Ipeweb\RecapSheets\Model\UserProjectsData;
 use Ipeweb\RecapSheets\Services\JWT;
@@ -74,17 +75,77 @@ class ProjectController
             }
 
             $userCanChange = new UserProjectsData();
-            $result = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], 0, 1, strict: true);
+            $result = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
 
             if (!empty($result) and $result[0]['user_permissions'] !== 'guest') {
-                $cardService = new CardData();
+                $projectService = new ProjectData();
+                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
 
-                http_response_code(200);
-                return $cardService->update($_GET['project_id'], $preparedData);
+                if (!empty($projectResult)) {
+                    $cardService = new CardData();
+
+                    http_response_code(200);
+                    return $cardService->update($projectResult[0]['card_id'], $preparedData);
+                }
+            } else if (empty($result)) {
+                http_response_code(404);
+                exit(json_encode(["message" => "No project found with the given id"]));
             }
 
             http_response_code(405);
             exit(json_encode(["message" => "This user is not allowed to change this project"]));
+        } catch (MissingRequiredParameterException $missE) {
+            http_response_code(400);
+            exit(json_encode(["message" => $missE->getMessage()]));
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            exit(json_encode(["message" => "Something went wrong on updating the card:" . $e->getMessage()]));
+        }
+    }
+
+    public static function getProjectFile()
+    {
+        $requestHeader = Request::getHeader();
+
+        try {
+            $requestToken = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']))[0];
+
+            if (!isset($_GET['project_id'])) {
+                http_response_code(400);
+                var_dump($requestToken);
+                return json_encode(["message" => "Invalid given body. No 'id' read on request body"]);
+            }
+
+            $userCanChange = new UserProjectsData();
+            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
+
+            if (!empty($userProjectResult)) {
+                $projectService = new ProjectData();
+                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
+
+                if (!empty($projectResult)) {
+                    $cardService = new CardData();
+                    $cardResult = $cardService->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
+
+                    $cardResult[0]['user_permissions'] = $userProjectResult[0]['user_permissions'];
+
+                    http_response_code(200);
+                    return $cardResult;
+                }
+            } else if (empty($result)) {
+                $projectService = new ProjectData();
+                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
+
+                if ($projectResult) {
+                    http_response_code(405);
+                    exit(json_encode(["message" => "User not invited"]));
+                }
+                http_response_code(404);
+                exit(json_encode(["message" => "No project found with the given id"]));
+            }
+
+            http_response_code(405);
+            exit(json_encode(["message" => "This user is not invited to this project"]));
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
             exit(json_encode(["message" => $missE->getMessage()]));

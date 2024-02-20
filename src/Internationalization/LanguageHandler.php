@@ -28,6 +28,7 @@ class LanguageHandler
 
             "login_static_message" => "Sign in with your Google account to log in",
             "login_button_message" => "Sign with Google",
+            "go_back_home" => "Redirect to home page",
 
             "languages_button_title" => "Languages",
             "about_us_button_title" => "About us",
@@ -54,13 +55,21 @@ class LanguageHandler
             "card" => "card",
             "project" => "project",
 
+            "legend_hide_code_editor" => "Hide code editor",
+            "legend_reload_view" => "Reload view",
+            "legend_save_current_state" => "Save text current state",
+            "legend_toggle_mobile_desktop" => "Toggle between mobile and desktop",
+
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
+            "not_found_page" => "Page not found",
+            "not_found_project" => "Unable to find a project with the given ID",
 
             "reauthenticate_logout_message" => "Authentication time has expired, please log in again",
             "reauthenticate_token_message" => "There was a change on your access token, please log in again",
 
             "loading_your_cards" => "We are loading your cards, wait a few seconds",
+            "loading_your_project" => "We are loading the project data, wait a few seconds",
             "problem_when_loading" => "There was a problem while loading some data",
 
             "invalid_synopsis_length" => "Minimum size is :str",
@@ -88,6 +97,7 @@ class LanguageHandler
 
             "login_static_message" => "Faça login com sua conta Google para entrar",
             "login_button_message" => "Entrar com o Google",
+            "go_back_home" => "Voltar para a pagina inicial",
 
             "languages_button_title" => "Idiomas",
             "about_us_button_title" => "Sobre nós",
@@ -114,13 +124,21 @@ class LanguageHandler
             "card" => "cartão",
             "project" => "projeto",
 
-            "not_invited_to" => "Você não foi convidado para o projeto",
+            "legend_hide_code_editor" => "Esconder o editor de texto",
+            "legend_reload_view" => "Recarregar visualizador",
+            "legend_save_current_state" => "Salvar estado atual do texto",
+            "legend_toggle_mobile_desktop" => "Alterar entre visualização mobile e desktop",
+
+            "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",
+            "not_found_page" => "Pagina não encontrada",
+            "not_found_project" => "Não foi possível encontrar um projeto com o ID fornecido",
 
             "reauthenticate_logout_message" => "O tempo de autenticação expirou, faça login novamente",
             "reauthenticate_token_message" => "Houve uma alteração no token de acesso, faça login novamente",
 
             "loading_your_cards" => "Estamos carregando seus cartões, aguarde alguns segundos",
+            "loading_your_project" => "Estamos carregando os dados do projeto, aguarde alguns segundos",
             "problem_when_loading" => "Ocorreu um problema enquanto carregávamos alguns dados",
 
             "invalid_synopsis_length" => "O tamanho mínimo é :str",

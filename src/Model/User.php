@@ -24,6 +24,7 @@ class User extends CrudAbstract
 
     public function prepare(array $params)
     {
-        return;
+        $params['logged_in'] = 'CURRENT_TIMESTAMP';
+        return $params;
     }
 }
