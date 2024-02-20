@@ -48,9 +48,14 @@ class LanguageHandler
             "form_button_new_card" => "Create new card",
 
             "item_new_created" => "New :str has been created",
+            "item_updated" => "The :str was successfully updated",
             "item_creation_error" => "An error ocurred creating a :str",
+            "item_update_error" => "An error ocurred while updating :str",
             "card" => "card",
             "project" => "project",
+
+            "not_invited_to" => "You were not invited to this project",
+            "not_allowed_to_edit" => "You are not allowed to edit this project",
 
             "reauthenticate_logout_message" => "Authentication time has expired, please log in again",
             "reauthenticate_token_message" => "There was a change on your access token, please log in again",
@@ -103,9 +108,14 @@ class LanguageHandler
             "form_button_new_card" => "Criar novo cartão",
 
             "item_new_created" => "Um novo :str foi criado",
+            "item_updated" => "O :str foi salvo com sucesso",
             "item_creation_error" => "Um erro ocorreu durante a criação de um :str",
+            "item_update_error" => "Um erro ocorreu durante o salvamento do(a) :str",
             "card" => "cartão",
             "project" => "projeto",
+
+            "not_invited_to" => "Você não foi convidado para o projeto",
+            "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",
 
             "reauthenticate_logout_message" => "O tempo de autenticação expirou, faça login novamente",
             "reauthenticate_token_message" => "Houve uma alteração no token de acesso, faça login novamente",

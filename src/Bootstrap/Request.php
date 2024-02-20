@@ -3,11 +3,9 @@
 namespace Ipeweb\RecapSheets\Bootstrap;
 
 use Ipeweb\RecapSheets\Exceptions\InvalidTokenSignature;
-use Ipeweb\RecapSheets\Model\EmailTemplate;
 use Ipeweb\RecapSheets\Routes\Route;
 use Ipeweb\RecapSheets\Routes\Router;
 use Ipeweb\RecapSheets\Services\JWT;
-use Ipeweb\RecapSheets\Services\Mail;
 use Ipeweb\RecapSheets\Services\Utils;
 
 class Request
@@ -15,14 +13,6 @@ class Request
     public static function init()
     {
         Environments::getEnvironments();
-
-        $email = new Mail('murilo7456@gmail.com');
-        $result = $email->sendEmail('murilo7456@gmail.com', 'Project invite', EmailTemplate::$template);
-
-        if ($result) {
-            echo "Email enviado";
-        }
-
 
         self::cors();
         Router::setRoutes();
@@ -32,10 +22,11 @@ class Request
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]));
         } catch (\Throwable $e) {
-            echo json_encode([
+            http_response_code(400);
+            exit(json_encode([
                 "message" => "An unexpected error ocurred",
                 "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
-            ]);
+            ]));
         }
 
         exit(json_encode($requestReturn));

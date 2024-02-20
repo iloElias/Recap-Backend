@@ -3,26 +3,27 @@
 namespace Ipeweb\RecapSheets\Model;
 
 use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
-use Ipeweb\RecapSheets\Model\Interfaces\TemplateMethod;
+use Ipeweb\RecapSheets\Model\Abstracts\CrudAbstract;
 
-class Project implements TemplateMethod
+class Project extends CrudAbstract
 {
-    public static $requiredFields = ['user_id', 'name', 'synopsis'];
+    public static array $requiredFields = ['user_id', 'name', 'synopsis'];
 
-    public static function validate(string $request, array $params): bool | array
+    public function validate(array $params)
     {
-        if (strtolower($request) === "port") {
-            $missingList = [];
-            foreach (self::$requiredFields as $field) {
-                if (!array_search($field, $params["field"])) {
-                    $missingList[] = $field;
-                }
-            }
-            if (!empty($missingList)) {
-                throw new MissingRequiredParameterException($missingList);
+        $missingList = [];
+        foreach (self::$requiredFields as $field) {
+            if (!array_search($field, $params)) {
+                $missingList[] = $field;
             }
         }
+        if (!empty($missingList)) {
+            throw new MissingRequiredParameterException($missingList);
+        }
+    }
 
-        return false;
+    public function prepare(array $params)
+    {
+        return;
     }
 }

@@ -332,26 +332,24 @@ class SQLDatabase
 
         $this->trimQuery();
 
-        $pdo = PDOConnection::getPdoInstance();
-
-        if (str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes") || str_contains($this->query, "UPDATE")) {
-            $this->query .= " RETURNING * ";
-            $this->trimQuery();
-            $fetchMode = 'fetch';
-        }
-
-        $stmt = $pdo->prepare($this->query);
-
-        // echo json_encode(["SQLStatement" => $this->query]);
-
         try {
+            $pdo = PDOConnection::getPdoInstance();
+
+            if (str_contains($this->query, "INSERT INTO users") || str_contains($this->query, "INSERT INTO projects") || str_contains($this->query, "INSERT INTO cards") || str_contains($this->query, "INSERT INTO themes") || str_contains($this->query, "UPDATE")) {
+                $this->query .= " RETURNING * ";
+                $this->trimQuery();
+                $fetchMode = 'fetch';
+            }
+
+            $stmt = $pdo->prepare($this->query);
+
             $stmt->execute();
 
             $result = $stmt->$fetchMode(PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\Throwable $th) {
-            http_response_code(500);
+            http_response_code(400);
             exit(json_encode(["error" => "Invalid generated query" . $th->getMessage() . " " . $th->getFile() . " " . $th->getLine()]));
         }
     }

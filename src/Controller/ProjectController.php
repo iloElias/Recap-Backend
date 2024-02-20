@@ -3,8 +3,12 @@
 namespace Ipeweb\RecapSheets\Controller;
 
 use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
+use Ipeweb\RecapSheets\Model\CardData;
 use Ipeweb\RecapSheets\Model\NewProjectData;
+use Ipeweb\RecapSheets\Model\ProjectUpdate;
 use Ipeweb\RecapSheets\Model\UserProjectsData;
+use Ipeweb\RecapSheets\Services\JWT;
 
 class ProjectController
 {
@@ -48,6 +52,45 @@ class ProjectController
         } catch (\Throwable $e) {
             http_response_code(400);
             return json_encode(["message" => $e->getMessage()]);
+        }
+    }
+
+    public static function updateProjectMd()
+    {
+        $requestBody = Request::getBody();
+        $requestHeader = Request::getHeader();
+
+        $projectUpdateService = new ProjectUpdate();
+
+        try {
+            $preparedData = $projectUpdateService->insert($requestBody);
+
+            $requestToken = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']))[0];
+
+            if (!isset($_GET['project_id'])) {
+                http_response_code(400);
+                var_dump($requestToken);
+                return json_encode(["message" => "Invalid given body. No 'id' read on request body"]);
+            }
+
+            $userCanChange = new UserProjectsData();
+            $result = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], 0, 1, strict: true);
+
+            if (!empty($result) and $result[0]['user_permissions'] !== 'guest') {
+                $cardService = new CardData();
+
+                http_response_code(200);
+                return $cardService->update($_GET['project_id'], $preparedData);
+            }
+
+            http_response_code(405);
+            exit(json_encode(["message" => "This user is not allowed to change this project"]));
+        } catch (MissingRequiredParameterException $missE) {
+            http_response_code(400);
+            exit(json_encode(["message" => $missE->getMessage()]));
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            exit(json_encode(["message" => "Something went wrong on updating the card:" . $e->getMessage()]));
         }
     }
 }
