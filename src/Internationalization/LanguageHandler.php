@@ -8,14 +8,6 @@ class LanguageHandler
         "en" => [
             "loaded" => true,
             "format_test" => "This :str is :str a :str test",
-            "language_test" => "This is a language test",
-
-            "any_service_informed" => "Any service was selected. To fix, add '?about=' and the name of required service in the url query",
-
-            "hello_user" => "Hello, :str!",
-            "welcome" => "Welcome to our application.",
-            "we_were_waiting" => "We were waiting for you",
-            "not_available_service" => "The service :str is not available or could not be found",
 
             "invalid_request" => "Important request information not received",
             "invalid_post_body" => "Important data was not included in the request body, or unnecessary data was sent",
@@ -78,14 +70,6 @@ class LanguageHandler
         "pt-br" => [
             "loaded" => true,
             "format_test" => "Isso :str é :str um :str teste",
-            "language_test" => "Este é um teste de linguagem",
-
-            "any_service_informed" => "Nenhum serviço foi selecionado. Adicione '?about=' e o nome do serviço desejado na url para prosseguir",
-
-            "hello_user" => "Olá, :str!",
-            "welcome" => "Seja bem-vindo ao nosso aplicativo.",
-            "we_were_waiting" => "Nós estávamos te esperando",
-            "not_available_service" => "O serviço :str não está disponível ou não pode ser encontrado",
 
             "invalid_request" => "Dados importantes para a requisição não foram recebidos",
             "invalid_post_body" => "Dados importantes não foram incluídos no corpo da requisição, ou dados desnecessários foram enviados",
