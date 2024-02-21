@@ -40,6 +40,9 @@ class LanguageHandler
             "label_card_synopsis" => "Synopsis",
             "form_button_new_card" => "Create new card",
 
+            "tooltip_create_card_label" => "Create a new card",
+            "tooltip_create_card_synopsis_label" => "Creating a new card, it will be available in the card list on the side once created",
+
             "item_new_created" => "New :str has been created",
             "item_updated" => "The :str was successfully updated",
             "item_creation_error" => "An error ocurred creating a :str",
@@ -100,6 +103,9 @@ class LanguageHandler
             "label_card_name" => "Nome do cartão",
             "label_card_synopsis" => "Sinopse",
             "form_button_new_card" => "Criar novo cartão",
+
+            "tooltip_create_card_label" => "Crie um novo cartão",
+            "tooltip_create_card_synopsis_label" => "Crie um novo cartão, ele estará disponível na lista de cartões ao lado depois de criado",
 
             "item_new_created" => "Um novo :str foi criado",
             "item_updated" => "O :str foi salvo com sucesso",

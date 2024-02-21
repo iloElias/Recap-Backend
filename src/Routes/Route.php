@@ -78,6 +78,7 @@ class Route
             http_response_code(500);
             return json_encode([
                 "message" => "Not expected exception",
+                "result" => $classMethodResult,
                 "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
             ]);
         }

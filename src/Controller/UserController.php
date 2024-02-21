@@ -55,7 +55,11 @@ class UserController
             $result = $userService->get(["google_id" => $requestBody["google_id"]]);
 
             if (!$result) {
-                $result = $userService->insert($requestBody);
+                $requestBody["logged_in"] = '' . date('Y-m-d H:i:s');
+                $result = [$userService->insert($requestBody)];
+            } else {
+                $userService->update($result[0]['id'], ["logged_in" => '' . date('Y-m-d H:i:s')]);
+                $result[0]["logged_in"] = '' . date('Y-m-d H:i:s');
             }
 
             http_response_code(200);
@@ -67,7 +71,10 @@ class UserController
             ]);
         } catch (\Throwable $e) {
             http_response_code(500);
-            return json_encode(["message" => "Something went wrong while logging in"]);
+            exit(json_encode([
+                "message" => "Something went wrong while logging in",
+                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
+            ]));
         }
     }
 

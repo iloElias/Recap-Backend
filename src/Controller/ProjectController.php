@@ -103,7 +103,7 @@ class ProjectController
         }
     }
 
-    public static function getProjectFile()
+    public static function getProjectMarkdown()
     {
         $requestHeader = Request::getHeader();
 

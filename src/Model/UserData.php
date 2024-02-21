@@ -8,7 +8,7 @@ use Ipeweb\RecapSheets\Model\Interfaces\CrudInterface;
 class UserData implements CrudInterface
 {
     protected string $table = 'users';
-    protected array $fields = ['id', 'google_id', 'name', 'username', 'email', "picture_path", "preferred_lang"];
+    protected array $fields = ['id', 'google_id', 'name', 'username', 'email', "picture_path", "preferred_lang", 'logged_in'];
     private ModelHandler $dataHandler;
 
     public function __construct()
