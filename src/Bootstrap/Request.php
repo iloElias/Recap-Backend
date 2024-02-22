@@ -10,6 +10,9 @@ use Ipeweb\RecapSheets\Services\Utils;
 
 class Request
 {
+    public static array $decodedToken;
+    public static array $request;
+
     public static function init()
     {
         Environments::getEnvironments();
@@ -17,8 +20,10 @@ class Request
         self::cors();
         Router::setRoutes();
 
-        $requestReturn = null;
+        self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
+
+        $requestReturn = null;
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]));
         } catch (\Throwable $e) {
@@ -59,24 +64,6 @@ class Request
             $headers[$header] = $value;
         }
         return $headers;
-    }
-
-    public static function authenticate()
-    {
-        $requestHeader = Request::getHeader();
-        if (!isset($requestHeader['Authorization'])) {
-            http_response_code(401);
-            return json_encode(["message" => "No 'Authorization' key found on request header, which is required"]);
-        }
-
-        try {
-            $authenticatedHeader = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']));
-        } catch (InvalidTokenSignature) {
-            http_response_code(401);
-            exit(json_encode([
-                "message" => "Invalid authorization key sent on request header"
-            ]));
-        }
     }
 
     public static function cors()

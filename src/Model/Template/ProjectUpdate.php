@@ -1,19 +1,19 @@
 <?php
 
-namespace Ipeweb\RecapSheets\Model;
+namespace Ipeweb\RecapSheets\Model\Template;
 
 use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\RecapSheets\Model\Abstracts\CrudAbstract;
 
-class User extends CrudAbstract
+class ProjectUpdate extends CrudAbstract
 {
-    public static array $requiredFields = ['google_id', 'name', 'email'];
+    public static array $requiredFields = ["imd"];
 
     public function validate(array $params)
     {
         $missingList = [];
         foreach (self::$requiredFields as $field) {
-            if (!array_search($field, $params)) {
+            if (!array_key_exists($field, $params)) {
                 $missingList[] = $field;
             }
         }
@@ -24,7 +24,11 @@ class User extends CrudAbstract
 
     public function prepare(array $params)
     {
-        $params['logged_in'] = 'CURRENT_TIMESTAMP';
+        $preparedStr = str_replace("\"", '&2asp;', $params['imd']);
+        $preparedStr = str_replace("'", '&1asp;', $preparedStr);
+
+        $params['imd'] = $preparedStr;
+
         return $params;
     }
 }

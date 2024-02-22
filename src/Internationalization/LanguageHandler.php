@@ -54,6 +54,7 @@ class LanguageHandler
             "legend_reload_view" => "Reload view",
             "legend_save_current_state" => "Save text current state",
             "legend_toggle_mobile_desktop" => "Toggle between mobile and desktop",
+            "legend_delete_this_project" => "Delete this project",
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
@@ -118,6 +119,7 @@ class LanguageHandler
             "legend_reload_view" => "Recarregar visualizador",
             "legend_save_current_state" => "Salvar estado atual do texto",
             "legend_toggle_mobile_desktop" => "Alterar entre visualização mobile e desktop",
+            "legend_delete_this_project" => "Apagar este projeto",
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",
@@ -144,22 +146,5 @@ class LanguageHandler
             throw new \InvalidArgumentException("Language handler do not offer support to the provided language: " . $lang);
         }
         return self::MESSAGES[$lang];
-    }
-
-    public static function getMessage(string $lang, string $message, ?bool $returnOnSupported = false): ?string
-    {
-        $lang = strtolower($lang);
-
-        if (!isset(self::MESSAGES[$lang])) {
-            if ($returnOnSupported) {
-                return self::getMessage('en', $message, false);
-            }
-            throw new \InvalidArgumentException("Language handler do not offer support to the provided language: " . $lang);
-        }
-        if (!isset(self::MESSAGES[$lang][$message])) {
-            throw new \InvalidArgumentException("The message '" . $message . "' was not covered on '" . $lang . "' language support");
-        }
-
-        return self::MESSAGES[$lang][$message];
     }
 }

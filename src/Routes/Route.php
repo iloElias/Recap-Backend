@@ -3,8 +3,10 @@
 namespace Ipeweb\RecapSheets\Routes;
 
 use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Exceptions\DuplicatedRouteException;
 use Ipeweb\RecapSheets\Middleware\Middleware;
 use Ipeweb\RecapSheets\Services\JWT;
+use Throwable;
 
 class Route
 {
@@ -16,6 +18,10 @@ class Route
             $route = "/{$route}";
         }
         $route = strtolower($route);
+
+        if (isset(self::$routes[$method][$route])) {
+            throw new DuplicatedRouteException("Duplicated routes cannot be set");
+        }
 
         self::$routes[$method][$route] = [$instruction, $middleware];
     }
@@ -42,11 +48,9 @@ class Route
 
     public static function executeMiddlewares(array $middlewareList)
     {
-        $request = ['Headers' => Request::getHeader(), 'Body' => Request::getBody()];
-
         return array_map(
-            function (Middleware $middleware, $request) {
-                $middleware->handle($request);
+            function (Middleware $middleware) {
+                return $middleware::handle(Request::$request);
             },
             $middlewareList
         );
@@ -55,18 +59,20 @@ class Route
     public static function executeRouteProcedure(string $method, string $route)
     {
         [[$className, $classMethod, $returnMethod], $middleware] = self::$routes[strtolower($method)][$route];
-        $middlewareResponse = null;
 
         if (!$className or !$classMethod) {
             http_response_code(404);
-            return json_encode(["message" => "API route not found: {$method} on {$route}"]);
+            exit(json_encode(["message" => "API route not found: {$method} on {$route}"]));
         }
 
         if (!empty($middleware)) {
-            $middlewareResponse = self::executeMiddlewares($middleware);
-            if ($middlewareResponse) {
+            try {
+                self::executeMiddlewares($middleware);
+            } catch (Throwable $e) {
                 http_response_code(401);
-                return json_encode(["message" => "This request does not pass by middleware terms: " . (!is_array($middlewareResponse) ? $middlewareResponse : implode(', ', $middlewareResponse))]);
+                exit(json_encode([
+                    "message" => "This request does not pass by middleware terms: " . $e->getMessage()
+                ]));
             }
         }
 
@@ -74,11 +80,10 @@ class Route
             $classMethodResult = $className::$classMethod();
             http_response_code(200);
             return ((($returnMethod !== 'none' or $returnMethod === 'encode_response') and http_response_code() == 200) ? JWT::encode($classMethodResult) : $classMethodResult);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             http_response_code(500);
             return json_encode([
                 "message" => "Not expected exception",
-                "result" => $classMethodResult,
                 "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
             ]);
         }

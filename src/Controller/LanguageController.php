@@ -21,14 +21,5 @@ class LanguageController
             http_response_code(200);
             return (Translator::getAllFrom($lang));
         }
-
-        $params = null;
-
-        if (isset($_GET["params"])) {
-            $params = explode('%', $_GET["params"]);
-        }
-
-        http_response_code(200);
-        return (Translator::translate($lang, $_GET["message"], $params));
     }
 }

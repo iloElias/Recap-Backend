@@ -7,9 +7,8 @@ use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\RecapSheets\Model\CardData;
 use Ipeweb\RecapSheets\Model\NewProjectData;
 use Ipeweb\RecapSheets\Model\ProjectData;
-use Ipeweb\RecapSheets\Model\ProjectUpdate;
+use Ipeweb\RecapSheets\Model\Template\ProjectUpdate;
 use Ipeweb\RecapSheets\Model\UserProjectsData;
-use Ipeweb\RecapSheets\Services\JWT;
 
 class ProjectController
 {
@@ -44,12 +43,10 @@ class ProjectController
 
     public static function postNewProject()
     {
-        $requestBody = Request::getBody();
-
         try {
             $projectService = new NewProjectData;
             http_response_code(200);
-            return $projectService->insert($requestBody);
+            return $projectService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(400);
             return json_encode(["message" => $e->getMessage()]);
@@ -58,15 +55,12 @@ class ProjectController
 
     public static function updateProjectMd()
     {
-        $requestBody = Request::getBody();
-        $requestHeader = Request::getHeader();
-
         $projectUpdateService = new ProjectUpdate();
 
         try {
-            $preparedData = $projectUpdateService->insert($requestBody);
+            $preparedData = $projectUpdateService->insert(Request::$request['body']);
 
-            $requestToken = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']))[0];
+            $requestToken = Request::$decodedToken;
 
             if (!isset($_GET['project_id'])) {
                 http_response_code(400);
@@ -105,10 +99,8 @@ class ProjectController
 
     public static function getProjectMarkdown()
     {
-        $requestHeader = Request::getHeader();
-
         try {
-            $requestToken = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']))[0];
+            $requestToken = Request::$decodedToken;
 
             if (!isset($_GET['project_id'])) {
                 http_response_code(400);
@@ -151,7 +143,7 @@ class ProjectController
             exit(json_encode(["message" => $missE->getMessage()]));
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on updating the card:" . $e->getMessage()]));
+            exit(json_encode(["message" => "Something went wrong on getting the project markdown:" . $e->getMessage()]));
         }
     }
 }

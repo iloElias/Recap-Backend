@@ -87,11 +87,14 @@ class ModelHandler implements CrudInterface
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
     {
+        $blankData = [];
         foreach ($data as $key => $value) {
             if ($key === null || $key === "" || $value === null || $value === "") {
-                throw new InvalidArgumentException("Some of the received data are invalid or blank");
+                $blankData[] = "[{$key} => {$value}]";
             }
         }
+        if (!empty($blankData))
+            throw new InvalidArgumentException("Some of the received data are invalid or blank: " . implode(',' ,$blankData));
 
         $database = new SQLDatabase();
         $database->select($this->table, "*")

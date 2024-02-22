@@ -5,9 +5,6 @@ namespace Ipeweb\RecapSheets\Controller;
 use Ipeweb\RecapSheets\Bootstrap\Request;
 use Ipeweb\RecapSheets\Exceptions\NotNecessaryDataException;
 use Ipeweb\RecapSheets\Model\UserData;
-use Ipeweb\RecapSheets\Services\JWT;
-
-use function PHPUnit\Framework\isEmpty;
 
 class UserController
 {
@@ -43,7 +40,7 @@ class UserController
 
     public static function userLogin()
     {
-        $requestBody = Request::getBody();
+        $requestBody = Request::$request['body'];
         $userService = new UserData;
 
         if (!isset($requestBody["google_id"])) {
@@ -55,7 +52,6 @@ class UserController
             $result = $userService->get(["google_id" => $requestBody["google_id"]]);
 
             if (!$result) {
-                $requestBody["logged_in"] = '' . date('Y-m-d H:i:s');
                 $result = [$userService->insert($requestBody)];
             } else {
                 $userService->update($result[0]['id'], ["logged_in" => '' . date('Y-m-d H:i:s')]);
@@ -80,13 +76,11 @@ class UserController
 
     public static function postNewUser()
     {
-        $requestBody = Request::getBody();
-
         try {
             $userService = new UserData;
 
             http_response_code(200);
-            return $userService->insert($requestBody);
+            return $userService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(500);
             return json_encode(["message" => "Something went wrong on updating user"]);
@@ -95,10 +89,7 @@ class UserController
 
     public static function updateUser()
     {
-        $requestBody = Request::getBody();
-        $requestHeader = Request::getHeader();
-
-        $requestToken = JWT::decode(str_replace('Bearer ', '', $requestHeader['Authorization']))[0];
+        $requestToken = Request::$decodedToken;
 
         if (!isset($requestToken['id'])) {
             http_response_code(400);
@@ -109,7 +100,7 @@ class UserController
         try {
             $userService = new UserData;
             http_response_code(200);
-            return $userService->update($requestToken['id'], $requestBody);
+            return $userService->update($requestToken['id'], Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(500);
             return json_encode(["message" => "Something went wrong on updating user"]);
