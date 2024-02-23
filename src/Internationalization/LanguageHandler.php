@@ -8,6 +8,7 @@ class LanguageHandler
         "en" => [
             "loaded" => true,
             "format_test" => "This :str is :str a :str test",
+            "confirm" => "Confirm",
 
             "invalid_request" => "Important request information not received",
             "invalid_post_body" => "Important data was not included in the request body, or unnecessary data was sent",
@@ -45,6 +46,7 @@ class LanguageHandler
 
             "item_new_created" => "New :str has been created",
             "item_updated" => "The :str was successfully updated",
+            "item_updated_returning_home" => "The :str was successfully updated. Returning to home...",
             "item_creation_error" => "An error ocurred creating a :str",
             "item_update_error" => "An error ocurred while updating :str",
             "card" => "card",
@@ -55,6 +57,16 @@ class LanguageHandler
             "legend_save_current_state" => "Save text current state",
             "legend_toggle_mobile_desktop" => "Toggle between mobile and desktop",
             "legend_delete_this_project" => "Delete this project",
+            "delete_project" => "Delete project",
+            "project_name" => "Project name",
+            "delete_project_confirm" => "By deleting the :str project, it will be placed on your archived projects",
+            "delete_project_confirm_input" => "Write :str to confirm",
+            "delete_project_confirm_input_invalid" => "Type the project name",
+
+            "save_project" => "Save project",
+            "save_than_leave" => "Save and leave",
+            "leave_without_saving" => "Leave without saving",
+
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
@@ -74,6 +86,7 @@ class LanguageHandler
         "pt-br" => [
             "loaded" => true,
             "format_test" => "Isso :str é :str um :str teste",
+            "confirm" => "Confirmar",
 
             "invalid_request" => "Dados importantes para a requisição não foram recebidos",
             "invalid_post_body" => "Dados importantes não foram incluídos no corpo da requisição, ou dados desnecessários foram enviados",
@@ -110,6 +123,7 @@ class LanguageHandler
 
             "item_new_created" => "Um novo :str foi criado",
             "item_updated" => "O :str foi salvo com sucesso",
+            "item_updated_returning_home" => "O :str foi salvo com sucesso. Retornando para home...",
             "item_creation_error" => "Um erro ocorreu durante a criação de um :str",
             "item_update_error" => "Um erro ocorreu durante o salvamento do(a) :str",
             "card" => "cartão",
@@ -120,6 +134,15 @@ class LanguageHandler
             "legend_save_current_state" => "Salvar estado atual do texto",
             "legend_toggle_mobile_desktop" => "Alterar entre visualização mobile e desktop",
             "legend_delete_this_project" => "Apagar este projeto",
+            "delete_project" => "Deletar projeto",
+            "project_name" => "Nome do projeto",
+            "delete_project_confirm" => "Ao deletar o projeto :str, ele será colocado em seus projetos arquivados",
+            "delete_project_confirm_input" => "Escreva :str abaixo para confirmar",
+            "delete_project_confirm_input_invalid" => "O nome não está idêntico",
+
+            "save_project" => "Salvar projeto",
+            "save_than_leave" => "Salvar e sair",
+            "leave_without_saving" => "Sair sem salvar",
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",

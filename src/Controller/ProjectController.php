@@ -58,33 +58,7 @@ class ProjectController
         $projectUpdateService = new ProjectUpdate();
 
         try {
-            $preparedData = $projectUpdateService->insert(Request::$request['body']);
-
-            $requestToken = Request::$decodedToken;
-
-            if (!isset($_GET['project_id'])) {
-                http_response_code(400);
-                var_dump($requestToken);
-                return json_encode(["message" => "Invalid given body. No 'id' read on request body"]);
-            }
-
-            $userCanChange = new UserProjectsData();
-            $result = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
-
-            if (!empty($result) and $result[0]['user_permissions'] !== 'guest') {
-                $projectService = new ProjectData();
-                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
-
-                if (!empty($projectResult)) {
-                    $cardService = new CardData();
-
-                    http_response_code(200);
-                    return $cardService->update($projectResult[0]['card_id'], $preparedData);
-                }
-            } else if (empty($result)) {
-                http_response_code(404);
-                exit(json_encode(["message" => "No project found with the given id"]));
-            }
+            $projectUpdateService->update(Request::$request['body']);
 
             http_response_code(405);
             exit(json_encode(["message" => "This user is not allowed to change this project"]));
@@ -109,7 +83,7 @@ class ProjectController
             }
 
             $userCanChange = new UserProjectsData();
-            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
+            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id'], 'state' => 'active'], strict: true);
 
             if (!empty($userProjectResult)) {
                 $projectService = new ProjectData();
@@ -120,6 +94,7 @@ class ProjectController
                     $cardResult = $cardService->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
 
                     $cardResult[0]['user_permissions'] = $userProjectResult[0]['user_permissions'];
+                    $cardResult[0]['name'] = $projectResult[0]['name'];
 
                     http_response_code(200);
                     return $cardResult;
