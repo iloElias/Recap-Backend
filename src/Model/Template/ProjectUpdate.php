@@ -58,7 +58,7 @@ class ProjectUpdate extends CrudAbstract
 
             if (!empty($projectResult)) {
                 http_response_code(200);
-                return $projectService->inactive($projectResult[0]['card_id']);
+                return $projectService->inactive($projectResult[0]['id']);
             }
         } else if (empty($result)) {
             http_response_code(404);
@@ -91,11 +91,52 @@ class ProjectUpdate extends CrudAbstract
 
     public function prepare(array $params)
     {
-        $preparedStr = str_replace("\"", '&2asp;', $params['imd']);
-        $preparedStr = str_replace("'", '&1asp;', $preparedStr);
-
-        $params['imd'] = $preparedStr;
-
+        $params['imd'] = $this->storeString($params['imd']);
         return $params;
     }
+
+    public function storeString(string $string)
+    {
+        $string = str_replace("\\'", '&1qt;', $string);
+        $string = str_replace("\\\"", '&2qt;', $string);
+        $string = str_replace("'", '&1qt;', $string);
+        $string = str_replace("\"", '&2qt;', $string);
+        $string = str_replace("\\n", '&nln;', $string);
+        $string = str_replace("\\r", '&crt;', $string);
+        $string = str_replace("\\t", '&tab;', $string);
+        $string = str_replace("\\v", '&vtab;', $string);
+        $string = str_replace("\\e", '&esc;', $string);
+        $string = str_replace("\\f", '&form;', $string);
+        $string = str_replace("\\\$", '&sif;', $string);
+        return str_replace("\\\\", '&rbar;', $string);
+    }
+
+    public function restoreString(string $string)
+    {
+        $string = str_replace('&1qt;', "\\'", $string);
+        $string = str_replace('&2qt;', "\\\"", $string);
+        $string = str_replace('&1qt;', "'", $string);
+        $string = str_replace('&2qt;', "\"", $string);
+        $string = str_replace('&nln;', "\\n", $string);
+        $string = str_replace('&crt;', "\\r", $string);
+        $string = str_replace('&tab;', "\\t", $string);
+        $string = str_replace('&vtab;', "\\v", $string);
+        $string = str_replace('&esc;', "\\e", $string);
+        $string = str_replace('&form;', "\\f", $string);
+        $string = str_replace('&sif;', "\\\$", $string);
+        return str_replace('&rbar;', "\\\\", $string);
+    }
 }
+
+/*  codes:
+    &1qt; single quote '
+    &2qt; double quote "
+    &nln; new line
+    &crt; reverse bar \
+    &tab; table
+    &vtab; vertical table
+    &esc; escape
+    &form; form feed
+    &sif; dólar
+    &rbar; reverse bar
+*/

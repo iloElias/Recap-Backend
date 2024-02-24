@@ -9,7 +9,7 @@ class User extends CrudAbstract
 {
     public static array $requiredFields = ['google_id', 'name', 'email'];
 
-    public function validate(array $params)
+    public function validate(array $params, string $args = null)
     {
         $missingList = [];
         foreach (self::$requiredFields as $field) {

@@ -178,17 +178,17 @@ class ModelHandler implements CrudInterface
         }
 
         $database = new SQLDatabase();
-        $database->update($this->table, ['state' => 'inactive'])
+        $database->update($this->table, ['state' => 'archived'])
             ->where(["id" => $id])
             ->bindParams();
 
         try {
-            $database->execute();
+            $response = $database->execute();
 
             return ['success' => true];
         } catch (\Throwable $e) {
-            echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            return ['success' => false];
+            http_response_code(500);
+            return ['message' => "Something went wrong on inactivating this {$this->table}"];
         }
     }
 }

@@ -39,7 +39,6 @@ class UserProjectsData implements CrudInterface
                 JOIN project_users up ON p.id = up.project_id
                 JOIN cards c ON c.id = p.card_id
                 WHERE up.user_id = {$value}
-                AND p.is_active = true
                 AND p.type = 'card'
                 AND p.state = 'active'
                 AND up.user_permissions = 'own';

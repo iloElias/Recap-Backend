@@ -9,7 +9,7 @@ class Project extends CrudAbstract
 {
     public static array $requiredFields = ['user_id', 'name', 'synopsis'];
 
-    public function validate(array $params)
+    public function validate(array $params, string $args = null)
     {
         $missingList = [];
         foreach (self::$requiredFields as $field) {
