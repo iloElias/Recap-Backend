@@ -4,9 +4,9 @@ namespace Ipeweb\RecapSheets\Model\Abstracts;
 
 abstract class CrudAbstract
 {
-    public function process(array $params)
+    public function process(array $params, string $args = null)
     {
-        $erros = $this->validate($params);
+        $erros = $this->validate($params, $args);
         if (!empty($erros)) {
             return $erros;
         }
@@ -24,7 +24,12 @@ abstract class CrudAbstract
         return $this->process($params);
     }
 
-    abstract public function validate(array $params);
+    public function delete(array $params)
+    {
+        return $this->process($params);
+    }
+
+    abstract public function validate(array $params, string $args = null);
 
     abstract public function prepare(array $params);
 }

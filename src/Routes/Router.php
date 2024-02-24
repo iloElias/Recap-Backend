@@ -19,13 +19,12 @@ class Router
         Route::post('/user/login', [UserController::class, 'userLogin', 'encode_response']);
         Route::post('/user', [UserController::class, 'postNewUser', 'encode_response'], [new VerifyToken]);
         Route::put('/user', [UserController::class, 'updateUser', 'encode_response'], [new VerifyToken]);
-        Route::delete('/user', [UserController::class, 'updateUser', 'encode_response'], [new VerifyToken]);
 
         // Project routes
         Route::get('/project', [ProjectController::class, 'getUserProjects', 'encode_response'], [new VerifyToken]);
         Route::get('/project/markdown', [ProjectController::class, 'getProjectMarkdown', 'encode_response'], [new VerifyToken]);
         Route::post('/project', [ProjectController::class, 'postNewProject', 'encode_response'], [new VerifyToken]);
         Route::put('/project', [ProjectController::class, 'updateProjectMd', 'encode_response'], [new VerifyToken]);
-        Route::delete('/project', [ProjectController::class, 'disableProject', 'encode_response'], [new VerifyToken]);
+        Route::delete('/project', [ProjectController::class, 'inactivateProject', 'encode_response'], [new VerifyToken]);
     }
 }

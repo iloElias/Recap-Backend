@@ -41,6 +41,7 @@ class UserProjectsData implements CrudInterface
                 WHERE up.user_id = {$value}
                 AND p.is_active = true
                 AND p.type = 'card'
+                AND p.state = 'active'
                 AND up.user_permissions = 'own';
             ");
 

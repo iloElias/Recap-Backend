@@ -44,7 +44,7 @@ class ProjectController
     public static function postNewProject()
     {
         try {
-            $projectService = new NewProjectData;
+            $projectService = new NewProjectData();
             http_response_code(200);
             return $projectService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
@@ -58,16 +58,28 @@ class ProjectController
         $projectUpdateService = new ProjectUpdate();
 
         try {
-            $projectUpdateService->update(Request::$request['body']);
-
-            http_response_code(405);
-            exit(json_encode(["message" => "This user is not allowed to change this project"]));
+            return $projectUpdateService->update(Request::$request['body']);
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
             exit(json_encode(["message" => $missE->getMessage()]));
         } catch (\Throwable $e) {
             http_response_code(500);
             exit(json_encode(["message" => "Something went wrong on updating the card:" . $e->getMessage()]));
+        }
+    }
+
+    public static function inactivateProject()
+    {
+        $projectUpdateService = new ProjectUpdate();
+
+        try {
+            return $projectUpdateService->delete(Request::$request['body']);
+        } catch (MissingRequiredParameterException $missE) {
+            http_response_code(400);
+            exit(json_encode(["message" => $missE->getMessage()]));
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            exit(json_encode(["message" => "Something went wrong on inactivating project:" . $e->getMessage()]));
         }
     }
 
@@ -83,11 +95,11 @@ class ProjectController
             }
 
             $userCanChange = new UserProjectsData();
-            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id'], 'state' => 'active'], strict: true);
+            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
 
             if (!empty($userProjectResult)) {
                 $projectService = new ProjectData();
-                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
+                $projectResult = $projectService->getSearch(['id' => $_GET['project_id'], 'state' => 'active'], strict: true);
 
                 if (!empty($projectResult)) {
                     $cardService = new CardData();

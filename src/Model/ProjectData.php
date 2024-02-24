@@ -7,7 +7,7 @@ use Ipeweb\RecapSheets\Model\ModelHandler;
 class ProjectData
 {
     protected string $table = 'projects';
-    protected array $fields = ['id', 'name', 'card_id', 'type', 'is_active'];
+    protected array $fields = ['id', 'name', 'card_id', 'type', 'state'];
     private ModelHandler $dataHandler;
 
     public function __construct()

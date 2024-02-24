@@ -62,6 +62,7 @@ class LanguageHandler
             "delete_project_confirm" => "By deleting the :str project, it will be placed on your archived projects",
             "delete_project_confirm_input" => "Write :str to confirm",
             "delete_project_confirm_input_invalid" => "Type the project name",
+            "delete_project_success" => "The project was successfully archived. Now heading home...",
 
             "save_project" => "Save project",
             "save_than_leave" => "Save and leave",
@@ -70,6 +71,7 @@ class LanguageHandler
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
+            "inactivated_project_page" => "This project is unavailable because it was inactivated",
             "not_found_page" => "Page not found",
             "not_found_project" => "Unable to find a project with the given ID",
 
@@ -139,6 +141,7 @@ class LanguageHandler
             "delete_project_confirm" => "Ao deletar o projeto :str, ele será colocado em seus projetos arquivados",
             "delete_project_confirm_input" => "Escreva :str abaixo para confirmar",
             "delete_project_confirm_input_invalid" => "O nome não está idêntico",
+            "delete_project_success" => "O projeto foi inativado com sucesso. Voltando para home agora...",
 
             "save_project" => "Salvar projeto",
             "save_than_leave" => "Salvar e sair",
@@ -146,6 +149,7 @@ class LanguageHandler
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",
+            "inactivated_project_page" => "Este projeto está inacessível pois foi inativado",
             "not_found_page" => "Pagina não encontrada",
             "not_found_project" => "Não foi possível encontrar um projeto com o ID fornecido",
 

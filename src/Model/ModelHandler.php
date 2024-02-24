@@ -94,7 +94,7 @@ class ModelHandler implements CrudInterface
             }
         }
         if (!empty($blankData))
-            throw new InvalidArgumentException("Some of the received data are invalid or blank: " . implode(',' ,$blankData));
+            throw new InvalidArgumentException("Some of the received data are invalid or blank: " . implode(',', $blankData));
 
         $database = new SQLDatabase();
         $database->select($this->table, "*")
@@ -173,22 +173,22 @@ class ModelHandler implements CrudInterface
     }
     public function inactive(int $id)
     {
-        if (array_search($this->table, $this->switchableTables) !== false) {
+        if (array_search($this->table, $this->switchableTables) === false) {
             throw new InvalidArgumentException("'{$this->table}' visibility cannot be changed");
         }
 
         $database = new SQLDatabase();
-        $database->update($this->table, ['is_active' => 'false'])
+        $database->update($this->table, ['state' => 'inactive'])
             ->where(["id" => $id])
             ->bindParams();
 
         try {
             $database->execute();
 
-            return true;
+            return ['success' => true];
         } catch (\Throwable $e) {
             echo $e->getMessage() . " " . $e->getFile() . " " . $e->getLine();
-            return [];
+            return ['success' => false];
         }
     }
 }
