@@ -2,10 +2,8 @@
 
 namespace Ipeweb\RecapSheets\Bootstrap;
 
-use Ipeweb\RecapSheets\Exceptions\InvalidTokenSignature;
 use Ipeweb\RecapSheets\Routes\Route;
 use Ipeweb\RecapSheets\Routes\Router;
-use Ipeweb\RecapSheets\Services\JWT;
 use Ipeweb\RecapSheets\Services\Utils;
 
 class Request
