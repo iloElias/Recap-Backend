@@ -1,27 +1,33 @@
-# Use a imagem oficial do PHP com Apache
+# Use PHP 8.1 official image
 FROM php:8.1-apache
 
-# Atualize os pacotes e instale as dependências necessárias
-RUN apt-get update && \
-    apt-get install -y \
-    libzip-dev \
-    zip \
-    && docker-php-ext-install zip
+# Update package lists
+RUN apt-get update
 
-# Ative os módulos do Apache necessários para reescrever URLs
+# Install PostgreSQL client and PHP extensions
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
+
+# Enable Apache2 modules
 RUN a2enmod rewrite
 
-# Defina o ServerName globalmente para suprimir o aviso do Apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Copy the virtual host configuration
+COPY recap.conf /etc/apache2/sites-available/recap.conf
 
-# Copie os arquivos do seu aplicativo para o contêiner
-COPY . /var/www/html
+# Enable the virtual host
+RUN a2ensite recap.conf
 
-# Copie o arquivo .htaccess para o diretório raiz do Apache
-COPY .htaccess /var/www/html/.htaccess
+# Set the working directory in the container
+WORKDIR /var/www/html
 
-# Exponha a porta 80 (a porta padrão do Apache)
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install PHP dependencies using Composer
+RUN composer install --no-dev
+
+# Expose port 80
 EXPOSE 80
 
-# Comando para iniciar o Apache quando o contêiner for iniciado
+# Start Apache2
 CMD ["apache2-foreground"]

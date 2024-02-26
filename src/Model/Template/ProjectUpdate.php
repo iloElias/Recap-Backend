@@ -104,6 +104,7 @@ class ProjectUpdate extends CrudAbstract
         $string = str_replace("\\n", '&nln;', $string);
         $string = str_replace("\\r", '&crt;', $string);
         $string = str_replace("\\t", '&tab;', $string);
+        $string = str_replace("    ", '&tab;', $string);
         $string = str_replace("\\v", '&vtab;', $string);
         $string = str_replace("\\e", '&esc;', $string);
         $string = str_replace("\\f", '&form;', $string);
@@ -113,13 +114,13 @@ class ProjectUpdate extends CrudAbstract
 
     public function restoreString(string $string)
     {
-        $string = str_replace('&1qt;', "\\'", $string);
-        $string = str_replace('&2qt;', "\\\"", $string);
+        $string = str_replace('&1qt;', "'", $string);
+        $string = str_replace('&2qt;', "\"", $string);
         $string = str_replace('&1qt;', "'", $string);
         $string = str_replace('&2qt;', "\"", $string);
         $string = str_replace('&nln;', "\\n", $string);
         $string = str_replace('&crt;', "\\r", $string);
-        $string = str_replace('&tab;', "\\t", $string);
+        $string = str_replace('&tab;', "    ", $string);
         $string = str_replace('&vtab;', "\\v", $string);
         $string = str_replace('&esc;', "\\e", $string);
         $string = str_replace('&form;', "\\f", $string);
