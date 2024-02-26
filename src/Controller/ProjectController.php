@@ -104,9 +104,11 @@ class ProjectController
                 if (!empty($projectResult)) {
                     $cardService = new CardData();
                     $cardResult = $cardService->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
+                    $projectUpdateService = new ProjectUpdate();
 
                     $cardResult[0]['user_permissions'] = $userProjectResult[0]['user_permissions'];
                     $cardResult[0]['name'] = $projectResult[0]['name'];
+                    $cardResult[0]['imd'] = $projectUpdateService->restoreString($cardResult[0]['imd']) ?? "";
 
                     http_response_code(200);
                     return $cardResult;
