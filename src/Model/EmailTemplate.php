@@ -93,14 +93,12 @@ class EmailTemplate
                 <img src="https://i.imgur.com/2UUTU5a.png" alt="Recap logo"> <!-- Recap logo -->
             </header>
             <main>
-                <p>Some one gave you permission to see their project</p>
+                <p>MAIL_INVITE_HEADER</p>
                 <a href="invited-project-page">Click here to be redirected</a>
             </main>
 
             <footer>
-                <p>If you do not want to receive invite emails, please <a href="login-page">log into your account</a> and
-                    disable
-                    notifications</p>
+                <p>If you do not want to receive invite emails, please <a href="login-page">log into your account</a> and disable notifications</p>
                 <p>See more information about our service on <a href="about-us-page">about recap</a></p>
             </footer>
         </body>

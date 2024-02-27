@@ -167,6 +167,19 @@ class LanguageHandler
         ],
     ];
 
+    public const MAIL_MESSAGES = [
+        'en' => [
+            "MAIL_INVITE_HEADER" => "Some one gave you permission to see their project",
+            "MAIL_REDIRECT_MESSAGE" => "Click here to be redirected",
+            "START_NOT_RECEIVE_MESSAGES" => "If you do not want to receive invite emails, please ",
+            "LOG_INTO_ACCOUNT" => "log into your account",
+            "END_NOT_RECEIVE_MESSAGES" => " and disable notifications",
+            "SEE_MORE_ON" => "See more information about our service on ",
+            "ABOUT_PAGE" => "about recap"
+        ],
+        'pt-br' => [],
+    ];
+
     public static function getAll(string $lang): array
     {
         $lang = strtolower($lang);
