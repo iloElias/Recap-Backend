@@ -97,6 +97,8 @@ class ProjectUpdate extends CrudAbstract
 
     public function storeString(string $string)
     {
+        if ($string === null)
+            return '';
         $string = str_replace("\\'", '&1qt;', $string);
         $string = str_replace("\\\"", '&2qt;', $string);
         $string = str_replace("'", '&1qt;', $string);
@@ -114,6 +116,8 @@ class ProjectUpdate extends CrudAbstract
 
     public function restoreString(string $string)
     {
+        if ($string === null)
+            return '';
         $string = str_replace('&1qt;', "'", $string);
         $string = str_replace('&2qt;', "\"", $string);
         $string = str_replace('&1qt;', "'", $string);
