@@ -65,6 +65,14 @@ class LanguageHandler
             "delete_project_confirm_input_invalid" => "Type the project name",
             "delete_project_success" => "The project was successfully archived. Now heading home...",
 
+            "add_card_hologram_title" => "Title",
+            "add_card_hologram_subtitle" => "Subtitle",
+            "add_card_hologram_content" => "Content",
+            "add_card_hologram_add_content" => "Add content",
+            "add_card_hologram_conclusion" => "Conclusion",
+            "add_card_hologram_add_card" => "Add card",
+            "add_card_hologram_cancel" => "Cancel",
+
             "save_project" => "Save project",
             "save_than_leave" => "Save and leave",
             "leave_without_saving" => "Leave without saving",
@@ -144,6 +152,14 @@ class LanguageHandler
             "delete_project_confirm_input" => "Escreva :str abaixo para confirmar",
             "delete_project_confirm_input_invalid" => "O nome não está idêntico",
             "delete_project_success" => "O projeto foi inativado com sucesso. Voltando para home agora...",
+
+            "add_card_hologram_title" => "Titulo",
+            "add_card_hologram_subtitle" => "Subtitulo",
+            "add_card_hologram_content" => "Conteúdo",
+            "add_card_hologram_add_content" => "Adicionar conteúdo",
+            "add_card_hologram_conclusion" => "Conclusão",
+            "add_card_hologram_add_card" => "Adicionar cartão",
+            "add_card_hologram_cancel" => "Cancelar",
 
             "save_project" => "Salvar projeto",
             "save_than_leave" => "Salvar e sair",

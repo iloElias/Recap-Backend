@@ -95,7 +95,7 @@ class ProjectUpdate extends CrudAbstract
         return $params;
     }
 
-    public function storeString(string $string)
+    public function storeString(string $string = null)
     {
         if ($string === null)
             return '';
@@ -114,7 +114,7 @@ class ProjectUpdate extends CrudAbstract
         return str_replace("\\\\", '&rbar;', $string);
     }
 
-    public function restoreString(string $string)
+    public function restoreString(string $string = null)
     {
         if ($string === null)
             return '';
