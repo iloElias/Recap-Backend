@@ -73,6 +73,9 @@ class LanguageHandler
             "add_card_hologram_add_card" => "Add card",
             "add_card_hologram_cancel" => "Cancel",
 
+            "add_subject_hologram_title" => "Subject title",
+            "add_subject_hologram_add_subject" => "Add subject",
+
             "save_project" => "Save project",
             "save_than_leave" => "Save and leave",
             "leave_without_saving" => "Leave without saving",
@@ -160,6 +163,9 @@ class LanguageHandler
             "add_card_hologram_conclusion" => "Conclusão",
             "add_card_hologram_add_card" => "Adicionar cartão",
             "add_card_hologram_cancel" => "Cancelar",
+
+            "add_subject_hologram_title" => "Titulo do tópico",
+            "add_subject_hologram_add_subject" => "Adicionar tópico",
 
             "save_project" => "Salvar projeto",
             "save_than_leave" => "Salvar e sair",
