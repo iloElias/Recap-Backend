@@ -2,6 +2,7 @@
 
 namespace Ipeweb\RecapSheets\Routes;
 
+use Ipeweb\RecapSheets\Controller\EmailInviteController;
 use Ipeweb\RecapSheets\Controller\LanguageController;
 use Ipeweb\RecapSheets\Controller\ProjectController;
 use Ipeweb\RecapSheets\Controller\UserController;
@@ -26,5 +27,7 @@ class Router
         Route::post('/project', [ProjectController::class, 'postNewProject', 'encode_response'], [new VerifyToken]);
         Route::put('/project', [ProjectController::class, 'updateProjectMd', 'encode_response'], [new VerifyToken]);
         Route::delete('/project', [ProjectController::class, 'inactivateProject', 'encode_response'], [new VerifyToken]);
+
+        Route::get('/invite/user', [EmailInviteController::class, 'searchUser', 'encode_response']); //, [new VerifyToken]);
     }
 }

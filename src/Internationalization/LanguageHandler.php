@@ -76,10 +76,15 @@ class LanguageHandler
             "add_subject_hologram_title" => "Subject title",
             "add_subject_hologram_add_subject" => "Add subject",
 
+            "add_project_info_title" => "Project title",
+            "add_project_info_synopsis" => "Project synopsis",
+            "add_project" => "Add info to top",
+
             "save_project" => "Save project",
             "save_than_leave" => "Save and leave",
             "leave_without_saving" => "Leave without saving",
 
+            "user_search" => "Search user",
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
@@ -167,9 +172,15 @@ class LanguageHandler
             "add_subject_hologram_title" => "Titulo do tópico",
             "add_subject_hologram_add_subject" => "Adicionar tópico",
 
+            "add_project_info_title" => "Titulo do projeto",
+            "add_project_info_synopsis" => "Sinopse do projeto",
+            "add_project" => "Adicionar informações ao topo",
+
             "save_project" => "Salvar projeto",
             "save_than_leave" => "Salvar e sair",
             "leave_without_saving" => "Sair sem salvar",
+
+            "user_search" => "Pesquisar usuário",
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",
@@ -191,15 +202,27 @@ class LanguageHandler
 
     public const MAIL_MESSAGES = [
         'en' => [
-            "MAIL_INVITE_HEADER" => "Some one gave you permission to see their project",
-            "MAIL_REDIRECT_MESSAGE" => "Click here to be redirected",
+            "project_invite_title" => "Invite to project",
+
+            "INVITED_BY_SOMEONE_MESSAGE" => "The user :str email :str, sent you a invite to a project",
+            "GO_TO_PROJECT_MESSAGE" => "Click here to be redirected",
             "START_NOT_RECEIVE_MESSAGES" => "If you do not want to receive invite emails, please ",
             "LOG_INTO_ACCOUNT" => "log into your account",
             "END_NOT_RECEIVE_MESSAGES" => " and disable notifications",
             "SEE_MORE_ON" => "See more information about our service on ",
             "ABOUT_PAGE" => "about recap"
         ],
-        'pt-br' => [],
+        'pt-br' => [
+            "project_invite_title" => "Convite para projeto",
+
+            "INVITED_BY_SOMEONE_MESSAGE" => "O usuário :str email :str, enviou um convite para um projeto",
+            "GO_TO_PROJECT_MESSAGE" => "Clique aqui para ser redirecionado",
+            "START_NOT_RECEIVE_MESSAGES" => "Se você deseja não receber mais emails como este, por favor ",
+            "LOG_INTO_ACCOUNT" => "faça login em sua conta",
+            "END_NOT_RECEIVE_MESSAGES" => " e desabilite as notificações",
+            "SEE_MORE_ON" => "Veja mais sobre o nosso serviço em ",
+            "ABOUT_PAGE" => "sobre recap"
+        ],
     ];
 
     public static function getAll(string $lang): array

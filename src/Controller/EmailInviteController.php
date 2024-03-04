@@ -1,6 +1,9 @@
 <?php
 
+namespace Ipeweb\RecapSheets\Controller;
+
 use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Model\UserData;
 
 class EmailInviteController
 {
@@ -12,5 +15,21 @@ class EmailInviteController
                 'message' => 'Required information not provided'
             ]));
         }
+    }
+
+    public static function searchUser()
+    {
+        if (!isset($_GET["email"])) {
+            http_response_code(400);
+            exit(json_encode([
+                'message' => 'Email to search not provided'
+            ]));
+        }
+
+        $userService = new UserData();
+        $result = $userService->getSearch(['email' => $_GET["email"]], 0, 5, strict: false);
+
+        http_response_code(200);
+        exit(json_encode($result));
     }
 }
