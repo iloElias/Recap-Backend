@@ -28,6 +28,6 @@ class Router
         Route::put('/project', [ProjectController::class, 'updateProjectMd', 'encode_response'], [new VerifyToken]);
         Route::delete('/project', [ProjectController::class, 'inactivateProject', 'encode_response'], [new VerifyToken]);
 
-        Route::get('/invite/user', [EmailInviteController::class, 'searchUser', 'encode_response']); //, [new VerifyToken]);
+        Route::get('/invite/user', [EmailInviteController::class, 'searchUser', 'encode_response'], [new VerifyToken]);
     }
 }

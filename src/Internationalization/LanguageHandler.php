@@ -85,6 +85,7 @@ class LanguageHandler
             "leave_without_saving" => "Leave without saving",
 
             "user_search" => "Search user",
+            "any_user_found_with_email" => "Any user found with email",
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
@@ -181,6 +182,7 @@ class LanguageHandler
             "leave_without_saving" => "Sair sem salvar",
 
             "user_search" => "Pesquisar usuário",
+            "any_user_found_with_email" => "Nenhum usuário foi encontrado usando o email",
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",

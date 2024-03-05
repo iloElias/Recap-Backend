@@ -4,6 +4,7 @@ namespace Ipeweb\RecapSheets\Controller;
 
 use Ipeweb\RecapSheets\Bootstrap\Request;
 use Ipeweb\RecapSheets\Model\UserData;
+use Ipeweb\RecapSheets\Services\JWT;
 
 class EmailInviteController
 {
@@ -29,7 +30,13 @@ class EmailInviteController
         $userService = new UserData();
         $result = $userService->getSearch(['email' => $_GET["email"]], 0, 5, strict: false);
 
+        foreach ($result as $key => $value) {
+            if ($value["email"] === Request::$decodedToken["email"]) {
+                unset($result[$key]);
+            }
+        }
+
         http_response_code(200);
-        exit(json_encode($result));
+        exit(JWT::encode($result));
     }
 }
