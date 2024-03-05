@@ -85,7 +85,7 @@ class ModelHandler implements CrudInterface
         }
     }
 
-    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false, $conditional = 'AND'): array
     {
         $blankData = [];
         foreach ($data as $key => $value) {
@@ -98,7 +98,7 @@ class ModelHandler implements CrudInterface
 
         $database = new SQLDatabase();
         $database->select($this->table, "*")
-            ->where($data, strict: $strict);
+            ->where($data, strict: $strict, conditional: $conditional);
 
         if (array_search('visible', $this->fields) !== false) {
             $database->where(["visible" => 'true']);

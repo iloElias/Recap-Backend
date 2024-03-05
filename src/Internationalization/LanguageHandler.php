@@ -84,8 +84,9 @@ class LanguageHandler
             "save_than_leave" => "Save and leave",
             "leave_without_saving" => "Leave without saving",
 
+            "user_search_input_label" => "Type the name, email or username",
             "user_search" => "Search user",
-            "any_user_found_with_email" => "Any user found with email",
+            "any_user_found_with_email" => "Any user found with",
 
             "not_invited_to" => "You were not invited to this project",
             "not_allowed_to_edit" => "You are not allowed to edit this project",
@@ -181,8 +182,9 @@ class LanguageHandler
             "save_than_leave" => "Salvar e sair",
             "leave_without_saving" => "Sair sem salvar",
 
+            "user_search_input_label" => "Escreva o nome, email ou o nome de usuário",
             "user_search" => "Pesquisar usuário",
-            "any_user_found_with_email" => "Nenhum usuário foi encontrado usando o email",
+            "any_user_found_with_email" => "Nenhum usuário foi encontrado usando",
 
             "not_invited_to" => "Você não foi convidado para este projeto",
             "not_allowed_to_edit" => "Você não tem permissão para editar este projeto",

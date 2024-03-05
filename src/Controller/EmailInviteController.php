@@ -3,8 +3,10 @@
 namespace Ipeweb\RecapSheets\Controller;
 
 use Ipeweb\RecapSheets\Bootstrap\Request;
+use Ipeweb\RecapSheets\Database\PDOConnection;
 use Ipeweb\RecapSheets\Model\UserData;
 use Ipeweb\RecapSheets\Services\JWT;
+use PDO;
 
 class EmailInviteController
 {
@@ -20,23 +22,41 @@ class EmailInviteController
 
     public static function searchUser()
     {
-        if (!isset($_GET["email"])) {
+        if (!isset($_GET["search"])) {
             http_response_code(400);
             exit(json_encode([
                 'message' => 'Email to search not provided'
             ]));
         }
-
-        $userService = new UserData();
-        $result = $userService->getSearch(['email' => $_GET["email"]], 0, 5, strict: false);
-
-        foreach ($result as $key => $value) {
-            if ($value["email"] === Request::$decodedToken["email"]) {
-                unset($result[$key]);
-            }
+        if (!isset($_GET["project_id"])) {
+            http_response_code(400);
+            exit(json_encode([
+                'message' => 'Project id not provided'
+            ]));
         }
 
-        http_response_code(200);
-        exit(JWT::encode($result));
+        $search = $_GET["search"];
+        $project_id = $_GET["project_id"];
+
+        $sqlDatabase = PDOConnection::getPdoInstance();
+        $sqlStatement = $sqlDatabase->prepare("SELECT u.name, u.email, u.username, u.id, u.picture_path, COALESCE(pu.user_permissions, 'none') AS user_permissions FROM users u LEFT JOIN project_users pu ON u.id = pu.user_id AND pu.project_id = {$project_id} WHERE u.name ILIKE '%{$search}%' OR u.email ILIKE '%{$search}%' OR u.username ILIKE '%{$search}%';");
+
+        try {
+            $sqlStatement->execute();
+
+            $result = $sqlStatement->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($result as $key => $value) {
+                if ($value["email"] === Request::$decodedToken["email"]) {
+                    unset($result[$key]);
+                }
+            }
+
+            http_response_code(200);
+            exit(JWT::encode($result));
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            exit(json_encode(["message" => "Something went wrong on getting users:" . $e->getMessage()]));
+        }
     }
 }

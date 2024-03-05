@@ -26,12 +26,12 @@ class UserData implements CrudInterface
         return $this->dataHandler->get($data);
     }
 
-    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false, $conditional = "AND"): array
     {
         if (isset($data['picture_path'])) {
             unset($data['picture_path']);
         }
-        return $this->dataHandler->getSearch($data, $offset, $limit, $order, $strict);
+        return $this->dataHandler->getSearch($data, $offset, $limit, $order, $strict, $conditional);
     }
 
     public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
