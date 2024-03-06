@@ -49,7 +49,7 @@ class UserProjectsData implements CrudInterface
             return $result;
         }
 
-        return $this->dataHandler->get($data);
+        return [];
     }
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array

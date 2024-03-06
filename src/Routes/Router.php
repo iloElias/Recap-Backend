@@ -29,5 +29,6 @@ class Router
         Route::delete('/project', [ProjectController::class, 'inactivateProject', 'encode_response'], [new VerifyToken]);
 
         Route::get('/invite/user', [EmailInviteController::class, 'searchUser', 'encode_response'], [new VerifyToken]);
+        Route::put('/invite/user', [EmailInviteController::class, 'setUserPermission', 'encode_response'], [new VerifyToken]);
     }
 }

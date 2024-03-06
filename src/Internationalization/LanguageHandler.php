@@ -94,6 +94,10 @@ class LanguageHandler
             "not_found_page" => "Page not found",
             "not_found_project" => "Unable to find a project with the given ID",
 
+            "invite_this_user" => "Invite this user",
+            "already_invited" => "This user is already invited",
+            "this_is_you" => "This is you",
+
             "reauthenticate_logout_message" => "Authentication time has expired, please log in again",
             "reauthenticate_token_message" => "There was a change on your access token, please log in again",
 
@@ -191,6 +195,10 @@ class LanguageHandler
             "inactivated_project_page" => "Este projeto está inacessível pois foi inativado",
             "not_found_page" => "Pagina não encontrada",
             "not_found_project" => "Não foi possível encontrar um projeto com o ID fornecido",
+
+            "invite_this_user" => "Convidar este usuário",
+            "already_invited" => "Este usuário já foi convidado",
+            "this_is_you" => "Este é você",
 
             "reauthenticate_logout_message" => "O tempo de autenticação expirou, faça login novamente",
             "reauthenticate_token_message" => "Houve uma alteração no token de acesso, faça login novamente",
