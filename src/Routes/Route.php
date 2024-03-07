@@ -49,8 +49,10 @@ class Route
     public static function executeMiddlewares(array $middlewareList)
     {
         return array_map(
-            function (Middleware $middleware) {
-                return $middleware::handle(Request::$request);
+            function ($middleware) {
+                if (is_subclass_of($middleware, Middleware::class)) {
+                    return $middleware::handle(Request::$request);
+                }
             },
             $middlewareList
         );
@@ -58,7 +60,7 @@ class Route
 
     public static function executeRouteProcedure(string $method, string $route)
     {
-        [[$className, $classMethod, $returnMethod], $middleware] = self::$routes[strtolower($method)][$route];
+        [[$className, $classMethod, $encryptReturn], $middleware] = self::$routes[strtolower($method)][$route];
 
         if (!$className or !$classMethod) {
             http_response_code(404);
@@ -79,13 +81,16 @@ class Route
         try {
             $classMethodResult = $className::$classMethod();
             http_response_code(200);
-            return ((($returnMethod !== 'none' or $returnMethod === 'encode_response') and http_response_code() == 200) ? JWT::encode($classMethodResult) : $classMethodResult);
+            if ($encryptReturn) {
+                return JWT::encode($classMethodResult);
+            }
+            return json_encode($classMethodResult);
         } catch (Throwable $e) {
             http_response_code(500);
-            return json_encode([
+            exit(json_encode([
                 "message" => "Not expected exception",
                 "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
-            ]);
+            ]));
         }
     }
 }

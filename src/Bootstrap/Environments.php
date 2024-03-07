@@ -39,7 +39,7 @@ class Environments
             }
 
             $name = trim($name);
-            $value = trim($value);
+            $value = trim(str_replace("\"", '', $value));
 
             putenv("{$name}={$value}");
         }

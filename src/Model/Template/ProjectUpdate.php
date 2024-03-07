@@ -20,7 +20,7 @@ class ProjectUpdate extends CrudAbstract
 
         if (!isset($_GET['project_id'])) {
             http_response_code(400);
-            return json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]);
+            exit(json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]));
         }
 
         $userCanChange = new UserProjectsData();
@@ -85,7 +85,7 @@ class ProjectUpdate extends CrudAbstract
 
         if (!isset($_GET['project_id'])) {
             http_response_code(400);
-            return json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]);
+            exit(json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]));
         }
     }
 

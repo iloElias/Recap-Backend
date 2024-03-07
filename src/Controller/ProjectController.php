@@ -7,6 +7,7 @@ use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\RecapSheets\Model\CardData;
 use Ipeweb\RecapSheets\Model\NewProjectData;
 use Ipeweb\RecapSheets\Model\ProjectData;
+use Ipeweb\RecapSheets\Model\QueryGet;
 use Ipeweb\RecapSheets\Model\Template\ProjectUpdate;
 use Ipeweb\RecapSheets\Model\UserProjectsData;
 
@@ -14,16 +15,11 @@ class ProjectController
 {
     public static function getUserProjects()
     {
-        $field = isset($_GET['field']) ? $_GET['field'] : null;
-
-        if (!$field) {
-            http_response_code(400);
-            return json_encode(["message" => 'Missing "field" in URL query']);
-        }
+        $query = QueryGet::getQueryItems(["field" => true]);
 
         $preparedParams = [];
-        if (str_contains($field, ':')) {
-            $preparedParams = explode(':', $field);
+        if (str_contains($query['field'], ':')) {
+            $preparedParams = explode(':', $query['field']);
             if (isset($preparedParams[0]) and isset($preparedParams[1])) {
                 $projectService = new UserProjectsData;
 
@@ -32,24 +28,24 @@ class ProjectController
                     return $projectService->get([$preparedParams[0] => $preparedParams[1]]);
                 } catch (\Throwable) {
                     http_response_code(500);
-                    return json_encode(["message" => "Something went wrong on getting a user"]);
+                    exit(json_encode(["message" => "Something went wrong on getting a user"]));
                 }
             }
         }
 
         http_response_code(400);
-        return json_encode(["message" => 'Invalid given "field" value. No key or value detected']);
+        exit(json_encode(["message" => 'Invalid given "field" value. No key or value detected']));
     }
 
     public static function postNewProject()
     {
         try {
             $projectService = new NewProjectData();
-            http_response_code(200);
+            http_response_code(201);
             return $projectService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
-            http_response_code(400);
-            return json_encode(["message" => $e->getMessage()]);
+            http_response_code(500);
+            exit(json_encode(["message" => $e->getMessage()]));
         }
     }
 
@@ -85,14 +81,14 @@ class ProjectController
 
     public static function getProjectMarkdown()
     {
-        try {
-            $requestToken = Request::$decodedToken;
+        $requestToken = Request::$decodedToken;
 
-            if (!isset($_GET['project_id'])) {
-                http_response_code(400);
-                var_dump($requestToken);
-                return json_encode(["message" => "Invalid given body. No 'id' read on request body"]);
-            }
+        if (!isset($_GET['project_id'])) {
+            http_response_code(400);
+            var_dump($requestToken);
+            exit(json_encode(["message" => "Invalid given body. No 'id' read on request body"]));
+        }
+        try {
 
             $userCanChange = new UserProjectsData();
             $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
@@ -132,7 +128,7 @@ class ProjectController
             exit(json_encode(["message" => $missE->getMessage()]));
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on getting the project markdown:" . $e->getMessage()]));
+            exit(json_encode(["message" => "Something went wrong on getting the project markdown: " . $e->getMessage()]));
         }
     }
 }

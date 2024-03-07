@@ -95,6 +95,7 @@ class LanguageHandler
             "not_found_project" => "Unable to find a project with the given ID",
 
             "invite_this_user" => "Invite this user",
+            "confirm_invite" => "Invite",
             "already_invited" => "This user is already invited",
             "this_is_you" => "This is you",
 
@@ -197,6 +198,7 @@ class LanguageHandler
             "not_found_project" => "Não foi possível encontrar um projeto com o ID fornecido",
 
             "invite_this_user" => "Convidar este usuário",
+            "confirm_invite" => "Convidar",
             "already_invited" => "Este usuário já foi convidado",
             "this_is_you" => "Este é você",
 
@@ -216,7 +218,7 @@ class LanguageHandler
         'en' => [
             "project_invite_title" => "Invite to project",
 
-            "INVITED_BY_SOMEONE_MESSAGE" => "The user :str email :str, sent you a invite to a project",
+            "INVITED_BY_SOMEONE_MESSAGE" => "The user :str1 email :str2, sent you a invite to a project",
             "GO_TO_PROJECT_MESSAGE" => "Click here to be redirected",
             "START_NOT_RECEIVE_MESSAGES" => "If you do not want to receive invite emails, please ",
             "LOG_INTO_ACCOUNT" => "log into your account",
@@ -227,7 +229,7 @@ class LanguageHandler
         'pt-br' => [
             "project_invite_title" => "Convite para projeto",
 
-            "INVITED_BY_SOMEONE_MESSAGE" => "O usuário :str email :str, enviou um convite para um projeto",
+            "INVITED_BY_SOMEONE_MESSAGE" => "O usuário :str1 email :str2, enviou um convite para um projeto",
             "GO_TO_PROJECT_MESSAGE" => "Clique aqui para ser redirecionado",
             "START_NOT_RECEIVE_MESSAGES" => "Se você deseja não receber mais emails como este, por favor ",
             "LOG_INTO_ACCOUNT" => "faça login em sua conta",

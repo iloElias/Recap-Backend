@@ -4,5 +4,5 @@ namespace Ipeweb\RecapSheets\Model\Strategy;
 
 interface InviteStrategy
 {
-    public function sendInvite($to, $subject);
+    public function sendInvite($toId, $inviterData, $projectID);
 }

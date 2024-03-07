@@ -32,7 +32,7 @@ class Mail
 
             $mail->SMTPAuth = true;
 
-            $mail->Username = $googleEmail;
+            $mail->Username = $googleEmail; //Helper::env("GOOGLE_APP_EMAIL");
             $mail->Password = Helper::env("GOOGLE_APP_PASSWORD");
 
             $mail->setFrom($googleEmail, $this->enviadoPor);

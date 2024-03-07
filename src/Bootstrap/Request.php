@@ -2,6 +2,7 @@
 
 namespace Ipeweb\RecapSheets\Bootstrap;
 
+use Ipeweb\RecapSheets\Model\ProjectInvite;
 use Ipeweb\RecapSheets\Routes\Route;
 use Ipeweb\RecapSheets\Routes\Router;
 use Ipeweb\RecapSheets\Services\Utils;
@@ -20,10 +21,9 @@ class Request
 
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
-
-        $requestReturn = null;
         try {
             $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]));
+            exit($requestReturn);
         } catch (\Throwable $e) {
             http_response_code(400);
             exit(json_encode([
@@ -32,7 +32,8 @@ class Request
             ]));
         }
 
-        exit(json_encode($requestReturn));
+        // $teste = new ProjectInvite();
+        // $teste->sendInvite(98, ['name' => "Murilo", 'email' => "murilo7456@gmail.com"], 147);
     }
 
     public static function getBody()
