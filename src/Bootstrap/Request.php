@@ -24,7 +24,7 @@ class Request
 
         EnvironmentDebugger::getEnvironment();
 
-        $redirectURL = (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]);
+        $redirectURL = (str_ends_with($_SERVER["REQUEST_URI"], '/') ? Utils::strRemoveLast($_SERVER["REQUEST_URI"]) : $_SERVER["REQUEST_URI"]);
 
         try {
             if ($redirectURL) {
