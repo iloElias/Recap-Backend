@@ -18,7 +18,7 @@ class NewProjectData
                 "project_name" => $data["project"]["name"],
                 "project_synopsis" => $data["card"]["synopsis"],
                 "subjects" => []
-            ]));
+            ], JSON_UNESCAPED_UNICODE));
             $data["card"]["imd"] = $generatedMD;
 
             $cardInsertData = $cardService->insert($data["card"]);

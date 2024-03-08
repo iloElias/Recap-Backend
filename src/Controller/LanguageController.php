@@ -3,21 +3,24 @@
 namespace Ipeweb\RecapSheets\Controller;
 
 use Ipeweb\RecapSheets\Internationalization\Translator;
+use Ipeweb\RecapSheets\Model\QueryGet;
 
 class LanguageController
 {
     public static function getMessages()
     {
-        $lang = isset($_GET["lang"]) ? $_GET["lang"] : 'en';
+        $query = QueryGet::getQueryItems(["lang", "message" => true]);
 
-        if (!isset($_GET["message"])) {
+        $lang = isset($query["lang"]) ? $query["lang"] : 'en';
+
+        if (!isset($query["message"])) {
             http_response_code(400);
             exit(json_encode([
                 "message" => 'No specified required message'
             ]));
         }
 
-        if ($_GET["message"] == 'all') {
+        if ($query["message"] == 'all') {
             http_response_code(200);
             return (Translator::getAllFrom($lang));
         }

@@ -82,20 +82,16 @@ class ProjectController
     public static function getProjectMarkdown()
     {
         $requestToken = Request::$decodedToken;
+        $query = QueryGet::getQueryItems(["project_id" => true]);
 
-        if (!isset($_GET['project_id'])) {
-            http_response_code(400);
-            var_dump($requestToken);
-            exit(json_encode(["message" => "Invalid given body. No 'id' read on request body"]));
-        }
         try {
 
             $userCanChange = new UserProjectsData();
-            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $_GET['project_id']], strict: true);
+            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $query['project_id']], strict: true);
 
             if (!empty($userProjectResult)) {
                 $projectService = new ProjectData();
-                $projectResult = $projectService->getSearch(['id' => $_GET['project_id'], 'state' => 'active'], strict: true);
+                $projectResult = $projectService->getSearch(['id' => $query['project_id'], 'state' => 'active'], strict: true);
 
                 if (!empty($projectResult)) {
                     $cardService = new CardData();
@@ -111,7 +107,7 @@ class ProjectController
                 }
             } else if (empty($result)) {
                 $projectService = new ProjectData();
-                $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
+                $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
 
                 if ($projectResult) {
                     http_response_code(405);

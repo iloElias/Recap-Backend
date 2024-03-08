@@ -25,8 +25,6 @@ class ProjectInvite implements InviteStrategy
                     $value = str_replace(':str1', $inviterData['name'], $value);
                     $value = str_replace(':str2', $inviterData['email'], $value);
 
-                    // 'GO_TO_PROJECT_URL';
-
                     $preparedEmailHTML = str_replace($key, $value, $preparedEmailHTML);
                 } else {
                     $preparedEmailHTML = str_replace($key, $value, $preparedEmailHTML);

@@ -1,12 +1,12 @@
 <?php
 
-use Ipeweb\RecapSheets\Bootstrap\Environments;
-use Ipeweb\RecapSheets\Bootstrap\Helper;
-use Ipeweb\RecapSheets\Services\Mail;
+// use Ipeweb\RecapSheets\Bootstrap\Environments;
+// use Ipeweb\RecapSheets\Bootstrap\Helper;
+// use Ipeweb\RecapSheets\Services\Mail;
 
 require_once('./vendor/autoload.php');
 
-Environments::getEnvironments();
+// Environments::getEnvironments();
 
 // function printSum($x, $y, $z)
 // {
@@ -22,11 +22,14 @@ Environments::getEnvironments();
 // printSum(...$arr);
 
 
-$mail = new Mail(Helper::env('GOOGLE_APP_EMAIL'));
-$response = $mail->sendEmail('murilo7546@gmail.com', 'Email teste', 'Teste');
+// $mail = new Mail(Helper::env('GOOGLE_APP_EMAIL'));
+// $response = $mail->sendEmail('murilo7546@gmail.com', 'Email teste', 'Teste');
 
-if ($response) {
-    echo "Funcionou " . $response;
-} else {
-    echo "Não funcionou " . $response;
-}
+// if ($response) {
+//     echo "Funcionou " . $response;
+// } else {
+//     echo "Não funcionou " . $response;
+// }
+
+
+echo json_encode(['message' => 'Coração'], JSON_UNESCAPED_UNICODE);
