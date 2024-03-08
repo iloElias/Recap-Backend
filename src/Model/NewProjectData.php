@@ -3,7 +3,6 @@
 namespace Ipeweb\RecapSheets\Model;
 
 use InvalidArgumentException;
-use Ipeweb\RecapSheets\Model\ModelHandler;
 use Ipeweb\RecapSheets\Model\Template\ProjectUpdate;
 
 class NewProjectData

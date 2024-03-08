@@ -31,8 +31,10 @@ class ProjectInvite implements InviteStrategy
                 }
             }
 
-            $preparedEmailHTML = str_replace('GO_TO_PROJECT_URL', (Helper::env("APPLICATION_WEB_BASE_URL") . '/project/' . $projectID), $preparedEmailHTML);
-            $preparedEmailHTML = str_replace('APP_LOGINPAGE', (Helper::env("APPLICATION_WEB_BASE_URL") . '/login'), $preparedEmailHTML);
+            $applicationBaseURL = Helper::env("APPLICATION_WEB_BASE_URL");
+
+            $preparedEmailHTML = str_replace('GO_TO_PROJECT_URL', ("{$applicationBaseURL}/project/{$projectID}"), $preparedEmailHTML);
+            $preparedEmailHTML = str_replace('APP_LOGINPAGE', ("{$applicationBaseURL}/login"), $preparedEmailHTML);
 
             try {
                 $mail = new Mail(Helper::env("GOOGLE_APP_EMAIL"));

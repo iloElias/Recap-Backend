@@ -3,13 +3,10 @@
 namespace Ipeweb\RecapSheets\Controller;
 
 use Ipeweb\RecapSheets\Bootstrap\Request;
-use Ipeweb\RecapSheets\Database\PDOConnection;
 use Ipeweb\RecapSheets\Database\SQLDatabase;
 use Ipeweb\RecapSheets\Model\ProjectInvite;
 use Ipeweb\RecapSheets\Model\QueryGet;
-use Ipeweb\RecapSheets\Model\UserData;
 use Ipeweb\RecapSheets\Model\UserProjectsData;
-use Ipeweb\RecapSheets\Services\JWT;
 
 class EmailInviteController
 {
