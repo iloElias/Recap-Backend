@@ -2,6 +2,7 @@
 
 namespace Ipeweb\RecapSheets\Bootstrap;
 
+use Ipeweb\RecapSheets\Controller\EnvironmentDebugger;
 use Ipeweb\RecapSheets\Routes\Route;
 use Ipeweb\RecapSheets\Routes\Router;
 use Ipeweb\RecapSheets\Services\Utils;
@@ -27,7 +28,7 @@ class Request
                 $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $redirectURL);
                 exit($requestReturn);
             } else {
-                exit(json_encode(["message" => "pong"]));
+                EnvironmentDebugger::getEnvironment();
             }
         } catch (\Throwable $e) {
             http_response_code(400);
