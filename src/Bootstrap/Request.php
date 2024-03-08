@@ -77,23 +77,28 @@ class Request
 
     public static function cors()
     {
-        try {
-            header("Content-Type: application/json; charset=UTF-8");
-            header("Access-Control-Allow-Origin: *");
-            header("Access-Control-Allow-Headers: *");
-            header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH");
-            header('Access-Control-Allow-Credentials: true');
+        if (isset($_SERVER["HOSTNAME"]) && $_SERVER["HOSTNAME"] === "railway") {
+            return;
+        } else {
+            try {
+                header("Content-Type: application/json; charset=UTF-8");
 
-            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-                http_response_code(200);
-                exit();
+                header("Access-Control-Allow-Origin: *");
+                header("Access-Control-Allow-Headers: *");
+                header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH");
+                header('Access-Control-Allow-Credentials: true');
+
+                if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+                    http_response_code(200);
+                    exit();
+                }
+            } catch (\Throwable $e) {
+                exit(json_encode(
+                    [
+                        "message" => "Something went wrong on CORS setup"
+                    ]
+                ));
             }
-        } catch (\Throwable $e) {
-            exit(json_encode(
-                [
-                    "message" => "Something went wrong on CORS setup"
-                ]
-            ));
         }
     }
 }
