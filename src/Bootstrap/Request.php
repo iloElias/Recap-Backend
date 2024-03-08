@@ -19,17 +19,18 @@ class Request
         self::cors();
         Router::setRoutes();
 
-        EnvironmentDebugger::getEnvironment();
 
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
-        $redirectURL = (str_ends_with($_SERVER["REQUEST_URI"], '/') ? Utils::strRemoveLast($_SERVER["REQUEST_URI"]) : $_SERVER["REQUEST_URI"]);
+        $requestURL = $_SERVER["DOCUMENT_URI"] ?? $_SERVER["REQUEST_URI"];
+        $redirectURL = (str_ends_with($requestURL, '/') ? Utils::strRemoveLast($requestURL) : $requestURL);
 
         try {
             if ($redirectURL) {
                 $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $redirectURL);
                 exit($requestReturn);
             } else {
+                exit(json_encode(["ping" => "pong"]));
             }
         } catch (\Throwable $e) {
             http_response_code(400);
