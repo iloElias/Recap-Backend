@@ -2,6 +2,7 @@
 
 namespace Ipeweb\RecapSheets\Bootstrap;
 
+use Ipeweb\RecapSheets\Controller\EnvironmentDebugger;
 use Ipeweb\RecapSheets\Model\ProjectInvite;
 use Ipeweb\RecapSheets\Routes\Route;
 use Ipeweb\RecapSheets\Routes\Router;
@@ -20,6 +21,8 @@ class Request
         Router::setRoutes();
 
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
+
+        EnvironmentDebugger::getEnvironment();
 
         $redirectURL = (str_ends_with($_SERVER["REDIRECT_URL"], '/') ? Utils::strRemoveLast($_SERVER["REDIRECT_URL"]) : $_SERVER["REDIRECT_URL"]);
 
