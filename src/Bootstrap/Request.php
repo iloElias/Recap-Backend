@@ -19,6 +19,8 @@ class Request
         self::cors();
         Router::setRoutes();
 
+        EnvironmentDebugger::getEnvironment();
+
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
         $redirectURL = (str_ends_with($_SERVER["REQUEST_URI"], '/') ? Utils::strRemoveLast($_SERVER["REQUEST_URI"]) : $_SERVER["REQUEST_URI"]);
@@ -28,7 +30,6 @@ class Request
                 $requestReturn = Route::executeRouteProcedure($_SERVER['REQUEST_METHOD'], $redirectURL);
                 exit($requestReturn);
             } else {
-                EnvironmentDebugger::getEnvironment();
             }
         } catch (\Throwable $e) {
             http_response_code(400);
