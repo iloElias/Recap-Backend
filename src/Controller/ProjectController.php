@@ -91,9 +91,14 @@ class ProjectController
 
             if (!empty($userProjectResult)) {
                 $projectService = new ProjectData();
-                $projectResult = $projectService->getSearch(['id' => $query['project_id'], 'state' => 'active'], strict: true);
+                $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
 
                 if (!empty($projectResult)) {
+                    if ($projectResult[0]['state'] === 'archived') {
+                        http_response_code(400);
+                        exit(json_encode(["status" => 'archived']));
+                    }
+
                     $cardService = new CardData();
                     $cardResult = $cardService->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
                     $projectUpdateService = new ProjectUpdate();
@@ -105,19 +110,19 @@ class ProjectController
                     http_response_code(200);
                     return $cardResult;
                 }
-            } else if (empty($result)) {
+            } else if (empty($userProjectResult)) {
                 $projectService = new ProjectData();
                 $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
 
                 if ($projectResult) {
-                    http_response_code(405);
+                    http_response_code(403);
                     exit(json_encode(["message" => "User not invited"]));
                 }
                 http_response_code(404);
                 exit(json_encode(["message" => "No project found with the given id"]));
             }
 
-            http_response_code(405);
+            http_response_code(403);
             exit(json_encode(["message" => "This user is not invited to this project"]));
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
