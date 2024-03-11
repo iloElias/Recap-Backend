@@ -5,9 +5,6 @@ namespace Ipeweb\RecapSheets\Database;
 use Ipeweb\RecapSheets\Exceptions\InvalidSqlWhereConditions;
 use Ipeweb\RecapSheets\Exceptions\SqlSyntaxException;
 use PDO;
-use PDOStatement;
-
-use function PHPUnit\Framework\isEmpty;
 
 class SQLDatabase
 {
@@ -32,8 +29,9 @@ class SQLDatabase
      */
     public function select($from, $select = SQLDatabase::SQL_STAR): SQLDatabase
     {
-        $tableAlias = is_array($from) ? $from[1] : $from;
-        $table = is_array($from) ? $from[0] : $from;
+        $table = is_array($from) ? array_key_first($from) : $from;
+        $tableAlias = is_array($from) ? $from[$table] : $from;
+
 
         if (is_array($select)) {
             $selectColumns = array_map(
@@ -51,7 +49,7 @@ class SQLDatabase
             $selectColumns = $select;
         }
 
-        $tableExpression = ($table == $tableAlias) ? $table : "{$table} AS {$tableAlias}";
+        $tableExpression = (!is_array($from)) ? $table : "{$table} AS {$tableAlias}";
         $this->query = "SELECT $selectColumns FROM $tableExpression";
 
         return $this;
@@ -231,6 +229,8 @@ class SQLDatabase
         do {
             $this->query = str_replace("  ", " ", $this->query);
         } while (str_contains($this->query, "  "));
+
+        $this->query = trim($this->query);
     }
 
     /**

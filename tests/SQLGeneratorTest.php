@@ -13,6 +13,61 @@ class SQLGeneratorTest extends TestCase
         $this->db = new SQLDatabase();
     }
 
+    public function testSelect()
+    {
+        $query = $this->db->select(['users' => 'users'], ['id' => 'user_id'])->getQuery();
+        $this->assertEquals("SELECT users.id AS user_id FROM users AS users", $query);
+    }
+
+    public function testInsert()
+    {
+        $query = $this->db->insert('users', ['name' => 'John', 'email' => 'john@example.com'])->getQuery();
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (:ins_name, :ins_email)", $query);
+    }
+
+    public function testUpdate()
+    {
+        $query = $this->db->update('users', ['name' => 'John'])->getQuery();
+        $this->assertEquals("UPDATE users SET name = :upd_name", $query);
+    }
+
+    public function testWhere()
+    {
+        $query = $this->db->select('users')->where(['name' => 'John'])->getQuery();
+        $this->assertEquals("SELECT * FROM users WHERE name = :whr_name", $query);
+    }
+
+    public function testWhereBetween()
+    {
+        $query = $this->db->select('users')->whereBetween('id', 1, 10)->getQuery();
+        $this->assertEquals("SELECT * FROM users WHERE id BETWEEN 1 AND 10", $query);
+    }
+
+    public function testLimit()
+    {
+        $query = $this->db->select('users')->limit(10)->getQuery();
+        $this->assertEquals("SELECT * FROM users LIMIT 10", $query);
+    }
+
+    public function testOffset()
+    {
+        $query = $this->db->select('users')->offset(5)->getQuery();
+        $this->assertEquals("SELECT * FROM users OFFSET 5", $query);
+    }
+
+    public function testOrderBy()
+    {
+        $query = $this->db->select('users')->orderBy('name', 'ASC')->getQuery();
+        $this->assertEquals("SELECT * FROM users ORDER BY name ASC", $query);
+    }
+
+    public function testBindParams()
+    {
+        $this->db->insert('users', ['name' => 'John', 'email' => 'john@example.com'])->bindParams();
+        $query = $this->db->getQuery();
+        $this->assertEquals("INSERT INTO users (name, email) VALUES ('John', 'john@example.com')", $query);
+    }
+
     public function testSqlGeneratorInsertAndException()
     {
         $this->expectException(SqlSyntaxException::class);

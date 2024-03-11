@@ -142,6 +142,6 @@ class ProjectUpdate extends CrudAbstract
     &vtab; vertical table
     &esc; escape
     &form; form feed
-    &sif; dólar
+    &sif; dollar
     &rbar; reverse bar
 */

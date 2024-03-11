@@ -12,7 +12,7 @@ class Route
 {
     public static $routes = [];
 
-    public static function setRoute(string $method, string $route, array $instruction, array $middleware = null)
+    private static function setRoute(string $method, string $route, array $instruction, array $middleware = null)
     {
         if (!str_starts_with($route, '/')) {
             $route = "/{$route}";
@@ -60,7 +60,7 @@ class Route
 
     public static function executeRouteProcedure(string $method, string $route)
     {
-        [[$className, $classMethod, $encryptReturn], $middleware] = self::$routes[strtolower($method)][$route];
+        [[$className, $classMethod, $encryptReturn], $middleware] = self::$routes[strtolower($method)][$route] ?? null;
 
         if (!$className or !$classMethod) {
             http_response_code(404);
