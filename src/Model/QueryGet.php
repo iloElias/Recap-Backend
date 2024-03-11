@@ -6,19 +6,21 @@ use Ipeweb\RecapSheets\Model\Strategy\QueryGetStrategy;
 
 class QueryGet implements QueryGetStrategy
 {
-    public static function getQueryItems(array $requiredList)
+    public static function getQueryItems(array $requiredList, array $query = null)
     {
         $return = [];
+        $query = $query ?? $_GET;
+
         foreach ($requiredList as $key => $value) {
             if (!is_numeric($key) && $value === true) {
-                if (!isset($_GET[$key])) {
+                if (!isset($query[$key])) {
                     http_response_code(400);
                     throw new \InvalidArgumentException("Query {$key} item not provided, which is required");
                 } else {
-                    $return[$key] = $_GET[$key];
+                    $return[$key] = $query[$key];
                 }
             } else {
-                $return[$value] = $_GET[$value];
+                $return[$value] = $query[$value];
             }
         }
 

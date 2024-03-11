@@ -20,6 +20,7 @@ class Project extends CrudAbstract
         if (!empty($missingList)) {
             throw new MissingRequiredParameterException($missingList);
         }
+        return null;
     }
 
     public function prepare(array $params)
