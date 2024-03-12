@@ -2,20 +2,23 @@
 
 namespace Ipeweb\RecapSheets\Middleware;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use InvalidArgumentException;
+use Ipeweb\RecapSheets\Bootstrap\Helper;
 use Ipeweb\RecapSheets\Bootstrap\Request;
-use Ipeweb\RecapSheets\Services\JWT;
 
 class VerifyToken implements Middleware
 {
     public static function handle($request)
     {
-        $token = $request['headers']['Authorization'];
+        $jwt = str_replace("Bearer ", '', $request['headers']['Authorization']);
+        $key = Helper::env("API_JWT_SECRET");
 
-        if (!$token) {
+        if (!$jwt) {
             throw new InvalidArgumentException('Not given token');
         }
 
-        Request::$decodedToken = JWT::decode(str_replace("Bearer ", '', $token))[0];
+        Request::$decodedToken = (array) JWT::decode($jwt, new Key($key, "HS256"));
     }
 }

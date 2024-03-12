@@ -2,10 +2,11 @@
 
 namespace Ipeweb\RecapSheets\Routes;
 
+use Firebase\JWT\JWT;
+use Ipeweb\RecapSheets\Bootstrap\Helper;
 use Ipeweb\RecapSheets\Bootstrap\Request;
 use Ipeweb\RecapSheets\Exceptions\DuplicatedRouteException;
 use Ipeweb\RecapSheets\Middleware\Middleware;
-use Ipeweb\RecapSheets\Services\JWT;
 use Throwable;
 
 class Route
@@ -80,7 +81,7 @@ class Route
             $classMethodResult = $className::$classMethod();
             http_response_code(200);
             if ($encryptReturn) {
-                return JWT::encode($classMethodResult);
+                return JWT::encode($classMethodResult, Helper::env("API_JWT_SECRET"), "HS256");
             }
             return json_encode($classMethodResult);
         } catch (Throwable $e) {
