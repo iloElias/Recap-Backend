@@ -15,9 +15,8 @@ class LanguageController
 
         if (!isset($query["message"])) {
             http_response_code(400);
-            exit(json_encode([
-                "message" => 'No specified required message'
-            ]));
+
+            throw new \InvalidArgumentException('No specified required message');
         }
 
         if ($query["message"] == 'all') {

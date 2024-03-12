@@ -38,7 +38,7 @@ class Request
             http_response_code(400);
             exit(json_encode([
                 "message" => "An unexpected error ocurred",
-                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
+                "error" => $e->getMessage()
             ]));
         }
 

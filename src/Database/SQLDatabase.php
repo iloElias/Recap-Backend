@@ -350,7 +350,7 @@ class SQLDatabase
             return $result;
         } catch (\Throwable $th) {
             http_response_code(400);
-            exit(json_encode(["error" => "Invalid generated query" . $th->getMessage() . " " . $th->getFile() . " " . $th->getLine()]));
+            throw new \Exception("Invalid generated query: " . $th->getMessage() . " " . $th->getFile() . " " . $th->getLine());
         }
     }
 }

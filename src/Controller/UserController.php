@@ -25,13 +25,13 @@ class UserController
                     return $userService->get([$preparedParams[0] => $preparedParams[1]]);
                 } catch (\Throwable $e) {
                     http_response_code(500);
-                    exit(json_encode(["message" => "Something went wrong on getting a user"]));
+                    throw new \Exception("Something went wrong on getting a user");
                 }
             }
         }
 
         http_response_code(400);
-        exit(json_encode(["message" => 'Invalid given "field" value. No key or value detected']));
+        throw new \InvalidArgumentException('Invalid given "field" value. No key or value detected');
     }
 
     public static function userLogin()
@@ -41,7 +41,7 @@ class UserController
 
         if (!isset($requestBody["google_id"])) {
             http_response_code(400);
-            exit(json_encode(["message" => 'Missing \'google_id\' key on request body']));
+            throw new \InvalidArgumentException('Missing \'google_id\' key on request body');
         }
 
         try {
@@ -59,15 +59,10 @@ class UserController
             return $result;
         } catch (NotNecessaryDataException $ex) {
             http_response_code(400);
-            exit(json_encode([
-                "message" => "Additional and not necessary data was sent on body request"
-            ]));
+            throw new \InvalidArgumentException("Additional and not necessary data was sent on body request");
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode([
-                "message" => "Something went wrong while logging in",
-                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
-            ]));
+            throw new \Exception("Something went wrong while logging in: " . $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString());
         }
     }
 
@@ -80,7 +75,7 @@ class UserController
             return $userService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on updating user"]));
+            throw new \Exception("Something went wrong on updating user");
         }
     }
 
@@ -91,7 +86,7 @@ class UserController
         if (!isset($requestToken['id'])) {
             http_response_code(400);
             var_dump($requestToken);
-            exit(json_encode(["message" => "Invalid given body. No 'id' read on request body"]));
+            throw new \InvalidArgumentException("Invalid given body. No 'id' read on request body");
         }
 
         try {
@@ -100,7 +95,7 @@ class UserController
             return $userService->update($requestToken['id'], Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on updating user"]));
+            throw new \Exception("Something went wrong on updating user");
         }
     }
 }

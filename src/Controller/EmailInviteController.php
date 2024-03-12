@@ -24,7 +24,7 @@ class EmailInviteController
             return $result;
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on getting users: " . $e->getMessage()]));
+            throw new \Exception("Something went wrong on getting users: " . $e->getMessage());
         }
     }
 
@@ -51,15 +51,15 @@ class EmailInviteController
                     return $result;
                 } else {
                     http_response_code(500);
-                    exit(["message" => "Could not invite user"]);
+                    throw new \Exception("Could not invite user");
                 }
             } else {
                 http_response_code(403);
-                exit(json_encode(["message" => "This user is already invited"]));
+                throw new \Exception("This user is already invited");
             }
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on inviting user:" . $e->getMessage()]));
+            throw new \Exception("Something went wrong on inviting user:" . $e->getMessage());
         }
     }
 }

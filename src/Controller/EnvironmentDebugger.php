@@ -13,6 +13,7 @@ class EnvironmentDebugger
             "_Request" => $_REQUEST,
             "_Server" => $_SERVER,
             "_Files" => $_FILES,
+            "_Session" => $_SESSION
         ]));
     }
 }

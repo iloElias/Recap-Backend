@@ -20,7 +20,7 @@ class ProjectUpdate extends CrudAbstract
 
         if (!isset($_GET['project_id'])) {
             http_response_code(400);
-            exit(json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]));
+            throw new \Exception("Invalid given query. No 'project_id' read on request query");
         }
 
         $userCanChange = new UserProjectsData();
@@ -38,11 +38,11 @@ class ProjectUpdate extends CrudAbstract
             }
         } else if (empty($result)) {
             http_response_code(404);
-            exit(json_encode(["message" => "No project found with the given id"]));
+            throw new \Exception("No project found with the given id");
         }
 
         http_response_code(405);
-        exit(json_encode(["message" => "This user is not allowed to change this project"]));
+        throw new \Exception("This user is not allowed to change this project");
     }
 
     public function delete(array $params)
@@ -62,11 +62,11 @@ class ProjectUpdate extends CrudAbstract
             }
         } else if (empty($result)) {
             http_response_code(404);
-            exit(json_encode(["message" => "No project found with the given id"]));
+            throw new \Exception("No project found with the given id");
         }
 
         http_response_code(405);
-        exit(json_encode(["message" => "This user is not allowed to inactive this project"]));
+        throw new \Exception("This user is not allowed to inactive this project");
     }
 
     public function validate(array $params, string $args = null)
@@ -85,7 +85,7 @@ class ProjectUpdate extends CrudAbstract
 
         if (!isset($_GET['project_id'])) {
             http_response_code(400);
-            exit(json_encode(["message" => "Invalid given query. No 'project_id' read on request query"]));
+            throw new \Exception("Invalid given query. No 'project_id' read on request query");
         }
     }
 

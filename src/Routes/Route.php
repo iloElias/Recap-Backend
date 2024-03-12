@@ -64,7 +64,7 @@ class Route
 
         if (!$className or !$classMethod) {
             http_response_code(404);
-            exit(json_encode(["message" => "API route not found: {$method} on {$route}"]));
+            throw new \Exception("API route not found: {$method} on {$route}");
         }
 
         if (!empty($middleware)) {
@@ -72,9 +72,7 @@ class Route
                 self::executeMiddlewares($middleware);
             } catch (Throwable $e) {
                 http_response_code(401);
-                exit(json_encode([
-                    "message" => "This request does not pass by middleware terms: " . $e->getMessage()
-                ]));
+                throw new \Exception("This request does not pass by middleware terms: " . $e->getMessage());
             }
         }
 
@@ -87,10 +85,7 @@ class Route
             return json_encode($classMethodResult);
         } catch (Throwable $e) {
             http_response_code(500);
-            exit(json_encode([
-                "message" => "Not expected exception",
-                "error" => $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString()
-            ]));
+            throw new \Exception($e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString());
         }
     }
 }

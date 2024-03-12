@@ -28,13 +28,13 @@ class ProjectController
                     return $projectService->get([$preparedParams[0] => $preparedParams[1]]);
                 } catch (\Throwable) {
                     http_response_code(500);
-                    exit(json_encode(["message" => "Something went wrong on getting a user"]));
+                    throw new \Exception("Something went wrong on getting a user");
                 }
             }
         }
 
         http_response_code(400);
-        exit(json_encode(["message" => 'Invalid given "field" value. No key or value detected']));
+        throw new \InvalidArgumentException('Invalid given "field" value. No key or value detected');
     }
 
     public static function postNewProject()
@@ -45,7 +45,7 @@ class ProjectController
             return $projectService->insert(Request::$request['body']);
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => $e->getMessage()]));
+            throw new \Exception('Was not possible to create a new project: ' . $e->getMessage());
         }
     }
 
@@ -57,10 +57,10 @@ class ProjectController
             return $projectUpdateService->update(Request::$request['body']);
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
-            exit(json_encode(["message" => $missE->getMessage()]));
+            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage());
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on updating the card:" . $e->getMessage()]));
+            throw new \Exception("Something went wrong on updating the project:" . $e->getMessage());
         }
     }
 
@@ -72,10 +72,10 @@ class ProjectController
             return $projectUpdateService->delete(Request::$request['body']);
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
-            exit(json_encode(["message" => $missE->getMessage()]));
+            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage());
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on inactivating project:" . $e->getMessage()]));
+            throw new \Exception("Something went wrong on inactivating project:" . $e->getMessage());
         }
     }
 
@@ -96,7 +96,7 @@ class ProjectController
                 if (!empty($projectResult)) {
                     if ($projectResult[0]['state'] === 'archived') {
                         http_response_code(400);
-                        exit(json_encode(["status" => 'archived']));
+                        throw new \Exception('Cannot get markdown from an inactivated project');
                     }
 
                     $cardService = new CardData();
@@ -116,20 +116,22 @@ class ProjectController
 
                 if ($projectResult) {
                     http_response_code(403);
-                    exit(json_encode(["message" => "User not invited"]));
+                    throw new \Exception("User not invited");
                 }
                 http_response_code(404);
-                exit(json_encode(["message" => "No project found with the given id"]));
+                throw new \Exception('Cannot get markdown from an inactivated project');
             }
 
             http_response_code(403);
-            exit(json_encode(["message" => "This user is not invited to this project"]));
+            throw new \Exception("This user is not invited to this project");
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
-            exit(json_encode(["message" => $missE->getMessage()]));
+
+            throw new \InvalidArgumentException('Some of the required data is missing: ' . $missE->getMessage());
         } catch (\Throwable $e) {
             http_response_code(500);
-            exit(json_encode(["message" => "Something went wrong on getting the project markdown: " . $e->getMessage()]));
+
+            throw new \Exception("Something went wrong on getting the project markdown: " . $e->getMessage());
         }
     }
 }

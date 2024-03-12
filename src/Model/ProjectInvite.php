@@ -46,7 +46,7 @@ class ProjectInvite implements InviteStrategy
                 }
             } catch (\Throwable $e) {
                 http_response_code(500);
-                exit(json_encode(["message" => "Something went wrong on sending invite email: " . $e->getMessage(), "success" => true]));
+                throw new \Exception("Something went wrong on sending invite email: " . $e->getMessage());
             }
         }
     }
