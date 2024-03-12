@@ -35,11 +35,9 @@ class Request
                 exit(json_encode(["ping" => "pong"]));
             }
         } catch (\Throwable $e) {
-            http_response_code(400);
-            exit(json_encode([
-                "message" => "An unexpected error ocurred",
-                "error" => $e->getMessage()
-            ]));
+            exit(json_encode(
+                ["message" => $e->getMessage()]
+            ));
         }
 
         // $teste = new ProjectInvite();

@@ -34,15 +34,15 @@ class UserProjectsData implements CrudInterface
 
         if ($key == "user_id" && is_numeric($value)) {
             $sqlDatabase = new SQLDatabase();
-            $sqlDatabase->setQuery("
-                SELECT p.id, p.name, c.synopsis FROM projects p
+            $sqlDatabase->setQuery(
+                "SELECT p.id, p.name, c.synopsis FROM projects p
                 JOIN project_users up ON p.id = up.project_id
                 JOIN cards c ON c.id = p.card_id
                 WHERE up.user_id = {$value}
                 AND p.type = 'card'
                 AND p.state = 'active'
-                AND up.user_permissions = 'own';
-            ");
+                AND up.user_permissions = 'own';"
+            );
 
             $result = $sqlDatabase->execute();
 

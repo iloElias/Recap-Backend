@@ -20,5 +20,6 @@ class VerifyToken implements Middleware
         }
 
         Request::$decodedToken = (array) JWT::decode($jwt, new Key($key, "HS256"));
+        // echo var_dump(Request::$decodedToken);
     }
 }

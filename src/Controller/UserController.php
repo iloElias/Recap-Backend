@@ -56,7 +56,7 @@ class UserController
                 http_response_code(200);
             }
 
-            return $result;
+            return $result[0];
         } catch (NotNecessaryDataException $ex) {
             http_response_code(400);
             throw new \InvalidArgumentException("Additional and not necessary data was sent on body request");

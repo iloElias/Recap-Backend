@@ -13,11 +13,15 @@ class NewProjectData
             $cardService = new CardData();
 
             $projectService = new ProjectUpdate();
-            $generatedMD = $projectService->storeString(json_encode([
-                "project_name" => $data["project"]["name"],
-                "project_synopsis" => $data["card"]["synopsis"],
-                "subjects" => []
-            ], JSON_UNESCAPED_UNICODE));
+            $generatedMD = $projectService->storeString(
+                json_encode(
+                    [
+                    "project_name" => $data["project"]["name"],
+                    "project_synopsis" => $data["card"]["synopsis"],
+                    "subjects" => []
+                    ], JSON_UNESCAPED_UNICODE
+                )
+            );
             $data["card"]["imd"] = $generatedMD;
 
             $cardInsertData = $cardService->insert($data["card"]);
@@ -28,11 +32,13 @@ class NewProjectData
             $projectInsertData = $projectData->insert($data["project"]);
 
             $userProjectData = new UserProjectsData();
-            $userProjectData->insert([
+            $userProjectData->insert(
+                [
                 "project_id" => $projectInsertData['id'],
                 "user_id" => $data["user"]["id"],
                 "user_permissions" => "own",
-            ]);
+                ]
+            );
 
             return $projectInsertData;
         }
