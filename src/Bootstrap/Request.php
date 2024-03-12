@@ -75,12 +75,11 @@ class Request
 
     public static function cors()
     {
+        header("Content-Type: application/json; charset=UTF-8");
         if (isset($_SERVER["HOSTNAME"]) && $_SERVER["HOSTNAME"] === "railway") {
             return;
         } else {
             try {
-                header("Content-Type: application/json; charset=UTF-8");
-
                 header("Access-Control-Allow-Origin: *");
                 header("Access-Control-Allow-Headers: *");
                 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH");
