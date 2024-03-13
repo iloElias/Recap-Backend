@@ -11,7 +11,7 @@ class LanguageController
     {
         $query = QueryGet::getQueryItems(["lang", "message" => true]);
 
-        $lang = isset($query["lang"]) ? $query["lang"] : 'en';
+        $lang = $query["lang"] ?? 'en';
 
         if (!isset($query["message"])) {
             http_response_code(400);

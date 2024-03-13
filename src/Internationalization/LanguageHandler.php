@@ -239,12 +239,14 @@ class LanguageHandler
         ],
     ];
 
-    public static function getAll(string $lang): array
+    public static function getAll(string $lang, bool $strict = false): array
     {
         $lang = strtolower($lang);
 
-        if (!isset(self::MESSAGES[$lang])) {
+        if ($strict && !isset(self::MESSAGES[$lang])) {
             throw new \InvalidArgumentException("Language handler do not offer support to the provided language: " . $lang);
+        } else if (!isset(self::MESSAGES[$lang])) {
+            return self::MESSAGES["en"];
         }
 
         return self::MESSAGES[$lang];
