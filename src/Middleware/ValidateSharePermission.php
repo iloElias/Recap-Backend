@@ -13,16 +13,16 @@ class ValidateSharePermission implements Middleware
         $query = QueryGet::getQueryItems(["user_id" => true, "project_id" => true]);
 
         try {
-            $userProjectService = new UserProjectsData();
-            $searchResult = $userProjectService->getSearch(["user_id" => Request::$decodedToken['id'], "project_id" => $query["project_id"]], 0, 1, null, true);
+            $userProjectsData = new UserProjectsData();
+            $searchResult = $userProjectsData->getSearch(["user_id" => Request::$decodedToken['id'], "project_id" => $query["project_id"]], 0, 1, null, true);
 
             if (!$searchResult[0] || $searchResult[0]['user_permissions'] !== "own") {
                 http_response_code(403);
                 throw new \Exception('This user has no permission to perform this action');
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception('Something went wrong on validating user permission: ' . $e->getMessage());
+            throw new \Exception('Something went wrong on validating user permission: ' . $throwable->getMessage(), $throwable->getCode(), $throwable);
         }
     }
 }

@@ -20,12 +20,12 @@ class ProjectController
         $preparedParams = [];
         if (str_contains($query['field'], ':')) {
             $preparedParams = explode(':', $query['field']);
-            if (isset($preparedParams[0]) and isset($preparedParams[1])) {
-                $projectService = new UserProjectsData;
+            if (isset($preparedParams[0]) && isset($preparedParams[1])) {
+                $userProjectsData = new UserProjectsData;
 
                 try {
                     http_response_code(200);
-                    return $projectService->get([$preparedParams[0] => $preparedParams[1]]);
+                    return $userProjectsData->get([$preparedParams[0] => $preparedParams[1]]);
                 } catch (\Throwable) {
                     http_response_code(500);
                     throw new \Exception("Something went wrong on getting a user");
@@ -40,42 +40,42 @@ class ProjectController
     public static function postNewProject()
     {
         try {
-            $projectService = new NewProjectData();
+            $newProjectData = new NewProjectData();
             http_response_code(201);
-            return $projectService->insert(Request::$request['body']);
-        } catch (\Throwable $e) {
+            return $newProjectData->insert(Request::$request['body']);
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception('Was not possible to create a new project: ' . $e->getMessage());
+            throw new \Exception('Was not possible to create a new project: ' . $throwable->getMessage(), $throwable->getCode(), $throwable);
         }
     }
 
     public static function updateProjectMd()
     {
-        $projectUpdateService = new ProjectUpdate();
+        $projectUpdate = new ProjectUpdate();
 
         try {
-            return $projectUpdateService->update(Request::$request['body']);
+            return $projectUpdate->update(Request::$request['body']);
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
-            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage());
+            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage(), $missE->getCode(), $missE);
         } catch (\Throwable $e) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on updating the project:" . $e->getMessage());
+            throw new \Exception("Something went wrong on updating the project:" . $e->getMessage(), $e->getCode(), $e);
         }
     }
 
     public static function inactivateProject()
     {
-        $projectUpdateService = new ProjectUpdate();
+        $projectUpdate = new ProjectUpdate();
 
         try {
-            return $projectUpdateService->delete(Request::$request['body']);
+            return $projectUpdate->delete(Request::$request['body']);
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
-            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage());
+            throw new \InvalidArgumentException('Some of the required params was not supplied: ' . $missE->getMessage(), $missE->getCode(), $missE);
         } catch (\Throwable $e) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on inactivating project:" . $e->getMessage());
+            throw new \Exception("Something went wrong on inactivating project:" . $e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -86,35 +86,33 @@ class ProjectController
 
         try {
 
-            $userCanChange = new UserProjectsData();
-            $userProjectResult = $userCanChange->getSearch(['user_id' => $requestToken['id'], 'project_id' => $query['project_id']], strict: true);
+            $userProjectsData = new UserProjectsData();
+            $userProjectResult = $userProjectsData->getSearch(['user_id' => $requestToken['id'], 'project_id' => $query['project_id']], strict: true);
 
-            if (!empty($userProjectResult)) {
+            if ($userProjectResult !== []) {
                 $projectService = new ProjectData();
                 $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
-
-                if (!empty($projectResult)) {
+                if ($projectResult !== []) {
                     if ($projectResult[0]['state'] === 'archived') {
                         http_response_code(400);
                         throw new \Exception('Cannot get markdown from an inactivated project');
                     }
 
-                    $cardService = new CardData();
-                    $cardResult = $cardService->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
-                    $projectUpdateService = new ProjectUpdate();
+                    $cardData = new CardData();
+                    $cardResult = $cardData->getSearch(['id' => $projectResult[0]['card_id']], strict: true);
+                    $projectUpdate = new ProjectUpdate();
 
                     $cardResult[0]['user_permissions'] = $userProjectResult[0]['user_permissions'];
                     $cardResult[0]['name'] = $projectResult[0]['name'];
-                    $cardResult[0]['imd'] = $projectUpdateService->restoreString($cardResult[0]['imd']) ?? "";
+                    $cardResult[0]['imd'] = $projectUpdate->restoreString($cardResult[0]['imd']) ?? "";
 
                     http_response_code(200);
                     return $cardResult;
                 }
-            } else if (empty($userProjectResult)) {
+            } elseif ($userProjectResult === []) {
                 $projectService = new ProjectData();
                 $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
-
-                if ($projectResult) {
+                if ($projectResult !== []) {
                     http_response_code(403);
                     throw new \Exception("User not invited");
                 }
@@ -127,11 +125,11 @@ class ProjectController
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
 
-            throw new \InvalidArgumentException('Some of the required data is missing: ' . $missE->getMessage());
+            throw new \InvalidArgumentException('Some of the required data is missing: ' . $missE->getMessage(), $missE->getCode(), $missE);
         } catch (\Throwable $e) {
             http_response_code(500);
 
-            throw new \Exception("Something went wrong on getting the project markdown: " . $e->getMessage());
+            throw new \Exception("Something went wrong on getting the project markdown: " . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

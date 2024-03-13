@@ -11,10 +11,10 @@ class ProjectInvite implements InviteStrategy
 {
     public function sendInvite($toId, $inviterData, $projectID)
     {
-        $userService = new UserData();
-        $invitedUserData = $userService->getSearch(["id" => $toId], 0, 1, null, true);
+        $userData = new UserData();
+        $invitedUserData = $userData->getSearch(["id" => $toId], 0, 1, null, true);
 
-        if ($invitedUserData) {
+        if ($invitedUserData !== []) {
             $language = $invitedUserData[0]['preferred_lang'];
             $email = $invitedUserData[0]['email'];
 
@@ -33,8 +33,8 @@ class ProjectInvite implements InviteStrategy
 
             $applicationBaseURL = Helper::env("APPLICATION_WEB_BASE_URL");
 
-            $preparedEmailHTML = str_replace('GO_TO_PROJECT_URL', ("{$applicationBaseURL}/project/{$projectID}"), $preparedEmailHTML);
-            $preparedEmailHTML = str_replace('APP_LOGINPAGE', ("{$applicationBaseURL}/login"), $preparedEmailHTML);
+            $preparedEmailHTML = str_replace('GO_TO_PROJECT_URL', (sprintf('%s/project/%s', $applicationBaseURL, $projectID)), $preparedEmailHTML);
+            $preparedEmailHTML = str_replace('APP_LOGINPAGE', ($applicationBaseURL . '/login'), $preparedEmailHTML);
 
             try {
                 $mail = new Mail(Helper::env("GOOGLE_APP_EMAIL"));
@@ -46,7 +46,7 @@ class ProjectInvite implements InviteStrategy
                 }
             } catch (\Throwable $e) {
                 http_response_code(500);
-                throw new \Exception("Something went wrong on sending invite email: " . $e->getMessage());
+                throw new \Exception("Something went wrong on sending invite email: " . $e->getMessage(), $e->getCode(), $e);
             }
         }
     }

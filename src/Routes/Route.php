@@ -16,8 +16,9 @@ class Route
     private static function setRoute(string $method, string $route, array $instruction, array $middleware = null)
     {
         if (!str_starts_with($route, '/')) {
-            $route = "/{$route}";
+            $route = '/' . $route;
         }
+
         $route = strtolower($route);
 
         if (isset(self::$routes[$method][$route])) {
@@ -50,7 +51,7 @@ class Route
     public static function executeMiddlewares(array $middlewareList)
     {
         return array_map(
-            function ($middleware) {
+            static function ($middleware) {
                 if (is_subclass_of($middleware, Middleware::class)) {
                     return $middleware::handle(Request::$request);
                 }
@@ -63,9 +64,9 @@ class Route
     {
         [[$className, $classMethod], $middleware] = self::$routes[strtolower($method)][$route] ?? null;
 
-        if (!$className or !$classMethod) {
+        if (!$className || !$classMethod) {
             http_response_code(404);
-            throw new \Exception("API route not found: {$method} on {$route}");
+            throw new \Exception(sprintf('API route not found: %s on %s', $method, $route));
         }
 
         if (!empty($middleware)) {
@@ -73,7 +74,7 @@ class Route
                 self::executeMiddlewares($middleware);
             } catch (Throwable $e) {
                 http_response_code(401);
-                throw new \Exception("This request does not pass by middleware terms: " . $e->getMessage());
+                throw new \Exception("This request does not pass by middleware terms: " . $e->getMessage(), $e->getCode(), $e);
             }
         }
 
@@ -81,9 +82,9 @@ class Route
             $classMethodResult = $className::$classMethod();
             http_response_code(200);
             return json_encode($classMethodResult);
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception($e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString());
+            throw new \Exception($throwable->getMessage() . " " . $throwable->getFile() . " " . $throwable->getLine() . " Trace" . $throwable->getTraceAsString(), $throwable->getCode(), $throwable);
         }
     }
 }

@@ -23,20 +23,19 @@ class ProjectUpdate extends CrudAbstract
             throw new \Exception("Invalid given query. No 'project_id' read on request query");
         }
 
-        $userCanChange = new UserProjectsData();
-        $result = $userCanChange->getSearch(['user_id' => Request::$decodedToken['id'], 'project_id' => $_GET['project_id']], strict: true);
+        $userProjectsData = new UserProjectsData();
+        $result = $userProjectsData->getSearch(['user_id' => Request::$decodedToken['id'], 'project_id' => $_GET['project_id']], strict: true);
 
-        if (!empty($result) and $result[0]['user_permissions'] !== 'guest') {
-            $projectService = new ProjectData();
-            $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
-
-            if (!empty($projectResult)) {
-                $cardService = new CardData();
+        if ($result !== [] && $result[0]['user_permissions'] !== 'guest') {
+            $projectData = new ProjectData();
+            $projectResult = $projectData->getSearch(['id' => $_GET['project_id']], strict: true);
+            if ($projectResult !== []) {
+                $cardData = new CardData();
 
                 http_response_code(200);
-                return $cardService->update($projectResult[0]['card_id'], $this->process($params));
+                return $cardData->update($projectResult[0]['card_id'], $this->process($params));
             }
-        } else if (empty($result)) {
+        } elseif ($result === []) {
             http_response_code(404);
             throw new \Exception("No project found with the given id");
         }
@@ -47,20 +46,19 @@ class ProjectUpdate extends CrudAbstract
 
     public function delete(array $params)
     {
-        $params = $this->process($params, 'no_body');
+        $this->process($params, 'no_body');
 
-        $userCanChange = new UserProjectsData();
-        $result = $userCanChange->getSearch(['user_id' => Request::$decodedToken['id'], 'project_id' => $_GET['project_id']], strict: true);
+        $userProjectsData = new UserProjectsData();
+        $result = $userProjectsData->getSearch(['user_id' => Request::$decodedToken['id'], 'project_id' => $_GET['project_id']], strict: true);
 
-        if (!empty($result) and $result[0]['user_permissions'] === 'own') {
-            $projectService = new ProjectData();
-            $projectResult = $projectService->getSearch(['id' => $_GET['project_id']], strict: true);
-
-            if (!empty($projectResult)) {
+        if ($result !== [] && $result[0]['user_permissions'] === 'own') {
+            $projectData = new ProjectData();
+            $projectResult = $projectData->getSearch(['id' => $_GET['project_id']], strict: true);
+            if ($projectResult !== []) {
                 http_response_code(200);
-                return $projectService->inactive($projectResult[0]['id']);
+                return $projectData->inactive($projectResult[0]['id']);
             }
-        } else if (empty($result)) {
+        } elseif ($result === []) {
             http_response_code(404);
             throw new \Exception("No project found with the given id");
         }
@@ -73,12 +71,13 @@ class ProjectUpdate extends CrudAbstract
     {
         if ($args === null) {
             $missingList = [];
-            foreach (self::$requiredFields as $field) {
-                if (!array_key_exists($field, $params)) {
-                    $missingList[] = $field;
+            foreach (self::$requiredFields as $requiredField) {
+                if (!array_key_exists($requiredField, $params)) {
+                    $missingList[] = $requiredField;
                 }
             }
-            if (!empty($missingList)) {
+
+            if ($missingList !== []) {
                 throw new MissingRequiredParameterException($missingList);
             }
         }
@@ -97,12 +96,14 @@ class ProjectUpdate extends CrudAbstract
 
     public function storeString(string $string = null)
     {
-        if ($string === null)
+        if ($string === null) {
             return '';
+        }
+
         $string = str_replace("\\'", '&1qt;', $string);
         $string = str_replace("\\\"", '&2qt;', $string);
         $string = str_replace("'", '&1qt;', $string);
-        $string = str_replace("\"", '&2qt;', $string);
+        $string = str_replace('"', '&2qt;', $string);
         $string = str_replace("\\n", '&nln;', $string);
         $string = str_replace("\\r", '&crt;', $string);
         $string = str_replace("\\t", '&tab;', $string);
@@ -116,12 +117,14 @@ class ProjectUpdate extends CrudAbstract
 
     public function restoreString(string $string = null)
     {
-        if ($string === null)
+        if ($string === null) {
             return '';
+        }
+
         $string = str_replace('&1qt;', "'", $string);
-        $string = str_replace('&2qt;', "\"", $string);
+        $string = str_replace('&2qt;', '"', $string);
         $string = str_replace('&1qt;', "'", $string);
-        $string = str_replace('&2qt;', "\"", $string);
+        $string = str_replace('&2qt;', '"', $string);
         $string = str_replace('&nln;', "\\n", $string);
         $string = str_replace('&crt;', "\\r", $string);
         $string = str_replace('&tab;', "    ", $string);

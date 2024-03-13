@@ -19,15 +19,15 @@ class UserController
         $preparedParams = [];
         if (str_contains($query['field'], ':')) {
             $preparedParams = explode(':', $query['field']);
-            if (isset($preparedParams[0]) and isset($preparedParams[1])) {
-                $userService = new UserData;
+            if (isset($preparedParams[0]) && isset($preparedParams[1])) {
+                $userData = new UserData;
 
                 try {
                     http_response_code(200);
-                    return $userService->get([$preparedParams[0] => $preparedParams[1]]);
+                    return $userData->get([$preparedParams[0] => $preparedParams[1]]);
                 } catch (\Throwable $e) {
                     http_response_code(500);
-                    throw new \Exception("Something went wrong on getting a user");
+                    throw new \Exception("Something went wrong on getting a user", $e->getCode(), $e);
                 }
             }
         }
@@ -39,21 +39,21 @@ class UserController
     public static function userLogin()
     {
         $requestBody = Request::$request['body'];
-        $userService = new UserData;
+        $userData = new UserData;
 
         if (!isset($requestBody["google_id"])) {
             http_response_code(400);
-            throw new \InvalidArgumentException('Missing \'google_id\' key on request body');
+            throw new \InvalidArgumentException("Missing 'google_id' key on request body");
         }
 
         try {
-            $result = $userService->get(["google_id" => $requestBody["google_id"]]);
+            $result = $userData->get(["google_id" => $requestBody["google_id"]]);
 
-            if (!$result) {
-                $result = [$userService->insert($requestBody)];
+            if ($result === []) {
+                $result = [$userData->insert($requestBody)];
                 http_response_code(201);
             } else {
-                $userService->update($result[0]['id'], ["logged_in" => '' . date('Y-m-d H:i:s')]);
+                $userData->update($result[0]['id'], ["logged_in" => '' . date('Y-m-d H:i:s')]);
                 $result[0]["logged_in"] = '' . date('Y-m-d H:i:s');
                 http_response_code(200);
             }
@@ -64,20 +64,20 @@ class UserController
             ];
         } catch (NotNecessaryDataException $ex) {
             http_response_code(400);
-            throw new \InvalidArgumentException("Additional and not necessary data was sent on body request");
+            throw new \InvalidArgumentException("Additional and not necessary data was sent on body request", $ex->getCode(), $ex);
         } catch (\Throwable $e) {
             http_response_code(500);
-            throw new \Exception("Something went wrong while logging in: " . $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString());
+            throw new \Exception("Something went wrong while logging in: " . $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString(), $e->getCode(), $e);
         }
     }
 
     public static function reauthenticateUser()
     {
         $reqToken = Request::$decodedToken;
-        $userService = new UserData();
+        $userData = new UserData();
 
         try {
-            $result = $userService->get(["id" => $reqToken["id"], "google_id" => $reqToken["google_id"]]);
+            $result = $userData->get(["id" => $reqToken["id"], "google_id" => $reqToken["google_id"]]);
 
             http_response_code(200);
             return $result[0];
@@ -90,13 +90,13 @@ class UserController
     public static function postNewUser()
     {
         try {
-            $userService = new UserData;
+            $userData = new UserData;
 
             http_response_code(201);
-            return $userService->insert(Request::$request['body']);
-        } catch (\Throwable $e) {
+            return $userData->insert(Request::$request['body']);
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on updating user");
+            throw new \Exception("Something went wrong on updating user", $throwable->getCode(), $throwable);
         }
     }
 
@@ -111,12 +111,12 @@ class UserController
         }
 
         try {
-            $userService = new UserData;
+            $userData = new UserData;
             http_response_code(200);
-            return $userService->update($requestToken['id'], Request::$request['body']);
-        } catch (\Throwable $e) {
+            return $userData->update($requestToken['id'], Request::$request['body']);
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on updating user");
+            throw new \Exception("Something went wrong on updating user", $throwable->getCode(), $throwable);
         }
     }
 }

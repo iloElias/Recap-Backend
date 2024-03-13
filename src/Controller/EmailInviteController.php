@@ -15,16 +15,16 @@ class EmailInviteController
         $query = QueryGet::getQueryItems(["search" => true, "project_id" => true]);
 
         $sqlDatabase = new SQLDatabase;
-        $sqlDatabase->setQuery("SELECT u.name, u.email, u.username, u.id, u.picture_path, COALESCE(pu.user_permissions, 'none') AS user_permissions FROM users u LEFT JOIN project_users pu ON u.id = pu.user_id AND pu.project_id = {$query['project_id']} WHERE u.name ILIKE '%{$query['search']}%' OR u.email ILIKE '%{$query['search']}%' OR u.username ILIKE '%{$query['search']}%' LIMIT 5;");
+        $sqlDatabase->setQuery(sprintf('SELECT u.name, u.email, u.username, u.id, u.picture_path, COALESCE(pu.user_permissions, \'none\') AS user_permissions FROM users u LEFT JOIN project_users pu ON u.id = pu.user_id AND pu.project_id = %s WHERE u.name ILIKE \'%%%s%%\' OR u.email ILIKE \'%%%s%%\' OR u.username ILIKE \'%%%s%%\' LIMIT 5;', $query['project_id'], $query['search'], $query['search'], $query['search']));
 
         try {
             $result = $sqlDatabase->execute();
 
             http_response_code(200);
             return $result;
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on getting users: " . $e->getMessage());
+            throw new \Exception("Something went wrong on getting users: " . $throwable->getMessage(), $throwable->getCode(), $throwable);
         }
     }
 
@@ -36,16 +36,16 @@ class EmailInviteController
         $insertData = ['user_id' => $query['user_id'], 'project_id' => $query['project_id'], 'user_permissions' => $query['permission']];
 
         try {
-            $projectUserService = new UserProjectsData();
-            $resultGet = $projectUserService->getSearch(['user_id' => $query['user_id'], 'project_id' => $query['project_id']], 0, 1, null, true);
+            $userProjectsData = new UserProjectsData();
+            $resultGet = $userProjectsData->getSearch(['user_id' => $query['user_id'], 'project_id' => $query['project_id']], 0, 1, null, true);
 
-            if (empty($resultGet)) {
-                $result = $projectUserService->insert($insertData);
+            if ($resultGet === []) {
+                $result = $userProjectsData->insert($insertData);
 
 
-                if ($result) {
-                    $emailService = new ProjectInvite();
-                    $emailService->sendInvite($query['user_id'], ["name" => Request::$decodedToken['name'], "email" => Request::$decodedToken['email']], $query['project_id']);
+                if ($result !== []) {
+                    $projectInvite = new ProjectInvite();
+                    $projectInvite->sendInvite($query['user_id'], ["name" => Request::$decodedToken['name'], "email" => Request::$decodedToken['email']], $query['project_id']);
 
                     http_response_code(200);
                     return $result;
@@ -57,9 +57,9 @@ class EmailInviteController
                 http_response_code(403);
                 throw new \Exception("This user is already invited");
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             http_response_code(500);
-            throw new \Exception("Something went wrong on inviting user:" . $e->getMessage());
+            throw new \Exception("Something went wrong on inviting user:" . $throwable->getMessage(), $throwable->getCode(), $throwable);
         }
     }
 }

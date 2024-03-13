@@ -8,7 +8,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail
 {
-    private $enviadoPor;
+    private string $enviadoPor;
 
     public function __construct(string $enviadoPor)
     {
@@ -17,34 +17,25 @@ class Mail
 
     public function sendEmail(string $enviarPara, string $tituloEmail, string $corpoEmail): bool
     {
-        $mail = new PHPMailer();
+        $phpMailer = new PHPMailer();
+        $googleEmail = Helper::env("GOOGLE_APP_EMAIL");
+        $phpMailer->SMTPDebug = false;
+        $phpMailer->isSMTP();
+        $phpMailer->Host = 'smtp.gmail.com';
+        $phpMailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $phpMailer->Port = 587;
+        $phpMailer->Mailer = 'smtp';
+        $phpMailer->CharSet = PHPMailer::CHARSET_UTF8;
+        $phpMailer->SMTPAuth = true;
+        $phpMailer->Username = $googleEmail;
+        //Helper::env("GOOGLE_APP_EMAIL");
+        $phpMailer->Password = Helper::env("GOOGLE_APP_PASSWORD");
+        $phpMailer->setFrom($googleEmail, $this->enviadoPor);
+        $phpMailer->addAddress($enviarPara);
+        $phpMailer->isHTML(true);
 
-        try {
-            $googleEmail = Helper::env("GOOGLE_APP_EMAIL");
-
-            $mail->SMTPDebug = false;
-            $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
-            $mail->Mailer = 'smtp';
-            $mail->CharSet = PHPMailer::CHARSET_UTF8;
-
-            $mail->SMTPAuth = true;
-
-            $mail->Username = $googleEmail; //Helper::env("GOOGLE_APP_EMAIL");
-            $mail->Password = Helper::env("GOOGLE_APP_PASSWORD");
-
-            $mail->setFrom($googleEmail, $this->enviadoPor);
-            $mail->addAddress($enviarPara);
-
-            $mail->isHTML(true);
-            $mail->Subject = $tituloEmail;
-            $mail->Body = $corpoEmail;
-
-            return $mail->send();
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $phpMailer->Subject = $tituloEmail;
+        $phpMailer->Body = $corpoEmail;
+        return $phpMailer->send();
     }
 }

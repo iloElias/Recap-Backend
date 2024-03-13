@@ -246,6 +246,7 @@ class LanguageHandler
         if (!isset(self::MESSAGES[$lang])) {
             throw new \InvalidArgumentException("Language handler do not offer support to the provided language: " . $lang);
         }
+
         return self::MESSAGES[$lang];
     }
 }

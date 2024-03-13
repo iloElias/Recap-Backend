@@ -12,12 +12,13 @@ class User extends CrudAbstract
     public function validate(array $params, string $args = null)
     {
         $missingList = [];
-        foreach (self::$requiredFields as $field) {
-            if (!array_search($field, $params)) {
-                $missingList[] = $field;
+        foreach (self::$requiredFields as $requiredField) {
+            if (!array_search($requiredField, $params, true)) {
+                $missingList[] = $requiredField;
             }
         }
-        if (!empty($missingList)) {
+
+        if ($missingList !== []) {
             throw new MissingRequiredParameterException($missingList);
         }
 

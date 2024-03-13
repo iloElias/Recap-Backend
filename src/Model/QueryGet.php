@@ -18,7 +18,7 @@ class QueryGet implements QueryGetStrategy
             if (!is_numeric($key) && $value === true) {
                 if (!isset($query[$key])) {
                     http_response_code(400);
-                    throw new \InvalidArgumentException("Query {$key} item not provided, which is required");
+                    throw new \InvalidArgumentException(sprintf('Query %s item not provided, which is required', $key));
                 } else {
                     $return[$key] = $query[$key];
                 }

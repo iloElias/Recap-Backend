@@ -10,10 +10,10 @@ class NewProjectData
     public function insert(array $data): array
     {
         if (isset($data["card"]) && isset($data["project"]) && isset($data["user"])) {
-            $cardService = new CardData();
+            $cardData = new CardData();
 
-            $projectService = new ProjectUpdate();
-            $generatedMD = $projectService->storeString(
+            $projectUpdate = new ProjectUpdate();
+            $generatedMD = $projectUpdate->storeString(
                 json_encode(
                     [
                     "project_name" => $data["project"]["name"],
@@ -24,15 +24,15 @@ class NewProjectData
             );
             $data["card"]["imd"] = $generatedMD;
 
-            $cardInsertData = $cardService->insert($data["card"]);
+            $cardInsertData = $cardData->insert($data["card"]);
 
             $data["project"]["card_id"] = $cardInsertData["id"];
 
             $projectData = new ProjectData();
             $projectInsertData = $projectData->insert($data["project"]);
 
-            $userProjectData = new UserProjectsData();
-            $userProjectData->insert(
+            $userProjectsData = new UserProjectsData();
+            $userProjectsData->insert(
                 [
                 "project_id" => $projectInsertData['id'],
                 "user_id" => $data["user"]["id"],

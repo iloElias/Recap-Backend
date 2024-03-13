@@ -10,17 +10,17 @@ class Environments
 
         try {
             $envContent = file_get_contents($envFile);
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
         }
 
         $envLines = explode("\n", $envContent);
 
-        foreach ($envLines as $line) {
-            if (empty($line) || strpos($line, '#') === 0) {
+        foreach ($envLines as $envLine) {
+            if ($envLine === '' || $envLine === '0' || strpos($envLine, '#') === 0) {
                 continue;
             }
 
-            [$name, $value] = explode('=', $line, 2);
+            [$name, $value] = explode('=', $envLine, 2);
 
             if ($value == 'true' || $value == '(true)') {
                 $value = true;
@@ -39,9 +39,9 @@ class Environments
             }
 
             $name = trim($name);
-            $value = trim(str_replace("\"", '', $value));
+            $value = trim(str_replace('"', '', $value));
 
-            putenv("{$name}={$value}");
+            putenv(sprintf('%s=%s', $name, $value));
         }
     }
 }

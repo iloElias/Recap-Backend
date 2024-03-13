@@ -7,40 +7,43 @@ use Ipeweb\RecapSheets\Model\ModelHandler;
 class ProjectData
 {
     protected string $table = 'projects';
+
     protected array $fields = ['id', 'name', 'card_id', 'type', 'state'];
-    private ModelHandler $dataHandler;
+
+    private ModelHandler $modelHandler;
 
     public function __construct()
     {
-        $this->dataHandler = ModelHandler::getModelHandlerInstance($this->table, $this->fields);
+        $this->modelHandler = ModelHandler::getModelHandlerInstance($this->table, $this->fields);
     }
 
     public function insert(array $data): array
     {
-        return $this->dataHandler->insert($data);
+        return $this->modelHandler->insert($data);
     }
 
     public function get(array $data): array
     {
-        return $this->dataHandler->get($data);
+        return $this->modelHandler->get($data);
     }
 
     public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
     {
-        return $this->dataHandler->getSearch($data, $offset, $limit, $order, $strict);
+        return $this->modelHandler->getSearch($data, $offset, $limit, $order, $strict);
     }
 
     public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
     {
-        return $this->dataHandler->getAll($offset, $limit, $order);
+        return $this->modelHandler->getAll($offset, $limit, $order);
     }
 
     public function update(int $id, array $data)
     {
-        return $this->dataHandler->update($id, $data);
+        return $this->modelHandler->update($id, $data);
     }
+
     public function inactive(int $id)
     {
-        return $this->dataHandler->inactive($id);
+        return $this->modelHandler->inactive($id);
     }
 }
