@@ -2,6 +2,8 @@
 
 namespace Ipeweb\RecapSheets\Controller;
 
+use Firebase\JWT\JWT;
+use Ipeweb\RecapSheets\Bootstrap\Helper;
 use Ipeweb\RecapSheets\Bootstrap\Request;
 use Ipeweb\RecapSheets\Exceptions\NotNecessaryDataException;
 use Ipeweb\RecapSheets\Model\QueryGet;
@@ -56,13 +58,32 @@ class UserController
                 http_response_code(200);
             }
 
-            return $result[0];
+            return [
+                "token" => JWT::encode($result[0], Helper::env("API_JWT_SECRET"), "HS256"),
+                "answer" => $result[0]
+            ];
         } catch (NotNecessaryDataException $ex) {
             http_response_code(400);
             throw new \InvalidArgumentException("Additional and not necessary data was sent on body request");
         } catch (\Throwable $e) {
             http_response_code(500);
             throw new \Exception("Something went wrong while logging in: " . $e->getMessage() . " " . $e->getFile() . " " . $e->getLine() . " Trace" . $e->getTraceAsString());
+        }
+    }
+
+    public static function reauthenticateUser()
+    {
+        $reqToken = Request::$decodedToken;
+        $userService = new UserData();
+
+        try {
+            $result = $userService->get(["id" => $reqToken["id"], "google_id" => $reqToken["google_id"]]);
+
+            http_response_code(200);
+            return $result[0];
+        } catch (\Throwable) {
+            http_response_code(500);
+            throw new \Exception("Something went wrong on reauthenticate user");
         }
     }
 

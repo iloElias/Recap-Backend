@@ -61,7 +61,7 @@ class Route
 
     public static function executeRouteProcedure(string $method, string $route)
     {
-        [[$className, $classMethod, $encryptReturn], $middleware] = self::$routes[strtolower($method)][$route] ?? null;
+        [[$className, $classMethod], $middleware] = self::$routes[strtolower($method)][$route] ?? null;
 
         if (!$className or !$classMethod) {
             http_response_code(404);
@@ -80,9 +80,6 @@ class Route
         try {
             $classMethodResult = $className::$classMethod();
             http_response_code(200);
-            if ($encryptReturn) {
-                return JWT::encode($classMethodResult, Helper::env("API_JWT_SECRET"), "HS256");
-            }
             return json_encode($classMethodResult);
         } catch (Throwable $e) {
             http_response_code(500);

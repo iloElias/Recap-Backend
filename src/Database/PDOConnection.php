@@ -26,7 +26,6 @@ class PDOConnection
             self::$username = Helper::env("DB_USER");
             self::$password = Helper::env("DB_PASS");
 
-
             self::$dns = self::$sqlDatabase . ":host=" . self::$host . ";port=" . self::$port . ";dbname=" . self::$databaseName . ";user=" . self::$username . ";password=" . self::$password;
             self::$PDOInstance = new \PDO(self::$dns);
             self::$PDOInstance->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

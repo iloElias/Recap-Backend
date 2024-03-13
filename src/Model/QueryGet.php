@@ -6,7 +6,10 @@ use Ipeweb\RecapSheets\Model\Strategy\QueryGetStrategy;
 
 class QueryGet implements QueryGetStrategy
 {
-    public static function getQueryItems(array $requiredList, array $query = null)
+    /**
+     * @return mixed[]
+     */
+    public static function getQueryItems(array $requiredList, array $query = null): array
     {
         $return = [];
         $query = $query ?? $_GET;
