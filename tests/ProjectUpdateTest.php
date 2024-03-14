@@ -5,7 +5,10 @@ use PHPUnit\Framework\TestCase;
 
 class ProjectUpdateTest extends TestCase
 {
-
+    /**
+     * MD database store test
+     * @covers \Ipeweb\RecapSheets\Model\Template\ProjectUpdate
+     */
     public function testStoreString()
     {
         $projectUpdate = new ProjectUpdate();
@@ -19,6 +22,10 @@ class ProjectUpdateTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * MD database get and restore test
+     * @covers \Ipeweb\RecapSheets\Model\Template\ProjectUpdate
+     */
     public function testRestoreString()
     {
         $projectUpdate = new ProjectUpdate();
@@ -32,6 +39,10 @@ class ProjectUpdateTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * MD transcribe test
+     * @covers \Ipeweb\RecapSheets\Model\Template\ProjectUpdate
+     */
     public function testTranscribeMarkdown(): void
     {
         $params['imd'] = "This is a test\\n\\'Single quote\\' test\\n\"Double quote\" test\\n";
@@ -42,6 +53,10 @@ class ProjectUpdateTest extends TestCase
         $this->assertEquals("This is a test&nln;&1qt;Single quote&1qt; test&nln;&2qt;Double quote&2qt; test&nln;", $testResult);
     }
 
+    /**
+     * MD restore transcribed test
+     * @covers \Ipeweb\RecapSheets\Model\Template\ProjectUpdate
+     */
     public function testTranscribeSavedMarkdown(): void
     {
         $params['imd'] = "This is a test&nln;&1qt;Single quote&1qt; test&nln;&2qt;Double quote&2qt; test&nln;";

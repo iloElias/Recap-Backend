@@ -8,6 +8,11 @@ use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
+    /**
+     * Data validation test
+     * @covers \Ipeweb\RecapSheets\Model\Template\Project
+     * @covers \Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException
+     */
     public function testValidate()
     {
         $project = new Project();
@@ -21,6 +26,10 @@ class ProjectTest extends TestCase
         $this->assertEmpty($result);
     }
 
+    /**
+     * Data prepare test
+     * @covers \Ipeweb\RecapSheets\Model\Template\Project
+     */
     public function testPrepare()
     {
         $project = new Project();
@@ -28,9 +37,13 @@ class ProjectTest extends TestCase
         $params = ['user_id' => 1, 'name' => 'Project Name', 'synopsis' => 'Project Synopsis'];
         $result = $project->prepare($params);
         $this->assertEquals($params, $result);
-
     }
 
+    /**
+     * Data insert test
+     * @covers \Ipeweb\RecapSheets\Model\Template\Project
+     * @covers \Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException
+     */
     public function testInsert()
     {
         $project = new Project();
@@ -44,6 +57,11 @@ class ProjectTest extends TestCase
         $this->assertEquals($params, $result);
     }
 
+    /**
+     * Data update test
+     * @covers \Ipeweb\RecapSheets\Model\Template\Project
+     * @covers \Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException
+     */
     public function testUpdate()
     {
         $project = new Project();
@@ -57,6 +75,11 @@ class ProjectTest extends TestCase
         $this->assertEquals($params, $result);
     }
 
+    /**
+     * Data delete test
+     * @covers \Ipeweb\RecapSheets\Model\Template\Project
+     * @covers \Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException
+     */
     public function testDelete()
     {
         $project = new Project();

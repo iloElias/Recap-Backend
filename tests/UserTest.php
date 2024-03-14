@@ -6,6 +6,10 @@ use Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException;
 use Ipeweb\RecapSheets\Model\Template\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ipeweb\RecapSheets\Exceptions\MissingRequiredParameterException
+ * @covers \Ipeweb\RecapSheets\Model\Template\User
+ */
 class UserTest extends TestCase
 {
     public function testValidate()

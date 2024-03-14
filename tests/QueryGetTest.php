@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class QueryGetTest extends TestCase
 {
+    /**
+     * @covers \Ipeweb\RecapSheets\Model\QueryGet
+     */
     public function testGetQueryItemsWithRequiredParamsProvided()
     {
         $query = ['param1' => 'value1', 'param2' => 'value2'];
@@ -17,6 +20,9 @@ class QueryGetTest extends TestCase
         $this->assertEquals(['param1' => 'value1', 'param2' => 'value2'], $result);
     }
 
+    /**
+     * @covers \Ipeweb\RecapSheets\Model\QueryGet
+     */
     public function testGetQueryItemsWithMissingRequiredParams()
     {
         $query = ['param1' => 'value1'];
@@ -28,6 +34,9 @@ class QueryGetTest extends TestCase
         QueryGet::getQueryItems($requiredList, $query);
     }
 
+    /**
+     * @covers \Ipeweb\RecapSheets\Model\QueryGet
+     */
     public function testGetQueryItemsWithEmptyGetParams()
     {
         $query = [];

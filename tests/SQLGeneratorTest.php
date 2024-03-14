@@ -5,6 +5,11 @@ use Ipeweb\RecapSheets\Exceptions\InvalidSqlWhereConditions;
 use Ipeweb\RecapSheets\Exceptions\SqlSyntaxException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ipeweb\RecapSheets\Database\SQLDatabase
+ * @covers \Ipeweb\RecapSheets\Exceptions\InvalidSqlWhereConditions
+ * @covers \Ipeweb\RecapSheets\Exceptions\SqlSyntaxException
+ */
 class SQLGeneratorTest extends TestCase
 {
     private readonly SQLDatabase $db;

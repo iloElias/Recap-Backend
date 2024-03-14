@@ -5,6 +5,9 @@ namespace Tests\Unit\Services;
 use Ipeweb\RecapSheets\Services\Utils;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ipeweb\RecapSheets\Services\Utils
+ */
 class UtilsTest extends TestCase
 {
     public function testArrayFind()

@@ -3,6 +3,9 @@
 use Ipeweb\RecapSheets\Model\Template\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \Ipeweb\RecapSheets\Model\Template\User
+ */
 class UserTemplateMethodsTest extends TestCase
 {
     public function testLastTimeUpdate()

@@ -25,6 +25,12 @@ class TestController
     }
 }
 
+/**
+ * @covers \Ipeweb\RecapSheets\Routes\Route
+ * @covers \Ipeweb\RecapSheets\Exceptions\DuplicatedRouteException
+ * @covers \Ipeweb\RecapSheets\Middleware\Middleware
+ * @covers \Ipeweb\RecapSheets\Routes\Route
+ */
 class RouteTest extends TestCase
 {
 
