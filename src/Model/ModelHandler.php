@@ -87,7 +87,7 @@ class ModelHandler implements CrudInterface
         }
     }
 
-    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false, $conditional = 'AND'): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, array|null $order = null, $strict = false, $conditional = 'AND'): array
     {
         $blankData = [];
         foreach ($data as $key => $value) {
@@ -130,7 +130,7 @@ class ModelHandler implements CrudInterface
         }
     }
 
-    public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
+    public function getAll(int $offset = 0, int $limit = 25, array|null $order = null): array
     {
         $sqlDatabase = new SQLDatabase();
         $sqlDatabase->select($this->table);

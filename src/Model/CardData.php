@@ -3,13 +3,12 @@
 namespace Ipeweb\RecapSheets\Model;
 
 use Ipeweb\RecapSheets\Model\ModelHandler;
-use Ipeweb\RecapSheets\Model\Interfaces\CrudInterface;
 
-class CardData implements CrudInterface
+class CardData
 {
     protected string $table = 'cards';
 
-    protected array $fields = ['id', 'theme_id', 'last_change', 'synopsis', "imd"];
+    protected array $fields = ['id', 'theme_id', 'last_change', 'synopsis', "imd", 'color'];
 
     private ModelHandler $modelHandler;
 
