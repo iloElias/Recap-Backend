@@ -41,6 +41,7 @@ class LanguageHandler
             "form_title_new_card" => "New card",
             "label_card_name" => "Card name",
             "label_card_synopsis" => "Synopsis",
+            "label_card_color" => "Choose card color",
             "form_button_new_card" => "Create new card",
 
             "tooltip_create_card_label" => "Create a new card",
@@ -66,6 +67,10 @@ class LanguageHandler
             "delete_project_confirm_input" => "Write :str to confirm",
             "delete_project_confirm_input_invalid" => "Type the project name",
             "delete_project_success" => "The project was successfully archived. Now heading home...",
+
+            "add_top_info_hologram_button" => "Add header",
+            "add_subject_hologram_button" => "Add new subject",
+            "add_card_hologram_button" => "Add new card",
 
             "add_card_hologram_title" => "Title",
             "add_card_hologram_subtitle" => "Subtitle",
@@ -146,6 +151,7 @@ class LanguageHandler
             "form_title_new_card" => "Novo cartão",
             "label_card_name" => "Nome do cartão",
             "label_card_synopsis" => "Sinopse",
+            "label_card_color" => "Escolha a cor do cartão",
             "form_button_new_card" => "Criar novo cartão",
 
             "tooltip_create_card_label" => "Crie um novo cartão",
@@ -171,6 +177,10 @@ class LanguageHandler
             "delete_project_confirm_input" => "Escreva :str abaixo para confirmar",
             "delete_project_confirm_input_invalid" => "O nome não está idêntico",
             "delete_project_success" => "O projeto foi inativado com sucesso. Voltando para home agora...",
+
+            "add_top_info_hologram_button" => "Adicionar cabeçalho",
+            "add_subject_hologram_button" => "Adicionar novo tópico",
+            "add_card_hologram_button" => "Adicionar novo cartão",
 
             "add_card_hologram_title" => "Titulo",
             "add_card_hologram_subtitle" => "Subtitulo",
