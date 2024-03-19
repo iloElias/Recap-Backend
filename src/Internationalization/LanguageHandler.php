@@ -14,12 +14,18 @@ class LanguageHandler
             "invalid_post_body" => "Important data was not included in the request body, or unnecessary data was sent",
             "not_detected_problem" => "Something in the request went wrong",
 
+            "something_went_wrong" => "Something went wrong, log in again please",
+
             "item_bd_new_inserted" => "New :str has been created",
 
             "item_bd_updated" => "A register from :str was updated",
             "item_bd_inactivated" => "A register from :str was inactivated",
 
             "login_static_message" => "Sign in with your Google account to log in",
+            "login_static_error" => "It was not possible to log in",
+            "one_tap_login_fail_message" => "It was not possible to log in with Google One Tap",
+            "redirect_login_fail_message" => "It was not possible to log in with Google, try again later",
+            "reauthenticate_static_error" => "It was not possible to reauthenticate the user",
             "login_button_message" => "Sign with Google",
             "go_back_home" => "Redirect to home page",
 
@@ -125,11 +131,17 @@ class LanguageHandler
             "invalid_post_body" => "Dados importantes não foram incluídos no corpo da requisição, ou dados desnecessários foram enviados",
             "not_detected_problem" => "Parece que algo deu errado",
 
+            "something_went_wrong" => "Algo deu errado, faça login novamente",
+
             "item_bd_new_inserted" => "Um novo :str foi criado",
             "item_bd_updated" => "Um registro de :str foi atualizado",
             "item_bd_inactivated" => "Um registro de :str foi desativado",
 
             "login_static_message" => "Faça login com sua conta Google para entrar",
+            "login_static_error" => "Não foi possível fazer login",
+            "reauthenticate_static_error" => "Não foi possível autenticar o usuário",
+            "one_tap_login_fail_message" => "Não foi possível entrar na conta através do Google One Tap Login",
+            "redirect_login_fail_message" => "Não foi possível entrar na conta Google, tente novamente mais tarde",
             "login_button_message" => "Entrar com o Google",
             "go_back_home" => "Voltar para a pagina inicial",
 

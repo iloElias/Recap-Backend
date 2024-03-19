@@ -29,7 +29,7 @@ class ProjectUpdate extends CrudAbstract
         if ($result !== [] && $result[0]['user_permissions'] !== 'guest') {
             $projectData = new ProjectData();
             $projectResult = $projectData->getSearch(['id' => $_GET['project_id']], strict: true);
-            if ($projectResult !== []) {
+            if ($projectResult !== []) {;
                 $cardData = new CardData();
 
                 http_response_code(200);
@@ -91,6 +91,7 @@ class ProjectUpdate extends CrudAbstract
     public function prepare(array $params)
     {
         $params['imd'] = $this->storeString($params['imd']);
+        $params["last_change"] = date('Y-m-d H:i:s');
         return $params;
     }
 

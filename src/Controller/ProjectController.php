@@ -21,7 +21,7 @@ class ProjectController
         if (str_contains($query['field'], ':')) {
             $preparedParams = explode(':', $query['field']);
             if (isset($preparedParams[0]) && isset($preparedParams[1])) {
-                $userProjectsData = new UserProjectsData;
+                $userProjectsData = new UserProjectsData();
 
                 try {
                     http_response_code(200);

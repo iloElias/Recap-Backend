@@ -28,7 +28,7 @@ class UserData implements CrudInterface
         return $this->modelHandler->get($data);
     }
 
-    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false, $conditional = "AND"): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, null|array $order = null, $strict = false, $conditional = "AND"): array
     {
         if (isset($data['picture_path'])) {
             unset($data['picture_path']);
@@ -37,7 +37,7 @@ class UserData implements CrudInterface
         return $this->modelHandler->getSearch($data, $offset, $limit, $order, $strict, $conditional);
     }
 
-    public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
+    public function getAll(int $offset = 0, int $limit = 25, array|null $order = null): array
     {
         return $this->modelHandler->getAll($offset, $limit, $order);
     }

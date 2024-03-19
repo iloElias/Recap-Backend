@@ -43,7 +43,8 @@ class UserProjectsData implements CrudInterface
                 WHERE up.user_id = {$value}
                 AND p.type = 'card'
                 AND p.state = 'active'
-                AND up.user_permissions = 'own';"
+                AND up.user_permissions = 'own'
+                ORDER BY c.last_change DESC;"
             );
 
             return $sqlDatabase->execute();
@@ -52,12 +53,12 @@ class UserProjectsData implements CrudInterface
         return [];
     }
 
-    public function getSearch(array $data, int $offset = 0, int $limit = 25, array $order = null, $strict = false): array
+    public function getSearch(array $data, int $offset = 0, int $limit = 25, null|array $order = null, $strict = false): array
     {
         return $this->modelHandler->getSearch($data, $offset, $limit, $order, $strict);
     }
 
-    public function getAll(int $offset = 0, int $limit = 25, array $order = null): array
+    public function getAll(int $offset = 0, int $limit = 25, null|array $order = null): array
     {
         return $this->modelHandler->getAll($offset, $limit, $order);
     }
