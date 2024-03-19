@@ -195,7 +195,7 @@ class LanguageHandler
 
             "add_project_info_title" => "Titulo do projeto",
             "add_project_info_synopsis" => "Sinopse do projeto",
-            "add_project" => "Adicionar informações ao topo",
+            "add_project" => "Adicionar cabeçalho",
 
             "save_project" => "Salvar projeto",
             "save_than_leave" => "Salvar e sair",

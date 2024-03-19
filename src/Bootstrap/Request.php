@@ -20,7 +20,6 @@ class Request
         self::cors();
         Router::setRoutes();
 
-
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
         $requestURL = $_SERVER["DOCUMENT_URI"] ?? $_SERVER["REQUEST_URI"];
@@ -40,9 +39,6 @@ class Request
                 ["message" => $throwable->getMessage()]
             ));
         }
-
-        // $teste = new ProjectInvite();
-        // $teste->sendInvite(98, ['name' => "Murilo", 'email' => "murilo7456@gmail.com"], 147);
     }
 
     public static function getBody()
