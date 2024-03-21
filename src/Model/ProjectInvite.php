@@ -31,7 +31,7 @@ class ProjectInvite implements InviteStrategy
                 }
             }
 
-            $applicationBaseURL = Helper::env("APPLICATION_WEB_BASE_URL") ?? "https://ipeweb-recap.vercel.app";
+            $applicationBaseURL = "https://ipeweb-recap.vercel.app";
 
             $preparedEmailHTML = str_replace('GO_TO_PROJECT_URL', (sprintf('%s/project/%s', $applicationBaseURL, $projectID)), $preparedEmailHTML);
             $preparedEmailHTML = str_replace('APP_LOGINPAGE', ($applicationBaseURL . '/login'), $preparedEmailHTML);

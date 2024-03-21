@@ -80,7 +80,6 @@ class Route
 
         try {
             $classMethodResult = $className::$classMethod();
-            http_response_code(200);
             return json_encode($classMethodResult);
         } catch (Throwable $throwable) {
             http_response_code(500);

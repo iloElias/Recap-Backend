@@ -94,8 +94,8 @@ class ProjectController
                 $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
                 if ($projectResult !== []) {
                     if ($projectResult[0]['state'] === 'archived') {
-                        http_response_code(400);
-                        throw new \Exception('Cannot get markdown from an inactivated project');
+                        http_response_code(404);
+                        return ["message" => "Inactivated project"];
                     }
 
                     $cardData = new CardData();
@@ -114,14 +114,14 @@ class ProjectController
                 $projectResult = $projectService->getSearch(['id' => $query['project_id']], strict: true);
                 if ($projectResult !== []) {
                     http_response_code(403);
-                    throw new \Exception("User not invited");
+                    return ["message" => "User not invited"];
                 }
                 http_response_code(404);
-                throw new \Exception('Cannot get markdown from an inactivated project');
+                return ["message" => "Inactivated project"];
             }
 
             http_response_code(403);
-            throw new \Exception("This user is not invited to this project");
+            return ["message" => "User not invited"];
         } catch (MissingRequiredParameterException $missE) {
             http_response_code(400);
 
