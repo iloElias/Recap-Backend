@@ -105,6 +105,7 @@ class ProjectController
                     $cardResult[0]['user_permissions'] = $userProjectResult[0]['user_permissions'];
                     $cardResult[0]['name'] = $projectResult[0]['name'];
                     $cardResult[0]['imd'] = $projectUpdate->restoreString($cardResult[0]['imd']) ?? "";
+                    $cardResult[0]['project_id'] = $projectResult[0]['id'];
 
                     http_response_code(200);
                     return $cardResult;
