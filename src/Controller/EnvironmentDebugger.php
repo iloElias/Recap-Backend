@@ -2,6 +2,8 @@
 
 namespace Ipeweb\RecapSheets\Controller;
 
+use Ipeweb\RecapSheets\Bootstrap\Request;
+
 class EnvironmentDebugger
 {
     public static function getEnvironment()
@@ -9,7 +11,7 @@ class EnvironmentDebugger
         exit(
             json_encode(
                 [
-                "_Env" => $_ENV,
+                "_Env" => Request::$environment,
                 "_Get" => $_GET,
                 "_Post" => $_POST,
                 "_Request" => $_REQUEST,

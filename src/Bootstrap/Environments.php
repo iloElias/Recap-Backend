@@ -42,6 +42,7 @@ class Environments
             $value = trim(str_replace('"', '', $value));
 
             putenv(sprintf('%s=%s', $name, $value));
+            Request::$environment[$name] = $value;
         }
     }
 }

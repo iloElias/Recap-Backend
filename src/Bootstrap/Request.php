@@ -10,7 +10,7 @@ use Ipeweb\RecapSheets\Services\Utils;
 class Request
 {
     public static array $decodedToken;
-
+    public static array $environment;
     public static array $request;
 
     public static function init()
@@ -22,7 +22,7 @@ class Request
 
         self::$request = ['headers' => Request::getHeader(), 'body' => Request::getBody()];
 
-        $requestURL = $_SERVER["DOCUMENT_URI"] ?? $_SERVER["REQUEST_URI"];
+        $requestURL = $_SERVER["REQUEST_URI"];
         $requestURL = (explode("?", $requestURL)[0]);
 
         $redirectURL = (str_ends_with($requestURL, '/') ? Utils::strRemoveLast($requestURL) : $requestURL);
